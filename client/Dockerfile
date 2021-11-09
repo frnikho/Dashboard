@@ -11,7 +11,6 @@ RUN npm install -g serve
 
 RUN npm run build
 
-COPY build build
-
 WORKDIR /
+
 CMD ["serve", "client/build"]
