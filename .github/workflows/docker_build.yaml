@@ -1,0 +1,25 @@
+name: "Docker build client - server"
+on:
+  push:
+    branches:
+      - master
+      - devops
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  build-client:
+    name: Build client Project
+    runs-on: ubuntu-latest
+    container: docker
+    steps:
+      - uses: actions/checkout@v2
+      - name: create docker file
+        run: docker build -t dashboard-client:0.1 client
+  build-server:
+    name: Build server Project
+    runs-on: ubuntu-latest
+    container: docker
+    steps:
+      - uses: actions/checkout@v2
+      - name: create docker file
+        run: docker build -t dashboard-client:0.1 server
