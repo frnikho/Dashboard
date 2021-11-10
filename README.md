@@ -1,18 +1,47 @@
-# Dashboard
+<div align="center">
+    <h1>Dashboard - Epitech 2021</h1>
 
-## services
+    Author : Nicolas SANS, Victor SAUVAGET - EPITECH Promo 2024
+</div>
 
-## widgets
+## Aims of the project
+
+The objective of the project is to create an dashboard application. Dashboard is a web application that allows you to drag and drop, configure, set up widgets from services.
+
+## Services
+
+- Youtube
+- Twitter
+- OpenWeather
+
+## Widgets
+
+Youtube
+    -
+    -
+
+Twitter
+    -
+    -
+
+OpenWeather
+    -
+    -
 
 ## Installation
 
-### from source
+### Clone repository
 
-first, you need to clone the repository:
-
-```shell
+```
 $ git clone https://github.com/EpitechPromo2024/B-DEV-500-NAN-5-1-dashboard-victor.sauvaget
 ```
+
+### Go to directory
+
+```
+$ cd B-DEV-500-NAN-5-1-dashboard-victor.sauvaget
+```
+## Build
 
 #### Server
 
@@ -32,17 +61,14 @@ $ serve build
 
 ### Docker
 
-```shell
-$ git clone https://github.com/EpitechPromo2024/B-DEV-500-NAN-5-1-dashboard-victor.sauvaget
-$ docker build -t dashboard-client:0.1 client
-$ docker build -t dashboard-server:0.1 server 
+At the root of the repository
 
-$ docker run -p 3000:3000 dashboard-client:0.1
-$ docker run -p 3030:3030 dashboard-server:0.1
+```shell
+$ sudo docker-compose build && sudo docker-compose up
 ```
 
 
-## authors
+## Authors
 
 - [Victor SAUVAGET](https://github.com/VicSAU/)
 - [Nicolas SANS](https://github.com/frnikho/)
