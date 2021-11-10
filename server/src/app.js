@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express();
-const port = process.env.PORT || 3030;
+const port = process.env.PORT || 8080;
 
 app.listen(port, () => {
     console.log(`http://127.0.0.1:${port}`);

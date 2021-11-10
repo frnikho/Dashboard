@@ -1,0 +1,62 @@
+version: "3"
+services:
+
+  client:
+    build: client/
+    image: client
+    container_name : client_dashboard
+    ports:
+      - "3000:3000"
+    environment:
+      - 0.0.0.0
+    restart: always
+
+  server:
+    build: server/
+    image: server
+    container_name: server_dashboard
+    hostname: dashboard
+    ports:
+      - "8080:8080"
+    networks:
+      - dashboard
+    environment:
+      - 0.0.0.0
+    restart: always
+
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
+    hostname: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/data/postgres
+    networks:
+      - dashboard
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    ports:
+      - "8081:80"
+    networks:
+      - dashboard
+    restart: always
+
+networks:
+  dashboard:
+    driver: bridge
+
+volumes:
+  postgres-data:
+  pgadmin-data:
