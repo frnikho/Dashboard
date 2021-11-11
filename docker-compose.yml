@@ -1,6 +1,5 @@
 version: "3"
 services:
-
   client:
     build: client/
     image: client
@@ -24,31 +23,18 @@ services:
       - 0.0.0.0
     restart: always
 
-  postgres:
-    image: postgres
-    container_name: postgres
-    restart: always
-    hostname: postgres
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: root
+  mariadb:
+    image: mariadb:10.7.1-focal
+    container_name: mariadb
     ports:
-      - "5432:5432"
+      - "3306:3306"
     volumes:
-      - postgres-data:/data/postgres
-    networks:
-      - dashboard
-
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4
+      - ./mariadb/sql/backup-file.sql:/docker-entrypoint-initdb.d/backup-file.sql
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-    volumes:
-      - pgadmin-data:/var/lib/pgadmin
-    ports:
-      - "8081:80"
+      MARIADB_USER: admin
+      MARIADB_PASSWORD: admin
+      MARIADB_DATABASE: dashboard
+      MARIADB_ROOT_PASSWORD: rootpassword
     networks:
       - dashboard
     restart: always
@@ -56,7 +42,3 @@ services:
 networks:
   dashboard:
     driver: bridge
-
-volumes:
-  postgres-data:
-  pgadmin-data:
