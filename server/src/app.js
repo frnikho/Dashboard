@@ -1,6 +1,8 @@
 const express = require('express')
 const cors = require('cors');
 const dotenv = require('dotenv');
+dotenv.config();
+
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -11,14 +13,15 @@ const googleAuthRoute = require('./routes/auth/google.js');
 const registerRoute = require('./routes/register/index.js');
 const {configurePassport} = require("./services/PassportService");
 
-dotenv.config();
 app.use(cors());
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
 configurePassport((token, refresh, profile) => {
-
-});
+    console.log(profile);
+    console.log(token);
+    console.log(refresh);
+})
 
 app.use("/auth/google", googleAuthRoute);
 app.use("/auth", nativeAuthRoute);

@@ -1,7 +1,7 @@
 const db = require('../services/DBService');
 const {encrypt} = require('../services/EncryptService');
 
-const userExist = () => {
+const googleUserExist = () => {
 
 }
 
