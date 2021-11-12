@@ -16,4 +16,18 @@ const getCurrentWeather = async (city) => {
     return data.data;
 }
 
-module.exports = {getCurrentWeather}
+/**
+ * Get the next 5 days forecast
+ *
+ * https://openweathermap.org/forecast5
+ *
+ * @param {*} city
+ * @returns JSON
+ */
+const getNext5DaysForecast = async (city) => {
+    const url = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKey;
+    let data = await axios.get(url);
+    return data.data;
+}
+
+module.exports = {getCurrentWeather, getNext5DaysForecast}
