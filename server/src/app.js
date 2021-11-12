@@ -11,6 +11,7 @@ const port = process.env.PORT || 8080;
 const nativeAuthRoute = require('./routes/auth/index.js');
 const googleAuthRoute = require('./routes/auth/google.js');
 const registerRoute = require('./routes/register/index.js');
+const openweatherCurrentWeatherRoute = require('./routes/services/OpenWeather/CurrentWeather.js');
 const {configurePassport} = require("./services/PassportService");
 
 app.use(cors());
@@ -26,6 +27,7 @@ configurePassport((token, refresh, profile) => {
 app.use("/auth/google", googleAuthRoute);
 app.use("/auth", nativeAuthRoute);
 app.use('/register', registerRoute);
+app.use('/services/openweather/current/', openweatherCurrentWeatherRoute);
 
 app.listen(port, () => {
     console.log(`http://127.0.0.1:${port}`);
