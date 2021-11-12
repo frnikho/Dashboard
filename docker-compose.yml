@@ -41,16 +41,6 @@ services:
       - dashboard
     restart: always
 
-  phpmyadmin:
-    image: phpmyadmin
-    ports:
-      - 8081:80
-    environment:
-      - PMA_ARBITRARY=1
-      - PMA_HOST=mariadb
-    depends_on:
-      - mariadb
-
 networks:
   dashboard:
     driver: bridge
