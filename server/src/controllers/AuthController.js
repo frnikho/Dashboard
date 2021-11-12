@@ -1,6 +1,14 @@
 const db = require('../services/DBService');
 const {encrypt} = require('../services/EncryptService');
 
+const userExist = () => {
+
+}
+
+const registerGoogleUser = () => {
+
+}
+
 const checkUsernameValidity = (username, callback) => {
     if (username.length < 5)
         return callback(false);

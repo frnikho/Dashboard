@@ -12,13 +12,13 @@ const registerRoute = require('./routes/register/index.js');
 const {configurePassport} = require("./services/PassportService");
 
 dotenv.config();
-configurePassport(() => {
-
-});
-
 app.use(cors());
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
+
+configurePassport((token, refresh, profile) => {
+
+});
 
 app.use("/auth/google", googleAuthRoute);
 app.use("/auth", nativeAuthRoute);
