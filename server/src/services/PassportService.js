@@ -7,7 +7,7 @@ const configurePassport = (callback) => {
         clientSecret: process.env.GOOGLE_SECRET,
         callbackURL: process.env.GOOGLE_CALLBACK
     }, (token, refreshToken, profile, done) => {
-        callback(token, refreshToken, profile);
+        callback(token, refreshToken, profile, done);
     }));
 
 }
