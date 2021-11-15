@@ -1,14 +1,16 @@
 const express = require('express');
 const route = express.Router();
-const {next5DaysForecast} = require("../../../controllers/OpenWeatherController");
+const {topStories} = require("../../../controllers/NYTimesController");
+const defaultSubject = "home";
+
 
 /**
- * Route /service/openweather/next5daysforecast/
+ * Route /services/nytimes/topstories/
  *
- * @returns JSON current weather of Nantes
+ * @returns JSON top stories articles
  */
 route.get('/', (req, res) => {
-    next5DaysForecast("", (data) => {
+    topStories(defaultSubject, (data) => {
         res.status(200).send(data);
     }, (errorMsg) => {
         res.status(400).send({error: errorMsg})
@@ -16,12 +18,12 @@ route.get('/', (req, res) => {
 });
 
 /**
- * Route /service/openweather/next5daysforecast/{city}
+ * Route /services/nytimes/topstories/{stories subject}
  *
- * @returns JSON current weather of {city}
+ * @returns JSON top stories articles {stories subject}
  */
 route.get('/:id', (req, res) => {
-    next5DaysForecast(req.params.id, (data) => {
+    topStories(req.params.id, (data) => {
         res.status(200).send(data);
     }, (errorMsg) => {
         res.status(400).send({error: errorMsg})
