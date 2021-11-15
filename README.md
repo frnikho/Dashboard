@@ -67,6 +67,11 @@ At the root of the repository
 $ sudo docker-compose build && sudo docker-compose up
 ```
 
+OR
+
+```shell
+$ ./docker.sh
+```
 
 ## Authors
 
