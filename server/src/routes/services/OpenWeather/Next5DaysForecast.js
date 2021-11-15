@@ -7,7 +7,7 @@ const {next5DaysForecast} = require("../../../controllers/OpenWeatherController"
  *
  * @returns JSON current weather of Nantes
  */
-route.post('/', (req, res) => {
+route.get('/', (req, res) => {
     next5DaysForecast("", (data) => {
         res.status(200).send(data);
     }, (errorMsg) => {
@@ -20,7 +20,7 @@ route.post('/', (req, res) => {
  *
  * @returns JSON current weather of {city}
  */
-route.post('/:id', (req, res) => {
+route.get('/:id', (req, res) => {
     next5DaysForecast(req.params.id, (data) => {
         res.status(200).send(data);
     }, (errorMsg) => {
