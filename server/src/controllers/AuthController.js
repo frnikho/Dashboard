@@ -1,7 +1,7 @@
 const db = require('../services/DBService');
 const {encrypt, compare} = require('../services/EncryptService');
 const uuid = require('uuid');
-const {getUserByUsername} = require("./UserController");
+const {getUserByUsername, getUserByGoogleId} = require("./UserController");
 
 const googleUserExist = (googleId, callback) => {
     db.getConnection().then((con) => {
@@ -14,7 +14,9 @@ const googleUserExist = (googleId, callback) => {
 const registerGoogleUser = (profile, callback) => {
     googleUserExist(profile.id, (exists) => {
         if (exists) {
-            console.log("exist");
+            getUserByGoogleId(profile.id, (user) => {
+                callback(user);
+            });
         } else {
             db.getConnection().then((con) => {
                 let username = uuid.v4();

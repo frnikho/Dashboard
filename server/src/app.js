@@ -45,19 +45,21 @@ const options = {
             }
         ],
     },
-    apis: ["./src/routes/auth/index.js", "./src/routes/auth/google.js", "./src/routes/register/index.js", "./src/routes/auth/logout.js"],
+    apis: ["./src/routes/auth/index.js", "./src/routes/auth/google.js", "./src/routes/register/index.js", "./src/routes/auth/logout.js",
+    "./src/routes/user/index.js", "./src/routes/timer/index.js"],
 }
 
 const nativeAuthRoute = require('./routes/auth/index.js');
 const googleAuthRoute = require('./routes/auth/google.js');
 const registerRoute = require('./routes/register/index.js');
-
 const loginRoute = require('./routes/auth/login');
 const logoutRoute = require('./routes/auth/logout');
 const userRoute = require('./routes/user/index.js');
+const aboutRoute = require('./routes/about');
+const timersRoute = require('./routes/timer/index');
 
-const openweatherCurrentWeatherRoute = require('./routes/services/OpenWeather/CurrentWeather.js');
-const openweatherNext5DaysForecastRoute = require('./routes/services/OpenWeather/Next5DaysForecast.js');
+const openWeatherCurrentWeatherRoute = require('./routes/services/OpenWeather/CurrentWeather.js');
+const openWeatherNext5DaysForecastRoute = require('./routes/services/OpenWeather/Next5DaysForecast.js');
 
 const {configurePassport} = require("./services/PassportService");
 const {registerGoogleUser} = require("./controllers/AuthController");
@@ -66,12 +68,17 @@ app.use(cors());
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(options)))
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(options), {
+    customSiteTitle: 'Dashboard API - Documentation',
+    customfavIcon: '../assets/dashboard.ico'
+}))
+
+app.set('trust proxy', true);
+
 
 configurePassport((token, refresh, profile, done) => {
     registerGoogleUser(profile, (response) => {
-        console.log(response);
-        done();
+        return done(response);
     });
 })
 
@@ -84,8 +91,19 @@ app.use('/user', userRoute);
 app.use('/auth/login', loginRoute);
 app.use('/auth/logout', logoutRoute);
 
-app.use('/services/openweather/current/', openweatherCurrentWeatherRoute);
-app.use('/services/openweather/next5daysforecast/', openweatherNext5DaysForecastRoute);
+app.use('/timers', timersRoute);
+
+app.use('/services/openweather/current/', openWeatherCurrentWeatherRoute);
+app.use('/services/openweather/next5daysforecast/', openWeatherNext5DaysForecastRoute);
+
+app.use('/about.json', aboutRoute);
+
+app.use('/', express.static('public'));
+
+app.use('/', (req, res) => {
+    res.redirect('/docs');
+})
+
 
 app.listen(port, () => {
     console.log(`http://127.0.0.1:${port}`);
