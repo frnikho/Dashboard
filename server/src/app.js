@@ -67,7 +67,13 @@ const nytimesMostPopular = require('./routes/services/NYTimes/NYTimesMostPopular
 const {configurePassport} = require("./services/PassportService");
 const {registerGoogleUser} = require("./controllers/AuthController");
 
-app.use(cors());
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200,
+    credentials: true
+}
+
+app.use(cors(corsOptions));
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -110,5 +116,5 @@ app.listen(port, () => {
 
 process.on('SIGINT', () => {
     console.log("Server shutting down...");
-   process.exit(0);
+    process.exit(0);
 });

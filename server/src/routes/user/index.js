@@ -1,6 +1,6 @@
 const express = require('express');
 const {authorization} = require("../../middleware/AuthMiddleware");
-const {getUserById} = require("../../controllers/UserController");
+const {getUserById, getUserByUsername} = require("../../controllers/UserController");
 const {wrongMethod} = require("../../middleware/ErrorMiddleware");
 const route = express.Router();
 
@@ -53,13 +53,14 @@ const route = express.Router();
  *         description: Unauthorized
  */
 route.get('/:id', authorization, (req, res) => {
-    res.send({hello: "world"});
-    getUserById(req.params.id, (user) => {
-        if (user !== null) {
-
-        }
+    getUserByUsername(req.params.id, (user) => {
+        if (user !== null)
+            return res.status(200).send(user);
+        else
+            return res.status(400).send({
+                error: 'An error occurred ! please try again later'
+            })
     });
-
 })
 
 route.delete('/:id', authorization, (req, res) => {
