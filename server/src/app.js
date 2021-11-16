@@ -61,6 +61,9 @@ const timersRoute = require('./routes/timer/index');
 const openWeatherCurrentWeatherRoute = require('./routes/services/OpenWeather/CurrentWeather.js');
 const openWeatherNext5DaysForecastRoute = require('./routes/services/OpenWeather/Next5DaysForecast.js');
 
+const nytimesTopStories = require('./routes/services/NYTimes/NYTimesTopStories.js');
+const nytimesMostPopular = require('./routes/services/NYTimes/NYTimesMostPopular.js');
+
 const {configurePassport} = require("./services/PassportService");
 const {registerGoogleUser} = require("./controllers/AuthController");
 
@@ -75,7 +78,6 @@ app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(options), {
 
 app.set('trust proxy', true);
 
-
 configurePassport((token, refresh, profile, done) => {
     registerGoogleUser(profile, (response) => {
         return done(response);
@@ -84,8 +86,6 @@ configurePassport((token, refresh, profile, done) => {
 
 app.use("/auth/google", googleAuthRoute);
 app.use("/auth", nativeAuthRoute);
-
-
 app.use('/auth/register', registerRoute);
 app.use('/user', userRoute);
 app.use('/auth/login', loginRoute);
@@ -93,17 +93,16 @@ app.use('/auth/logout', logoutRoute);
 
 app.use('/timers', timersRoute);
 
-app.use('/services/openweather/current/', openWeatherCurrentWeatherRoute);
-app.use('/services/openweather/next5daysforecast/', openWeatherNext5DaysForecastRoute);
-
 app.use('/about.json', aboutRoute);
 
-app.use('/', express.static('public'));
+app.use('/services/openweather/current/', openWeatherCurrentWeatherRoute);
+app.use('/services/openweather/next5daysforecast/', openWeatherNext5DaysForecastRoute);
+app.use('/services/nytimes/topstories/', nytimesTopStories);
+app.use('/services/nytimes/mostpopular/', nytimesMostPopular);
 
 app.use('/', (req, res) => {
     res.redirect('/docs');
 })
-
 
 app.listen(port, () => {
     console.log(`http://127.0.0.1:${port}`);

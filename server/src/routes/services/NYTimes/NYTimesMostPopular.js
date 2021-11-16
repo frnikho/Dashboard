@@ -1,16 +1,15 @@
 const express = require('express');
 const route = express.Router();
-const {currentWeather} = require("../../../controllers/OpenWeatherController");
-
-
+const {mostPopular} = require("../../../controllers/NYTimesController");
+const defaultDays = 1;
 
 /**
- * Route /service/openweather/current/
+ * Route /services/nytimes/mostpopular/
  *
- * @returns JSON current weather of Nantes
+ * @returns JSON top stories articles
  */
 route.get('/', (req, res) => {
-    currentWeather("", (data) => {
+    mostPopular(defaultDays, (data) => {
         res.status(200).send(data);
     }, (errorMsg) => {
         res.status(400).send({error: errorMsg})
@@ -18,12 +17,14 @@ route.get('/', (req, res) => {
 });
 
 /**
- * Route /service/openweather/current/{city}
+ * Route /services/nytimes/mostpopular/{days}
  *
- * @returns JSON current weather of {city}
+ * {days} = 1 / 7 / 30
+ *
+ * @returns JSON most popular articles {days}
  */
 route.get('/:id', (req, res) => {
-    currentWeather(req.params.id, (data) => {
+    mostPopular(req.params.id, (data) => {
         res.status(200).send(data);
     }, (errorMsg) => {
         res.status(400).send({error: errorMsg})
