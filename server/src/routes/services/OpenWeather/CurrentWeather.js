@@ -2,6 +2,8 @@ const express = require('express');
 const route = express.Router();
 const {currentWeather} = require("../../../controllers/OpenWeatherController");
 
+
+
 /**
  * Route /service/openweather/current/
  *

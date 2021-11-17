@@ -16,4 +16,12 @@ const getUserById = (id, callback) => {
     })
 }
 
-module.exports = {getUserByUsername, getUserById}
+const getUserByGoogleId = (googleId, callback) => {
+    db.getConnection().then((con) => {
+        con.query(`SELECT id, username, created_date, account_type, google_id FROM users WHERE google_id='${googleId}' `).then((rows) => {
+            callback(rows[0]);
+        });
+    });
+}
+
+module.exports = {getUserByUsername, getUserById, getUserByGoogleId}
