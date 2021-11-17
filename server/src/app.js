@@ -64,6 +64,9 @@ const openWeatherNext5DaysForecastRoute = require('./routes/services/OpenWeather
 const nytimesTopStories = require('./routes/services/NYTimes/NYTimesTopStories.js');
 const nytimesMostPopular = require('./routes/services/NYTimes/NYTimesMostPopular.js');
 
+const calendarIsTodayAHoliday = require('./routes/services/Calendarific/IsTodayAHoliday.js');
+const calendarHolidayOfYear = require('./routes/services/Calendarific/HolidayOfYear.js');
+
 const {configurePassport} = require("./services/PassportService");
 const {registerGoogleUser} = require("./controllers/AuthController");
 
@@ -105,6 +108,8 @@ app.use('/services/openweather/current/', openWeatherCurrentWeatherRoute);
 app.use('/services/openweather/next5daysforecast/', openWeatherNext5DaysForecastRoute);
 app.use('/services/nytimes/topstories/', nytimesTopStories);
 app.use('/services/nytimes/mostpopular/', nytimesMostPopular);
+app.use('/services/calendar/istodayaholiday/', calendarIsTodayAHoliday);
+app.use('/services/calendar/holidayofyear/', calendarHolidayOfYear);
 
 app.use('/', (req, res) => {
     res.redirect('/docs');
