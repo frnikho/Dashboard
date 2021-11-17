@@ -43,7 +43,13 @@ class TopbarComponent extends React.Component {
                 </Button>
             </Link>);
         } else {
-            return (<p>Welcome {this.state.user.username}</p>)
+            return (
+                <Link to={"/user"}>
+                    <p>
+                        Welcome {this.state.user.username}
+                    </p>
+                </Link>
+            )
         }
     }
 
@@ -60,9 +66,9 @@ class TopbarComponent extends React.Component {
                                 aria-label="menu"
                                 sx={{ mr: 2 }}>
                             </IconButton>
-                            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                                News
-                            </Typography>
+                                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                                    <Link to={"/"} style={{ textDecoration: 'none' }}>Dashboard</Link>
+                                </Typography>
                             {this.showLoginButton()}
                         </Toolbar>
                     </AppBar>

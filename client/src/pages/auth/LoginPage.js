@@ -10,14 +10,14 @@ import {
     Container,
     createTheme,
     CssBaseline,
-    FormControlLabel, Link, Snackbar,
+    FormControlLabel, Snackbar,
     TextField,
     Typography
 } from "@mui/material";
 import app from "../../config/axiosConfig";
 import {useEffect} from "react";
 import {useCookies} from "react-cookie";
-import { Navigate } from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 
 const theme = createTheme();
 
@@ -124,13 +124,10 @@ export default function LoginPage() {
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link href="#" variant="body2">
-                                    Forgot password?
-                                </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="#" variant="body2">
-                                    {"Don't have an account? Sign Up"}
+                                <Link to="/auth/register">
+                                    Don't have an account? Sign Up
                                 </Link>
                             </Grid>
                         </Grid>

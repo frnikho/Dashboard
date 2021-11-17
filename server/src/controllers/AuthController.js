@@ -69,7 +69,7 @@ const registerUser = (username, password, callback, error) => {
         encrypt(password).then((hashedPassword) => {
             db.getConnection().then((con) => {
                 con.query(`INSERT INTO users (username, password) values (?, ?) RETURNING id,username,created_date,account_type`, [username, hashedPassword]).then((response) => {
-                    callback(response)
+                    callback(response[0])
                 }).then(async () => {
                     await con.end();
                 });
