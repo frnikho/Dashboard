@@ -10,23 +10,23 @@ The objective of the project is to create an dashboard application. Dashboard is
 
 ## Services
 
-- Youtube
-- Twitter
+- Calendarific
+- NY Times
 - OpenWeather
 
 ## Widgets
 
-Youtube
-    -
-    -
+Calendarific
+    - Is today a holiday ?
+    - Holiday in yeat
 
-Twitter
-    -
-    -
+NY Times
+    - Top stories article
+    - Most popular article
 
 OpenWeather
-    -
-    -
+    - Next 5 days forecast
+    - Current weather
 
 ## Installation
 
@@ -42,6 +42,10 @@ $ git clone https://github.com/EpitechPromo2024/B-DEV-500-NAN-5-1-dashboard-vict
 $ cd B-DEV-500-NAN-5-1-dashboard-victor.sauvaget
 ```
 ## Build
+
+Prerequisites
+
+Fill the 'example.env' in server directory.
 
 #### Server
 
