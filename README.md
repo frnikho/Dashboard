@@ -17,16 +17,16 @@ The objective of the project is to create an dashboard application. Dashboard is
 ## Widgets
 
 Calendarific
-    - Is today a holiday ?
-    - Holiday in yeat
+- Is today a holiday ?
+- Holiday in yeat
 
 NY Times
-    - Top stories article
-    - Most popular article
+- Top stories article
+- Most popular article
 
 OpenWeather
-    - Next 5 days forecast
-    - Current weather
+- Next 5 days forecast
+- Current weather
 
 ## Installation
 
