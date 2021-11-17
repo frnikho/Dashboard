@@ -60,6 +60,8 @@ const openweatherCurrentWeatherRoute = require('./routes/services/OpenWeather/Cu
 const openweatherNext5DaysForecastRoute = require('./routes/services/OpenWeather/Next5DaysForecast.js');
 const nytimesTopStories = require('./routes/services/NYTimes/NYTimesTopStories.js');
 const nytimesMostPopular = require('./routes/services/NYTimes/NYTimesMostPopular.js');
+const calendarIsTodayAHoliday = require('./routes/services/Calendarific/IsTodayAHoliday.js');
+const calendarHolidayOfYear = require('./routes/services/Calendarific/HolidayOfYear.js');
 const {configurePassport} = require("./services/PassportService");
 const {registerGoogleUser} = require("./controllers/AuthController");
 
@@ -89,6 +91,8 @@ app.use('/services/openweather/current/', openweatherCurrentWeatherRoute);
 app.use('/services/openweather/next5daysforecast/', openweatherNext5DaysForecastRoute);
 app.use('/services/nytimes/topstories/', nytimesTopStories);
 app.use('/services/nytimes/mostpopular/', nytimesMostPopular);
+app.use('/services/calendar/istodayaholiday/', calendarIsTodayAHoliday);
+app.use('/services/calendar/holidayofyear/', calendarHolidayOfYear);
 
 app.listen(port, () => {
     console.log(`http://127.0.0.1:${port}`);
