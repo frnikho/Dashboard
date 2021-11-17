@@ -20,8 +20,6 @@ class TopbarComponent extends React.Component {
         }
     }
 
-
-
     componentDidMount() {
         const { cookies } = this.props;
         let username = cookies.get('username');
