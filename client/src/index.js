@@ -1,13 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import LoginPage from "./pages/auth/LoginPage";
+import DashboardPage from "./pages/dashboard";
+import {CookiesProvider} from "react-cookie";
+import LogoutPage from "./pages/auth/LogoutPage";
+import UserPage from "./pages/user";
+import RegisterPage from "./pages/auth/RegisterPage";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <React.StrictMode>
+        <CookiesProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<DashboardPage/>}/>
+                    <Route path="auth">
+                        <Route path="login" element={<LoginPage/>}/>
+                        <Route path="logout" element={<LogoutPage/>}/>
+                        <Route path="register" element={<RegisterPage/>}/>
+                    </Route>
+                    <Route path="/user" element={<UserPage/>}/>
+                </Routes>
+            </BrowserRouter>
+        </CookiesProvider>
+    </React.StrictMode>,
   document.getElementById('root')
 );
 
