@@ -1,52 +1,52 @@
 const express = require('express');
 const route = express.Router();
-const {mostPopular} = require("../../../controllers/NYTimesController");
+const {holidayOfYear} = require("../../../controllers/CalendarificController");
 const {authorization} = require("../../../middleware/AuthMiddleware");
-const defaultDays = 1;
 
 /**
  * @openapi
- * /services/nytimes/mostpopular/:
+ * /services/calendar/holidayofyear/:
  *   get:
  *     tags:
  *       - Services
- *     description: Get the most popular article from NYT
+ *     description: Get holiday of current year
  *     responses:
  *       200:
  *         description: Successful
  *       400:
- *         description: Cannot get most popular article
+ *         description: Cannot got holidays
  *       401:
  *         description: User not logged !
  *  @openapi
- *  /services/nytimes/mostpopular/{days}:
+ *  /services/calendar/holidayofyear/{year}:
  *   get:
  *     tags:
  *       - Services
- *     description: Get the most popular article of day x
+ *     description: Get holiday of the given year
  *     parameters:
  *       - in: path
- *         name: days
+ *         name: year
  *         schema:
  *           type: string
  *         required: true
- *         description: 1 - 7 - 30
+ *         description: the year of the holidays
  *     responses:
  *       200:
  *         description: Successful
  *       400:
- *         description: Cannot get most popular article of day x
+ *         description: Cannot got holidays
  *       401:
  *         description: User not logged !
  */
 
 /**
- * Route /services/nytimes/mostpopular/
- *
- * @returns JSON top stories articles
+ * Route services/calendar/holidayofyear
+ * @returns JSON Holiday of current year
  */
+
 route.get('/', authorization, (req, res) => {
-    mostPopular(defaultDays, (data) => {
+    let date = new Date();
+    holidayOfYear(date.getFullYear(), (data) => {
         res.status(200).send(data);
     }, (errorMsg) => {
         res.status(400).send({error: errorMsg})
@@ -54,14 +54,11 @@ route.get('/', authorization, (req, res) => {
 });
 
 /**
- * Route /services/nytimes/mostpopular/{days}
- *
- * {days} = 1 / 7 / 30
- *
- * @returns JSON most popular articles {days}
+ * Route services/calendar/holidayofyear/{year}
+ * @returns JSON Holiday of year given in parameter
  */
-route.get('/:id', authorization, (req, res) => {
-    mostPopular(req.params.id, (data) => {
+route.get('/:year', authorization, (req, res) => {
+    holidayOfYear(req.params.year, (data) => {
         res.status(200).send(data);
     }, (errorMsg) => {
         res.status(400).send({error: errorMsg})
