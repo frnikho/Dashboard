@@ -1,5 +1,5 @@
 import React from "react";
-import {AppBar, Box, Button, IconButton, MenuItem, Toolbar, Typography} from "@mui/material";
+import {AppBar, Box, Button, IconButton, Toolbar, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
 import { instanceOf } from 'prop-types';
 import {Cookies, withCookies} from "react-cookie";
@@ -66,10 +66,10 @@ class TopbarComponent extends React.Component {
                                 aria-label="menu"
                                 sx={{ mr: 2 }}>
                             </IconButton>
-                                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} color="common.white">
                                     <Link to={"/services"} style={{ textDecoration: 'none' }}>Service</Link>
                                 </Typography>
-                            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} color="common.white">
                                 <Link to={"/"} style={{ textDecoration: 'none' }}>Dashboard</Link>
                             </Typography>
                             {this.showLoginButton()}

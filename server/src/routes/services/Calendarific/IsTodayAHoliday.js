@@ -1,6 +1,23 @@
 const express = require('express');
 const route = express.Router();
 const {isTodayAHoliday} = require("../../../controllers/CalendarificController");
+const {authorization} = require("../../../middleware/AuthMiddleware");
+
+/**
+ * @openapi
+ * /services/calendar/istodayaholiday/:
+ *   get:
+ *     tags:
+ *       - Services
+ *     description: Check if the current day is a holidays day or not
+ *     responses:
+ *       200:
+ *         description: Successful response
+ *       400:
+ *         description: Cannot got holidays
+ *       401:
+ *         description: User not logged !
+ */
 
 /**
  * Route services/calendar/istodayaholiday/ -> default current day
@@ -9,8 +26,7 @@ const {isTodayAHoliday} = require("../../../controllers/CalendarificController")
  *
  * @returns JSON Know if today is an holiday day
  */
-route.get('/', (req, res) => {
-    console.log("aaaa");
+route.get('/', authorization, (req, res) => {
     let year = req.query.year;
     let month = req.query.month;
     let day = req.query.day;

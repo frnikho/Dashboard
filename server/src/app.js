@@ -45,11 +45,12 @@ const options = {
             }
         ],
     },
-    apis: ["./src/routes/auth/index.js", "./src/routes/auth/google.js", "./src/routes/register/index.js", "./src/routes/auth/logout.js",
-    "./src/routes/user/index.js", "./src/routes/timer/index.js"],
+    apis: ["./src/routes/auth/google.js", "./src/routes/register/index.js", "./src/routes/auth/logout.js",
+    "./src/routes/user/index.js", "./src/routes/timer/index.js", "./src/routes/services/Calendarific/HolidayOfYear.js", "./src/routes/services/Calendarific/IsTodayAHoliday.js",
+    "./src/routes/services/OpenWeather/CurrentWeather.js", "./src/routes/services/OpenWeather/Next5DaysForecast.js", "./src/routes/services/NYTimes/NYTimesMostPopular.js",
+        "./src/routes/services/NYTimes/NYTimesTopStories.js"],
 }
 
-const nativeAuthRoute = require('./routes/auth/index.js');
 const googleAuthRoute = require('./routes/auth/google.js');
 const registerRoute = require('./routes/register/index.js');
 const loginRoute = require('./routes/auth/login');
@@ -94,7 +95,6 @@ configurePassport((token, refresh, profile, done) => {
 })
 
 app.use("/auth/google", googleAuthRoute);
-app.use("/auth", nativeAuthRoute);
 app.use('/auth/register', registerRoute);
 app.use('/user', userRoute);
 app.use('/auth/login', loginRoute);

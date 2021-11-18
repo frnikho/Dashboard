@@ -9,11 +9,15 @@ import {CookiesProvider} from "react-cookie";
 import LogoutPage from "./pages/auth/LogoutPage";
 import UserPage from "./pages/user";
 import RegisterPage from "./pages/auth/RegisterPage";
+import Services from "./pages/services";
+import {Button} from "@mui/material";
+import TopbarComponent from "./components/topbar/TopbarComponent";
 
 ReactDOM.render(
     <React.StrictMode>
         <CookiesProvider>
             <BrowserRouter>
+                <TopbarComponent/>
                 <Routes>
                     <Route path="/" element={<DashboardPage/>}/>
                     <Route path="auth">
@@ -22,6 +26,7 @@ ReactDOM.render(
                         <Route path="register" element={<RegisterPage/>}/>
                     </Route>
                     <Route path="/user" element={<UserPage/>}/>
+                    <Route path="/services" element={<Services/>}/>
                 </Routes>
             </BrowserRouter>
         </CookiesProvider>

@@ -22,17 +22,13 @@ class UserPage extends React.Component {
             lastName: '',
             redirectLogout: false
         }
-
         this.logout = this.logout.bind(this);
-
     }
 
     logout() {
         app.post('/auth/logout').then((response) => {
-            console.log(response);
             this.setState({redirectLogout: true})
         }).catch((err) => {
-            console.log(err.response);
             this.setState({redirectLogout: true})
         })
     }
@@ -40,7 +36,6 @@ class UserPage extends React.Component {
     render() {
         return(<div>
             {this.state.redirectLogout === true && <Navigate to={"/auth/login"}/>}
-            <TopbarComponent/>
             <Paper elevation={0} />
             <Paper />
             <Container>
