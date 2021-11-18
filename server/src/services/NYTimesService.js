@@ -7,7 +7,7 @@ const axios = require('axios').default;
  *
  * https://developer.nytimes.com/docs/top-stories-product/1/overview
  *
- * @param {*} city
+ * @param {*} subject
  * @returns JSON
  */
 const getTopStories = async (subject) => {
@@ -21,7 +21,7 @@ const getTopStories = async (subject) => {
  *
  * https://developer.nytimes.com/docs/most-popular-product/1/overview
  *
- * @param {*} city
+ * @param {*} days
  * @returns JSON
  */
  const getMostPopular = async (days) => {

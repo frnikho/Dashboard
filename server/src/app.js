@@ -45,11 +45,12 @@ const options = {
             }
         ],
     },
-    apis: ["./src/routes/auth/index.js", "./src/routes/auth/google.js", "./src/routes/register/index.js", "./src/routes/auth/logout.js",
-    "./src/routes/user/index.js", "./src/routes/timer/index.js"],
+    apis: ["./src/routes/auth/google.js", "./src/routes/register/index.js", "./src/routes/auth/logout.js",
+    "./src/routes/user/index.js", "./src/routes/timer/index.js", "./src/routes/services/Calendarific/HolidayOfYear.js", "./src/routes/services/Calendarific/IsTodayAHoliday.js",
+    "./src/routes/services/OpenWeather/CurrentWeather.js", "./src/routes/services/OpenWeather/Next5DaysForecast.js", "./src/routes/services/NYTimes/NYTimesMostPopular.js",
+        "./src/routes/services/NYTimes/NYTimesTopStories.js"],
 }
 
-const nativeAuthRoute = require('./routes/auth/index.js');
 const googleAuthRoute = require('./routes/auth/google.js');
 const registerRoute = require('./routes/register/index.js');
 const loginRoute = require('./routes/auth/login');
@@ -64,10 +65,19 @@ const openWeatherNext5DaysForecastRoute = require('./routes/services/OpenWeather
 const nytimesTopStories = require('./routes/services/NYTimes/NYTimesTopStories.js');
 const nytimesMostPopular = require('./routes/services/NYTimes/NYTimesMostPopular.js');
 
+const calendarIsTodayAHoliday = require('./routes/services/Calendarific/IsTodayAHoliday.js');
+const calendarHolidayOfYear = require('./routes/services/Calendarific/HolidayOfYear.js');
+
 const {configurePassport} = require("./services/PassportService");
 const {registerGoogleUser} = require("./controllers/AuthController");
 
-app.use(cors());
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200,
+    credentials: true
+}
+
+app.use(cors(corsOptions));
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -85,7 +95,6 @@ configurePassport((token, refresh, profile, done) => {
 })
 
 app.use("/auth/google", googleAuthRoute);
-app.use("/auth", nativeAuthRoute);
 app.use('/auth/register', registerRoute);
 app.use('/user', userRoute);
 app.use('/auth/login', loginRoute);
@@ -99,6 +108,8 @@ app.use('/services/openweather/current/', openWeatherCurrentWeatherRoute);
 app.use('/services/openweather/next5daysforecast/', openWeatherNext5DaysForecastRoute);
 app.use('/services/nytimes/topstories/', nytimesTopStories);
 app.use('/services/nytimes/mostpopular/', nytimesMostPopular);
+app.use('/services/calendar/istodayaholiday/', calendarIsTodayAHoliday);
+app.use('/services/calendar/holidayofyear/', calendarHolidayOfYear);
 
 app.use('/', (req, res) => {
     res.redirect('/docs');
@@ -110,5 +121,5 @@ app.listen(port, () => {
 
 process.on('SIGINT', () => {
     console.log("Server shutting down...");
-   process.exit(0);
+    process.exit(0);
 });
