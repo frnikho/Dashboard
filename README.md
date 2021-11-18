@@ -18,7 +18,7 @@ The objective of the project is to create an dashboard application. Dashboard is
 
 Calendarific
 - Is today a holiday ?
-- Holiday in yeat
+- Holiday in year
 
 NY Times
 - Top stories article
