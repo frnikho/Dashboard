@@ -5,10 +5,6 @@ import Grid from "@mui/material/Grid";
 
 export default class NewWidgetComponent extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <Grid item xs={2} sm={3} md={3}  alignItems="center" justify="center" textAlign={"center"}>

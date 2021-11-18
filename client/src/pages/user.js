@@ -1,7 +1,6 @@
 import React from "react";
 import {instanceOf} from "prop-types";
 import {Cookies} from "react-cookie";
-import TopbarComponent from "../components/topbar/TopbarComponent";
 import {Avatar, Box, Button, Container, Paper} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import app from "../config/axiosConfig";
