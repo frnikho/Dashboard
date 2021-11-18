@@ -1,12 +1,7 @@
 import React from "react";
 import {Box, ButtonBase, Paper} from "@mui/material";
 import Grid from "@mui/material/Grid";
-
 class WidgetComponent extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         return(
