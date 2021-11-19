@@ -25,10 +25,10 @@ class TopbarComponent extends React.Component {
         let username = cookies.get('username');
 
         if (username !== undefined) {
-           app.get(`user/${username}`).then((response) => {
-               if (response.status === 200) {
-                   this.setState({user: response.data});
-               }
+            app.get(`user/${username}`).then((response) => {
+                if (response.status === 200) {
+                    this.setState({user: response.data});
+                }
             });
         } else {
             console.log("NOT LOGGED")

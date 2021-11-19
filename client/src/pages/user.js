@@ -1,10 +1,10 @@
 import React from "react";
-import {instanceOf} from "prop-types";
-import {Cookies} from "react-cookie";
 import {Avatar, Box, Button, Container, Paper} from "@mui/material";
 import Grid from "@mui/material/Grid";
 import app from "../config/axiosConfig";
 import {Navigate} from "react-router-dom";
+import {instanceOf} from "prop-types";
+import {Cookies, withCookies} from "react-cookie";
 
 class UserPage extends React.Component {
 
@@ -22,6 +22,23 @@ class UserPage extends React.Component {
             redirectLogout: false
         }
         this.logout = this.logout.bind(this);
+        this.getUserInfo = this.getUserInfo.bind(this);
+    }
+
+    componentDidMount() {
+        this.getUserInfo();
+    }
+
+    getUserInfo() {
+        const { cookies } = this.props;
+        let username = cookies.get('username');
+
+        app.get(`/user/${username}`).then((response) => {
+            this.setState({
+                username: response.data.username,
+                createdAt: response.data.created_date,
+            })
+        })
     }
 
     logout() {
@@ -50,7 +67,7 @@ class UserPage extends React.Component {
                                 <Box sx={{p: 1}}>
                                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                                     </Avatar>
-                                    <h1>Hello</h1>
+                                    <h1>{this.state.username}</h1>
                                 </Box>
                                 <Box sx={{pb: 5, my: 5}}>
                                     <Button onClick={this.logout} variant="contained" color={"secondary"}>Logout</Button>
@@ -64,4 +81,4 @@ class UserPage extends React.Component {
     }
 }
 
-export default UserPage;
+export default withCookies(UserPage);

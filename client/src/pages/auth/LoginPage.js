@@ -21,7 +21,7 @@ import {Link, Navigate} from "react-router-dom";
 
 const theme = createTheme();
 
-export default function LoginPage() {
+export default function LoginPage(props) {
 
     const [cookies, setCookie] = useCookies();
     const [open, setOpen] = React.useState(false);
