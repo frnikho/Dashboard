@@ -25,6 +25,9 @@ export default class DashboardPage extends React.Component {
         this.onNewWidgetCreated = this.onNewWidgetCreated.bind(this);
         this.loadWidgets = this.loadWidgets.bind(this);
         this.showWidgets = this.showWidgets.bind(this);
+
+        this.onDragDrop = this.onDragDrop.bind(this);
+
     }
 
     componentDidMount() {
@@ -68,8 +71,14 @@ export default class DashboardPage extends React.Component {
         if (this.state.layout === undefined)
             return;
         return this.state.layout.map((layout, index) => {
-            return (<WidgetCard key={index} widget={{name: layout}}/>)
+            return (
+                <WidgetCard key={index} widget={{name: layout}}/>
+            )
         });
+    }
+
+    onDragDrop = (result) => {
+
     }
 
     render() {
