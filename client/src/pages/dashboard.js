@@ -16,6 +16,7 @@ export default class DashboardPage extends React.Component {
             openSettingsDialog: false,
             newWidget: {},
             layout: undefined,
+            config: undefined,
         }
         this.onClickAdd = this.onClickAdd.bind(this);
         this.onClickNewWidget = this.onClickNewWidget.bind(this);
@@ -27,11 +28,14 @@ export default class DashboardPage extends React.Component {
         this.showWidgets = this.showWidgets.bind(this);
 
         this.onDragDrop = this.onDragDrop.bind(this);
-
+        this.loadTimers = this.loadTimers.bind(this);
+        this.loadWidgetsConfig = this.loadWidgetsConfig.bind(this);
     }
 
     componentDidMount() {
         this.loadWidgets();
+        this.loadWidgetsConfig();
+        this.loadTimers();
     }
 
     onClickAdd = () => {
@@ -64,13 +68,27 @@ export default class DashboardPage extends React.Component {
     }
 
     loadWidgetsConfig = () => {
+        app.get('/widgets/config').then((response) => {
+            this.setState({config: response.data.data});
+        }).catch((err) => {
+           console.log(err.response);
+        });
+    }
 
+    loadTimers = () => {
+        app.get('/timers').then((response) => {
+            this.setState({timers: response.data});
+        }).catch((err) => {
+            console.log(err.response);
+        })
     }
 
     showWidgets = () => {
         if (this.state.layout === undefined)
             return;
         return this.state.layout.map((layout, index) => {
+            console.log(this.state.config);
+            console.log(this.state.timers);
             return (
                 <WidgetCard key={index} widget={{name: layout}}/>
             )
