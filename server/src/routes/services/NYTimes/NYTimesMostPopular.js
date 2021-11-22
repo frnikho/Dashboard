@@ -43,7 +43,7 @@ const defaultDays = 1;
 /**
  * Route /services/nytimes/mostpopular/
  *
- * @returns JSON top stories articles
+ * @returns JSON most popular articles
  */
 route.get('/', authorization, (req, res) => {
     mostPopular(defaultDays, (data) => {
