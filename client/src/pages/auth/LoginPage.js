@@ -75,7 +75,6 @@ export default function LoginPage(props) {
         setMessage("");
     };
 
-
     return (<div>
         {successfullRedirect === true && <Navigate to={"/"}/>}
         <ThemeProvider theme={theme}>

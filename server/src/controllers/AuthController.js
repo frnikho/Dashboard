@@ -2,6 +2,7 @@ const db = require('../services/DBService');
 const {encrypt, compare} = require('../services/EncryptService');
 const uuid = require('uuid');
 const {getUserByUsername, getUserByGoogleId} = require("./UserController");
+const {response} = require("express");
 
 const googleUserExist = (googleId, callback) => {
     db.getConnection().then((con) => {
@@ -69,9 +70,10 @@ const registerUser = (username, password, callback, error) => {
         encrypt(password).then((hashedPassword) => {
             db.getConnection().then((con) => {
                 con.query(`INSERT INTO users (username, password) values (?, ?) RETURNING id,username,created_date,account_type`, [username, hashedPassword]).then((response) => {
-                    callback(response[0])
-                }).then(async () => {
-                    await con.end();
+                    con.query(`INSERT INTO widgets_config (user_id, data) values (?, ?)`, [response[0].id, "{}"]).then(async () => {
+                        callback(response[0]);
+                        await con.end();
+                    })
                 });
             })
         });
