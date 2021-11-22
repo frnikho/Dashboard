@@ -20,7 +20,7 @@ const authorization = (req, res, next) => {
         req.userId = data.id;
 
         getUserById(data.id, (user) => {
-            if (user !== null) {
+            if (user !== undefined) {
                 req.user = user;
                 next();
             } else {

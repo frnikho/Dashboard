@@ -18,6 +18,7 @@ import app from "../../config/axiosConfig";
 import {useEffect} from "react";
 import {useCookies} from "react-cookie";
 import {Link, Navigate} from "react-router-dom";
+import {FaGoogle} from "react-icons/all";
 
 const theme = createTheme();
 
@@ -75,6 +76,12 @@ export default function LoginPage(props) {
         setMessage("");
     };
 
+    const connectWithGoogle = () => {
+        app.get('/auth/google').then((response) => {
+            console.log(response);
+        })
+    }
+
     return (<div>
         {successfullRedirect === true && <Navigate to={"/"}/>}
         <ThemeProvider theme={theme}>
@@ -120,6 +127,14 @@ export default function LoginPage(props) {
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }} >
                             Sign In
+                        </Button>
+                        <Button
+                            onClick={connectWithGoogle}
+                            fullWidth
+                            color={"error"}
+                            variant="contained"
+                            sx={{ mt: 0, mb: 2, py: 1.5}} >
+                            <FaGoogle/>
                         </Button>
                         <Grid container>
                             <Grid item xs>

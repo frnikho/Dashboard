@@ -48,7 +48,7 @@ const options = {
     apis: ["./src/routes/auth/google.js", "./src/routes/register/index.js", "./src/routes/auth/logout.js",
     "./src/routes/user/index.js", "./src/routes/timer/index.js", "./src/routes/services/Calendarific/HolidayOfYear.js", "./src/routes/services/Calendarific/IsTodayAHoliday.js",
     "./src/routes/services/OpenWeather/CurrentWeather.js", "./src/routes/services/OpenWeather/Next5DaysForecast.js", "./src/routes/services/NYTimes/NYTimesMostPopular.js",
-        "./src/routes/services/NYTimes/NYTimesTopStories.js"],
+        "./src/routes/services/NYTimes/NYTimesTopStories.js", "./src/routes/widgets/config/index.js", "./src/routes/widgets/index.js"],
 }
 
 const googleAuthRoute = require('./routes/auth/google.js');
@@ -82,7 +82,7 @@ const corsOptions = {
     credentials: true
 }
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
