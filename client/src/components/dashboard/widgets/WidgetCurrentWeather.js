@@ -16,9 +16,12 @@ export default class WidgetCurrentWeather extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         console.log("A", this.props.config);
+        this.loadWidget();
     }
 
     loadWidget = () => {
+        if (this.props.config === undefined)
+            return;
         app.get(`/services/openweather/current/${this.props.config.data.city}`).then((response) => {
             console.log();
             this.setState({weather: response.data});
