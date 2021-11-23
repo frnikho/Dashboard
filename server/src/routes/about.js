@@ -75,7 +75,10 @@ let services = [{
             params: [
                 {
                     name: "days",
-                    type: "string"
+                    type: "list",
+                    list: [["1", "1"], ["7", "7"], ["30", "30"]],
+                    listLabel: "Days",
+                    listValue: "day"
                 }
             ]
         },
@@ -87,9 +90,9 @@ let services = [{
                 {
                     name: "subject",
                     type: "list",
-                    list: ["1", "7", "30"],
-                    listLabel: "Days",
-                    listValue: "day"
+                    list: [["Arts", "arts"], ["Automobiles", "automobiles"], ["Books", "books"], ["Business", "business"], ["Fashion", "fashion"], ["Food", "food"], ["Health", "health"], ["Home", "home"], ["Insider", "insider"], ["Magazine", "magazine"], ["Movies", "movies"], ["Obituaries", "obituaries"], ["Opinion", "opinion"], ["Politics", "politics"], ["Realestate", "realestate"], ["Science", "science"], ["Sports", "sports"], ["Sundayreview", "sundayreview"], ["Technology", "technology"], ["Theater", "theater"], ["T-magazine", "t-magazine"], ["Travel", "travel"], ["Upshot", "upshot"], ["US", "us"], ["World", "world"]],
+                    listLabel: "Subjects",
+                    listValue: "subjects"
                 }
             ]
         }

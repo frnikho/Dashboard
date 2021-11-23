@@ -38,7 +38,7 @@ export default class NewWidgetSettingsDialog extends React.Component {
                     this.setState({data: data});
                 }} id={param.name} label={param.name} key={index} variant="outlined"/>)
             } else if (param.type === 'list') {
-                const menuItems = param.list.map((list, index) => <option value={index}>{list}</option>)
+                const menuItems = param.list.map((list) => <option value={list[1]}>{list[0]}</option>)
                 let value = param.listValue;
                 return (
                     <Box sx={{ minWidth: 120 }}>
