@@ -5,7 +5,8 @@ import React from "react";
 import NewWidgetDialog from "../components/dashboard/newWidgets/NewWidgetDialog";
 import NewWidgetSettingsDialog from "../components/dashboard/newWidgets/NewWidgetSettingsDialog";
 import app from "../config/axiosConfig";
-import WidgetCard from "../components/dashboard/widgets/WidgetCard";
+import WidgetManager from "../components/dashboard/WidgetManager";
+import {getConfig} from "@testing-library/react";
 
 export default class DashboardPage extends React.Component {
 
@@ -17,6 +18,7 @@ export default class DashboardPage extends React.Component {
             newWidget: {},
             layout: undefined,
             config: undefined,
+            number: 0
         }
         this.onClickAdd = this.onClickAdd.bind(this);
         this.onClickNewWidget = this.onClickNewWidget.bind(this);
@@ -27,7 +29,6 @@ export default class DashboardPage extends React.Component {
         this.loadWidgets = this.loadWidgets.bind(this);
         this.showWidgets = this.showWidgets.bind(this);
 
-        this.onDragDrop = this.onDragDrop.bind(this);
         this.loadTimers = this.loadTimers.bind(this);
         this.loadWidgetsConfig = this.loadWidgetsConfig.bind(this);
     }
@@ -61,7 +62,7 @@ export default class DashboardPage extends React.Component {
 
     loadWidgets = () => {
         app.get('/user/layout').then((response) => {
-            this.setState({layout: response.data.layout});
+            this.setState({layout: response.data.layout, number: response.data.layout.length});
         }).catch((err) => {
             console.log(err.response);
         });
@@ -83,27 +84,36 @@ export default class DashboardPage extends React.Component {
         })
     }
 
+    getConfigById = (id) => {
+        if (this.state.config === undefined || this.state.config.length === 0)
+            return undefined;
+
+        console.log("OUI");
+        console.log(this.state.config);
+
+        for (let i = 0; i < this.state.config.length; i++) {
+            if (this.state.config[i].id === id)
+                return this.state.config[i];
+        }
+        return undefined;
+    }
+
     showWidgets = () => {
         if (this.state.layout === undefined)
             return;
         return this.state.layout.map((layout, index) => {
-            console.log(this.state.config);
-            console.log(this.state.timers);
             return (
-                <WidgetCard key={index} widget={{name: layout}}/>
+                <WidgetManager key={index} layout={layout} config={this.getConfigById(layout.id)}/>
             )
         });
     }
 
-    onDragDrop = (result) => {
-
-    }
 
     render() {
         return (
             <div>
                 <NewWidgetDialog openNewDialog={this.state.openAddDialog} onNewWidgetSelected={this.onClickNewWidget} close={this.onCloseWidgetDialog}/>
-                <NewWidgetSettingsDialog onNewWidgetCreated={this.onNewWidgetCreated} open={this.state.openSettingsDialog} widget={this.state.newWidget} close={this.onCloseSettingsDialog}/>
+                <NewWidgetSettingsDialog number={this.state.number} onNewWidgetCreated={this.onNewWidgetCreated} open={this.state.openSettingsDialog} widget={this.state.newWidget} close={this.onCloseSettingsDialog}/>
                 <Box sx={{my: 5}}>
                     <Grid container spacing={{ xs: 2, md: 5 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                         {this.showWidgets()}

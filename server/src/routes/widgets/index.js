@@ -25,9 +25,15 @@ const router = express.Router();
 
 router.post('/', authorization, (req, res) => {
     console.log(req.user);
-    req.user.layout.push(req.body.widget);
+    req.user.layout.push({
+        type: req.body.widget,
+        id: req.body.number
+    });
     updateUserLayout(req.user.id, req.user.layout, (response) => {
-        res.status(200).json({ok: "ok"});
+        res.status(200).json({
+            type: req.body.widget,
+            id: req.body.number
+        });
     });
 });
 

@@ -56,8 +56,14 @@ const router = express.Router();
 
 router.patch('/', authorization, (req, res) => {
     getUserWidgetsConfig(req.userId, (config) => {
-        config.data[req.body.widget] = req.body.data;
         console.log(config.data);
+        if (config.data === undefined || config.data === {} || config.data.length === 0)
+            config.data = [];
+        config.data.push({
+            type: req.body.widget,
+            data: req.body.data,
+            id: req.body.number
+        });
         updateUserWidgetsConfig(req.userId, config.data, (response) => {
             res.status(200).send({});
         });

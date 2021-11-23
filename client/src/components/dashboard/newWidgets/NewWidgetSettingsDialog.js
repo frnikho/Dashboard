@@ -44,14 +44,14 @@ export default class NewWidgetSettingsDialog extends React.Component {
 
     onCreateWidget = (event) => {
         event.preventDefault();
-        app.patch('/widgets/config', {widget: this.props.widget.name, data: this.state.data}).then((response) => {
-            app.post('/widgets/', {widget: this.props.widget.name}).then((response) => {
+        app.patch('/widgets/config', {widget: this.props.widget.name, data: this.state.data, number: this.props.number}).then((response) => {
+            app.post('/widgets/', {widget: this.props.widget.name, number: this.props.number}).then((response) => {
                 this.props.onNewWidgetCreated(this.props.widget);
             }).catch((err) => {
-                console.log("1. Error occurred, ", err);
+                console.log("1. Error occurred", err);
             });
         }).catch((err) => {
-            console.log("2. Error occurred, ", err);
+            console.log("2. Error occurred", err);
         });
     }
 
