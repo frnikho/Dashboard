@@ -1,6 +1,18 @@
 import * as React from "react";
-import { Box, Button, Dialog, DialogActions, DialogContent, FormControl, InputLabel, NativeSelect, TextField } from "@mui/material";
+import {
+    Box,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    FormControl,
+    InputAdornment,
+    InputLabel,
+    NativeSelect,
+    TextField
+} from "@mui/material";
 import app from "../../../config/axiosConfig";
+import {BsClock} from "react-icons/all";
 
 export default class NewWidgetSettingsDialog extends React.Component {
 
@@ -8,7 +20,8 @@ export default class NewWidgetSettingsDialog extends React.Component {
         super(props);
         this.state = {
             open: this.props.open,
-            data: {}
+            data: {},
+            timer: 30
         }
         this.onClose = this.onClose.bind(this);
         this.showParametersFields = this.showParametersFields.bind(this);
@@ -63,7 +76,7 @@ export default class NewWidgetSettingsDialog extends React.Component {
 
     onCreateWidget = (event) => {
         event.preventDefault();
-        app.patch('/widgets/config', {widget: this.props.widget.name, data: this.state.data, number: this.props.number}).then((response) => {
+        app.patch('/widgets/config', {widget: this.props.widget.name, data: this.state.data, number: this.props.number, timer: this.state.timer}).then((response) => {
             app.post('/widgets/', {widget: this.props.widget.name, number: this.props.number}).then((response) => {
                 this.props.onNewWidgetCreated(this.props.widget);
             }).catch((err) => {
@@ -87,11 +100,33 @@ export default class NewWidgetSettingsDialog extends React.Component {
                 <br />
                 <Box component="form" onSubmit={this.onCreateWidget} noValidate sx={{ mt: 1 }}>
                     {this.showParametersFields()}
-                    <br />
+                    <Box sx={{py: 4}}>
+                        <TextField
+                            id="input-with-icon-textfield"
+                            label="Refresh rate"
+                            InputProps={{
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <BsClock/>
+                                    </InputAdornment>
+                                ),
+                            }}
+                            defaultValue={this.state.timer}
+                            onChange={(event) => {
+                                console.log(event.target.value);
+                                if (event.target.value < 30)
+                                    event.target.value = 30;
+                                if (event.target.value > 3600)
+                                    event.target.value = 3600;
+                                this.setState({timer: event.target.value});
+                            }}
+                            type="number"
+                            variant="outlined"/>
+                    </Box>
                     <Button
                         type="submit"
                         variant="contained"
-                        sx={{ mt: 3, mb: 2 }} >
+                        sx={{ mt: 1, mb: 2 }} >
                         Create
                     </Button>
                 </Box>

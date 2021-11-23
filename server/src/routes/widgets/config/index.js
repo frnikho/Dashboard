@@ -62,7 +62,8 @@ router.patch('/', authorization, (req, res) => {
         config.data.push({
             type: req.body.widget,
             data: req.body.data,
-            id: req.body.number
+            id: req.body.number,
+            timer: req.body.timer,
         });
         updateUserWidgetsConfig(req.userId, config.data, (response) => {
             res.status(200).send({});

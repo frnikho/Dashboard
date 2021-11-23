@@ -1,6 +1,7 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
 import WidgetCurrentWeather from "./widgets/WidgetCurrentWeather";
+import WidgetNext5DaysForecast from "./widgets/WidgetNext5DaysForecast";
 
 export default class WidgetManager extends React.Component {
 
@@ -11,7 +12,7 @@ export default class WidgetManager extends React.Component {
         if (type === 'city_temperature')
             return <WidgetCurrentWeather config={this.props.config}/>
         if (type === 'next_5_days_forecast')
-            return <div/>
+            return <WidgetNext5DaysForecast config={this.props.config}/>
         if (type === 'holiday_of_year')
             return <div/>
     }

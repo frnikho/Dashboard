@@ -6,7 +6,6 @@ import NewWidgetDialog from "../components/dashboard/newWidgets/NewWidgetDialog"
 import NewWidgetSettingsDialog from "../components/dashboard/newWidgets/NewWidgetSettingsDialog";
 import app from "../config/axiosConfig";
 import WidgetManager from "../components/dashboard/WidgetManager";
-import {getConfig} from "@testing-library/react";
 
 export default class DashboardPage extends React.Component {
 
@@ -57,6 +56,7 @@ export default class DashboardPage extends React.Component {
 
     onNewWidgetCreated = (widget) => {
         this.setState({openAddDialog: false, openSettingsDialog: false});
+        this.loadWidgetsConfig();
         this.loadWidgets();
     }
 
