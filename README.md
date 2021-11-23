@@ -21,8 +21,8 @@ Calendarific
 - Holiday in year
 
 NY Times
-- Top stories article
-- Most popular article
+- Articles currently on the specified section
+- Most popular articles on nytimes.com based on views
 
 OpenWeather
 - Next 5 days forecast
@@ -45,7 +45,7 @@ $ cd B-DEV-500-NAN-5-1-dashboard-victor.sauvaget
 
 Prerequisites
 
-Fill the 'example.env' in server directory.
+Fill the 'example.env' in server and client directories.
 
 #### Server
 

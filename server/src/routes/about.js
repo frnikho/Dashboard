@@ -8,11 +8,12 @@ let services = [{
     widgets: [
         {
             name: "city_temperature",
-            displayName: "Temperature By City",
-            description: "Get the city temperature",
+            displayName: "City weather",
+            description: "Get the city weather",
             params: [{
                 name: "city",
-                type: "string"}]
+                type: "string"
+            }]
         },
         {
             name: "next_5_days_forecast",
@@ -23,34 +24,80 @@ let services = [{
                 type: "string",
             }]
         }
-        ]
-    },
-    {
-        name: "Calendrafic",
-        imageLink: "public/calendar.png",
-        description: "Powered by Calendrafic",
-        widgets: [
-            {
-                name: "holiday_of_year",
-                displayName: "Holiday of year",
-                description: "",
-                params: [{
+    ]
+},
+{
+    name: "Calendarific",
+    imageLink: "public/calendar.png",
+    description: "Powered by Calendarific",
+    widgets: [
+        {
+            name: "holiday_of_year",
+            displayName: "Holiday of year",
+            description: "",
+            params: [
+                {
+                    name: "year",
+                    type: "string"
+                }
+            ]
+        },
+        {
+            name: "is_today_a_holiday",
+            displayName: "Is today a holiday ",
+            description: "",
+            params: [
+                {
+                    name: "year",
+                    type: "string"
+                },
+                {
+                    name: "month",
+                    type: "string"
+                },
+                {
                     name: "day",
                     type: "string"
-                }]
-            }
-        ]
-    },
-    {
-        name: "Ney York Times",
-        imageLink: "public/newspaper.png",
-        description: "New York Times articles",
-        widgets: [
-            {
-                name: ""
-            }
-        ]
-    }]
+                },
+            ]
+        }
+    ]
+},
+{
+    name: "New York Times",
+    imageLink: "public/newspaper.png",
+    description: "New York Times articles",
+    widgets: [
+        {
+            name: "most_popular_articles",
+            displayName: "Most popular articles",
+            description: "Most popular articles based on views",
+            params: [
+                {
+                    name: "days",
+                    type: "list",
+                    list: [["1", "1"], ["7", "7"], ["30", "30"]],
+                    listLabel: "Days",
+                    listValue: "day"
+                }
+            ]
+        },
+        {
+            name: "top_stories_articles",
+            displayName: "Top stories articles",
+            description: "Articles currently on the specified section",
+            params: [
+                {
+                    name: "subject",
+                    type: "list",
+                    list: [["Arts", "arts"], ["Automobiles", "automobiles"], ["Books", "books"], ["Business", "business"], ["Fashion", "fashion"], ["Food", "food"], ["Health", "health"], ["Home", "home"], ["Insider", "insider"], ["Magazine", "magazine"], ["Movies", "movies"], ["Obituaries", "obituaries"], ["Opinion", "opinion"], ["Politics", "politics"], ["Realestate", "realestate"], ["Science", "science"], ["Sports", "sports"], ["Sundayreview", "sundayreview"], ["Technology", "technology"], ["Theater", "theater"], ["T-magazine", "t-magazine"], ["Travel", "travel"], ["Upshot", "upshot"], ["US", "us"], ["World", "world"]],
+                    listLabel: "Subjects",
+                    listValue: "subjects"
+                }
+            ]
+        }
+    ]
+}]
 
 router.all('/', (req, res) => {
     let clientHost = req.headers['x-forwarded-for'] || req.socket.remoteAddress;

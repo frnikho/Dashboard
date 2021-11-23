@@ -1,5 +1,5 @@
-import React from "react";
-import {Box, Button, Dialog, DialogActions, DialogContent, TextField} from "@mui/material";
+import * as React from "react";
+import { Box, Button, Dialog, DialogActions, DialogContent, FormControl, InputLabel, NativeSelect, TextField } from "@mui/material";
 import app from "../../../config/axiosConfig";
 
 export default class NewWidgetSettingsDialog extends React.Component {
@@ -37,6 +37,25 @@ export default class NewWidgetSettingsDialog extends React.Component {
                     data[param.name] = event.target.value;
                     this.setState({data: data});
                 }} id={param.name} label={param.name} key={index} variant="outlined"/>)
+            } else if (param.type === 'list') {
+                const menuItems = param.list.map((list) => <option value={list[1]}>{list[0]}</option>)
+                let value = param.listValue;
+                return (
+                    <Box sx={{ minWidth: 120 }}>
+                      <FormControl fullWidth>
+                        <InputLabel variant="standard" htmlFor="uncontrolled-native">{param.listLabel}</InputLabel>
+                        <NativeSelect
+                          defaultValue={30}
+                          inputProps={{
+                            name: {value},
+                            id: 'uncontrolled-native',
+                          }}
+                        >
+                        {menuItems}
+                        </NativeSelect>
+                      </FormControl>
+                    </Box>
+                  );
             }
             return (<div></div>);
         });
@@ -65,10 +84,10 @@ export default class NewWidgetSettingsDialog extends React.Component {
             aria-describedby="alert-dialog-description">
             <DialogContent>
                 <h1>{this.props.widget.displayName}</h1>
-                <br/>
+                <br />
                 <Box component="form" onSubmit={this.onCreateWidget} noValidate sx={{ mt: 1 }}>
                     {this.showParametersFields()}
-                    <br/>
+                    <br />
                     <Button
                         type="submit"
                         variant="contained"
