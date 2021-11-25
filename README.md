@@ -28,6 +28,29 @@ OpenWeather
 - Next 5 days forecast
 - Current weather
 
+## Language used and tools
+
+### Language
+
+| Side                  |          Language      |
+| --------------------- |:----------------------:|
+| Server                | Node.js with Express   |
+| Client                | React with Material UI |
+
+### Tools
+
+#### Database
+
+Mariadb
+
+React with Material UI
+
+#### Build and Run
+
+npm
+
+Docker Compose
+
 ## Installation
 
 ### Clone repository
@@ -46,6 +69,8 @@ $ cd B-DEV-500-NAN-5-1-dashboard-victor.sauvaget
 Prerequisites
 
 Fill the 'example.env' in server and client directories.
+
+Setup your database by using the .sql file in mariadb/sql.
 
 #### Server
 
