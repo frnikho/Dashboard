@@ -12,7 +12,6 @@ const getUserWidgetsConfig = (userId, callback) => {
 
 const updateUserWidgetsConfig = (userId, config, callback) => {
     db.getConnection().then((con) => {
-
         con.query(`UPDATE widgets_config SET data = '${JSON.stringify(config)}' WHERE user_id LIKE '${userId}';`).then((rows) => {
             callback(rows);
         }).then(async () => {

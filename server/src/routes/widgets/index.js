@@ -1,6 +1,6 @@
 const express = require('express');
 const {authorization} = require("../../middleware/AuthMiddleware");
-const {updateUserLayout} = require("../../controllers/UserController");
+const {updateUserLayout, deleteUserWidget} = require("../../controllers/UserController");
 const router = express.Router();
 
 /**
@@ -22,6 +22,14 @@ const router = express.Router();
  *        403:
  *            description: Unauthorized
  */
+
+router.delete('/', authorization, (req, res) => {
+   if (req.body.widgetIndex === undefined)
+       return res.status(400).json({error: 'invalid request body !'});
+    deleteUserWidget(req.user.id, req.user.layout, req.body.widgetIndex, (data) => {
+        return res.status(200).json({});
+    });
+});
 
 router.post('/', authorization, (req, res) => {
     console.log(req.user);

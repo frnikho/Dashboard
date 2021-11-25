@@ -97,6 +97,19 @@ let services = [{
             ]
         }
     ]
+},
+{
+    name: "Meme",
+    description: "Get a random meme",
+    imageLink: "public/meme.png",
+    widgets: [
+        {
+            name: "random_meme",
+            description: "Get a random meme",
+            params: [],
+            displayName: "Random"
+        }
+    ]
 }]
 
 router.all('/', (req, res) => {

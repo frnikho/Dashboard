@@ -5,18 +5,13 @@ import app from "../../../config/axiosConfig";
 
 export default class WidgetNext5DaysForecast extends Widget {
 
-    constructor(props) {
-        super(props);
-        console.log(props);
-    }
-
     componentDidMount() {
         super.componentDidMount();
+        this.loadWidget();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         super.componentDidUpdate(prevProps, prevState, snapshot);
-        this.loadWidget();
     }
 
     loadWidget = () => {
@@ -25,23 +20,18 @@ export default class WidgetNext5DaysForecast extends Widget {
         app.get(`/services/openweather/next5daysforecast/${this.props.config.data.city}`).then((response) => {
             this.setState({weather: response.data});
         }).catch((err) => {
-            console.log(err);
-            console.log(err.response);
+
         });
     }
 
     showWidget = () => {
         if (this.state.weather === undefined)
-            return;
-        return (
-            <div>
-                <FaSun size={"40"}/>
-            </div>
-        )
+            return null;
+        return (<FaSun size={"40"}/>)
     }
 
     showContent() {
-        return this.showWidget();
+        return (this.showWidget());
     }
 
 }

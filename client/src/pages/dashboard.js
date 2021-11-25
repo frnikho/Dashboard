@@ -33,6 +33,7 @@ export default class DashboardPage extends React.Component {
     }
 
     componentDidMount() {
+        console.log("MOUNT");
         this.loadWidgets();
         this.loadWidgetsConfig();
         this.loadTimers();
@@ -58,6 +59,22 @@ export default class DashboardPage extends React.Component {
         this.setState({openAddDialog: false, openSettingsDialog: false});
         this.loadWidgetsConfig();
         this.loadWidgets();
+    }
+
+    onWidgetDeleted = (widget) => {
+        console.log(widget);
+
+        this.state.config.forEach((config, index) => {
+           if (config.id === widget.id)
+               this.state.config.splice(index, 1);
+        });
+
+        this.state.layout.forEach((layout, index) => {
+            if (layout.id === widget.id)
+                this.state.layout.splice(index, 1);
+        });
+
+        this.setState({config: this.state.config, layout: this.state.layout});
     }
 
     loadWidgets = () => {
@@ -88,9 +105,6 @@ export default class DashboardPage extends React.Component {
         if (this.state.config === undefined || this.state.config.length === 0)
             return undefined;
 
-        console.log("OUI");
-        console.log(this.state.config);
-
         for (let i = 0; i < this.state.config.length; i++) {
             if (this.state.config[i].id === id)
                 return this.state.config[i];
@@ -103,11 +117,10 @@ export default class DashboardPage extends React.Component {
             return;
         return this.state.layout.map((layout, index) => {
             return (
-                <WidgetManager key={index} layout={layout} config={this.getConfigById(layout.id)}/>
+                <WidgetManager onDelete={this.onWidgetDeleted} key={index} layout={layout} config={this.getConfigById(layout.id)}/>
             )
         });
     }
-
 
     render() {
         return (

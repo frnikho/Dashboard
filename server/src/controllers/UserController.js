@@ -1,4 +1,5 @@
 const db = require('../services/DBService');
+const {getUserWidgetsConfig, updateUserWidgetsConfig} = require("./WidgetController");
 
 const getUserByUsername = (username, callback) => {
     db.getConnection().then((con) => {
@@ -40,4 +41,23 @@ const updateUserLayout = (userId, layout, callback) => {
     });
 }
 
-module.exports = {getUserByUsername, getUserById, getUserByGoogleId, updateUserLayout}
+const deleteUserWidget = (userId, layout, widgetId, callback) => {
+    getUserWidgetsConfig(userId, (widgetConfig) => {
+        console.log(widgetConfig);
+        widgetConfig.data.forEach((widget, index) => {
+            if (widget.id === widgetId)
+                widgetConfig.data.splice(index, 1);
+        });
+        updateUserWidgetsConfig(userId, widgetConfig.data, (response) => {
+            layout.forEach((l, index) => {
+                if (l.id === widgetId)
+                    layout.splice(index, 1);
+            })
+            updateUserLayout(userId, layout, (data) => {
+                callback(data);
+            })
+        });
+    })
+}
+
+module.exports = {getUserByUsername, getUserById, getUserByGoogleId, updateUserLayout, deleteUserWidget}

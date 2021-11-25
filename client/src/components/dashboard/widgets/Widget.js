@@ -1,21 +1,44 @@
 import React from "react";
 import {Card, CardActions, CardContent, IconButton, Typography} from "@mui/material";
 import {FaEdit, FaTrash} from "react-icons/all";
+import app from "../../../config/axiosConfig";
 
 export default class Widget extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            config: this.props.config || undefined,
             timer: this.props.config?.timer || 30,
             defaultTimer: this.props.config?.timer || 30
         }
         this.intervalId = 0;
+        this.widgetSize = 2;
+        this.deleteWidget = this.deleteWidget.bind(this);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.config !== prevProps.config)
-            this.setState({timer: this.props.config.timer});
+        if (this.props.config !== prevProps.config && this.props.config !== undefined) {
+            this.setState({timer: this.props.config.timer, defaultTimer: this.props.config.timer, config: this.props.config});
+        }
+        if (prevProps !== this.props && this.props !== undefined) {
+            if (prevProps.config !== this.props.config)
+                this.loadWidget();
+        }
+    }
+
+    loadWidget = () => {
+
+    }
+
+    deleteWidget = () => {
+        console.log("abc")
+        app.delete('/widgets',  {data: {widgetIndex: this.state.config.id}}).then((response) => {
+            clearInterval(this.intervalId);
+            this.props.onDelete(this.state.config);
+        }).catch((error) => {
+            console.log(error.response);
+        });
     }
 
     componentDidMount() {
@@ -47,27 +70,27 @@ export default class Widget extends React.Component {
     }
 
     onClickDelete = () => {
-
+        this.deleteWidget();
     }
 
     render() {
         return (
-            <Card sx={{ maxWidth: 345, mx: 2}}>
-                <CardContent>
-                    {this.showContent()}
-                </CardContent>
-                <CardActions disableSpacing>
-                    <IconButton aria-label="Edit">
-                        <FaEdit size={"16"}/>
-                    </IconButton>
-                    <IconButton aria-label="Edit">
-                        <FaTrash size={"16"}/>
-                    </IconButton>
-                    <Typography style={{marginLeft: 'auto'}} fontStyle={"italic"}>
-                        {this.state.timer}
-                    </Typography>
-                </CardActions>
-            </Card>
+                <Card sx={{ maxWidth: 345, mx: 2}}>
+                    <CardContent>
+                        {this.showContent()}
+                    </CardContent>
+                    <CardActions disableSpacing>
+                        <IconButton aria-label="Edit">
+                            <FaEdit size={"16"}/>
+                        </IconButton>
+                        <IconButton aria-label="Delete" onClick={() => this.onClickDelete()}>
+                            <FaTrash size={"16"}/>
+                        </IconButton>
+                        <Typography style={{marginLeft: 'auto'}} fontStyle={"italic"}>
+                            {this.state.timer}
+                        </Typography>
+                    </CardActions>
+                </Card>
         )
     }
 }

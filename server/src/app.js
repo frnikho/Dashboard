@@ -68,6 +68,8 @@ const nytimesMostPopular = require('./routes/services/NYTimes/NYTimesMostPopular
 const calendarIsTodayAHoliday = require('./routes/services/Calendarific/IsTodayAHoliday.js');
 const calendarHolidayOfYear = require('./routes/services/Calendarific/HolidayOfYear.js');
 
+const memeRoute = require('./routes/services/MemeApi');
+
 const widgetsConfigRoute = require('./routes/widgets/config');
 const widgetsRoute = require('./routes/widgets');
 
@@ -116,6 +118,8 @@ app.use('/services/nytimes/topstories/', nytimesTopStories);
 app.use('/services/nytimes/mostpopular/', nytimesMostPopular);
 app.use('/services/calendar/istodayaholiday/', calendarIsTodayAHoliday);
 app.use('/services/calendar/holidayofyear/', calendarHolidayOfYear);
+
+app.use('/services/meme/', memeRoute);
 
 app.use('/widgets/', widgetsRoute);
 app.use('/widgets/config', widgetsConfigRoute);

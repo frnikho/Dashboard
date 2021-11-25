@@ -61,7 +61,7 @@ export default class WidgetCurrentWeather extends React.Component {
 
     render() {
         return (
-            <Card sx={{ maxWidth: 345, mx: 5}}>
+            <Card sx={{ maxWidth: 1245, mx: 5, minWidth: 800}}>
                 <CardHeader/>
                 <CardContent>
                     {this.showWidget()}
