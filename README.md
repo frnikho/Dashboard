@@ -30,14 +30,14 @@ OpenWeather
 
 ## Language used and tools
 
-### Language
+### Language :
 
 | Side                  |          Language      |
 | --------------------- |:----------------------:|
 | Server                | Node.js with Express   |
 | Client                | React with Material UI |
 
-### Tools
+### Tools :
 
 #### Database
 
