@@ -43,8 +43,10 @@ class UserPage extends React.Component {
 
     logout() {
         app.post('/auth/logout').then((response) => {
+            this.props.handleLogout();
             this.setState({redirectLogout: true})
         }).catch((err) => {
+            this.props.handleLogout();
             this.setState({redirectLogout: true})
         })
     }

@@ -30,6 +30,10 @@ export default class WidgetNext5DaysForecast extends Widget {
         return (<FaSun size={"40"}/>)
     }
 
+    getWidgetSize() {
+        return (12);
+    }
+
     showContent() {
         return (this.showWidget());
     }

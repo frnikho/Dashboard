@@ -1,5 +1,5 @@
 import React from "react";
-import {Card, CardActions, CardContent, IconButton, Typography} from "@mui/material";
+import {Card, CardActions, CardContent, CircularProgress, IconButton, Typography} from "@mui/material";
 import {FaEdit, FaTrash} from "react-icons/all";
 import app from "../../../config/axiosConfig";
 
@@ -8,9 +8,9 @@ export default class Widget extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            config: this.props.config || undefined,
-            timer: this.props.config?.timer || 30,
-            defaultTimer: this.props.config?.timer || 30
+            config: props.config || undefined,
+            timer: props.config?.timer || 30,
+            defaultTimer: props.config?.timer || 30
         }
         this.intervalId = 0;
         this.widgetSize = 2;
@@ -18,16 +18,15 @@ export default class Widget extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.config !== prevProps.config && this.props.config !== undefined) {
-            this.setState({timer: this.props.config.timer, defaultTimer: this.props.config.timer, config: this.props.config});
-        }
+        if (this.props.config !== prevProps.config && this.props.config !== undefined)
+            return this.setState({timer: this.props.config.timer, defaultTimer: this.props.config.timer, config: this.props.config});
         if (prevProps !== this.props && this.props !== undefined) {
             if (prevProps.config !== this.props.config)
                 this.loadWidget();
         }
     }
 
-    loadWidget = () => {
+    loadWidget() {
 
     }
 
@@ -42,6 +41,7 @@ export default class Widget extends React.Component {
     }
 
     componentDidMount() {
+        this.props.setSize(this.getWidgetSize());
         this.intervalId = setInterval(() => {
             if (this.state.timer === 1) {
                 this.setState({timer: this.state.defaultTimer});
@@ -54,18 +54,14 @@ export default class Widget extends React.Component {
     }
 
     onCountEnd() {
-
+        this.loadWidget();
     }
 
     onMount() {
-
+        this.loadWidget();
     }
 
     showContent() {
-
-    }
-
-    onClickEdit = () => {
 
     }
 
@@ -73,24 +69,35 @@ export default class Widget extends React.Component {
         this.deleteWidget();
     }
 
+    getWidgetSize() {
+        return 3;
+    }
+
+    getTimer() {
+        if (this.state.timer === undefined || this.state.timer <= 0)
+            return (<CircularProgress/>)
+        return (<Typography style={{marginLeft: 'auto'}} fontStyle={"italic"}>
+            {this.state.timer.toString()}
+            {console.log("ABC", this.state.timer)}
+        </Typography>)
+    }
+
     render() {
         return (
-                <Card sx={{ maxWidth: 345, mx: 2}}>
-                    <CardContent>
-                        {this.showContent()}
-                    </CardContent>
-                    <CardActions disableSpacing>
-                        <IconButton aria-label="Edit">
-                            <FaEdit size={"16"}/>
-                        </IconButton>
-                        <IconButton aria-label="Delete" onClick={() => this.onClickDelete()}>
-                            <FaTrash size={"16"}/>
-                        </IconButton>
-                        <Typography style={{marginLeft: 'auto'}} fontStyle={"italic"}>
-                            {this.state.timer}
-                        </Typography>
-                    </CardActions>
-                </Card>
+            <Card sx={{ maxHeight: 500, mx: 2}}>
+                <CardContent>
+                    {this.showContent()}
+                </CardContent>
+                <CardActions disableSpacing>
+                    <IconButton aria-label="Edit">
+                        <FaEdit size={"16"}/>
+                    </IconButton>
+                    <IconButton aria-label="Delete" onClick={() => this.onClickDelete()}>
+                        <FaTrash size={"16"}/>
+                    </IconButton>
+                    {this.getTimer()}
+                </CardActions>
+            </Card>
         )
     }
 }

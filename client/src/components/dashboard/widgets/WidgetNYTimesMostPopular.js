@@ -1,38 +1,22 @@
 import React from "react";
 import app from "../../../config/axiosConfig";
-import {FaShare, HiHeart} from "react-icons/all";
-import {Box, Card, CardActions, CardContent, CardHeader, IconButton, Link, Typography} from "@mui/material";
+import Widget from "./Widget";
+import { TiNews } from "react-icons/all";
+import { Box, Button, Link, Paper, Typography } from "@mui/material";
+import Carousel from "react-material-ui-carousel";
 
-export default class WidgetNYTimesMostPopular extends React.Component {
+export default class WidgetNYTimesMostPopular extends Widget {
 
     constructor(props) {
         super(props);
-        this.state = {
-            articles: undefined,
-            timer: this.props.config?.timer || 30,
-            defaultTimer: this.props.config?.timer || 30
-        }
-        this.intervalId = 0;
     }
 
     componentDidMount() {
-        this.loadWidget();
-        this.intervalId = setInterval(() => {
-            if (this.state.timer === 1) {
-                this.loadWidget();
-                this.setState({timer: this.state.defaultTimer});
-            } else {
-                this.setState({timer: this.state.timer - 1});
-            }
-        }, 1000);
+        super.componentDidMount();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.config !== prevProps.config) {
-            if (prevProps.config === undefined)
-                this.loadWidget();
-            this.setState({timer: this.props.config.timer});
-        }
+        super.componentDidUpdate(prevProps, prevState, snapshot);
     }
 
     loadWidget = () => {
@@ -40,60 +24,43 @@ export default class WidgetNYTimesMostPopular extends React.Component {
             return;
 
         app.get(`/services/nytimes/mostpopular/${this.props.config.data.days}`).then((response) => {
-            this.setState({articles: response.data});
+            this.setState({ articles: response.data });
         }).catch((err) => {
             console.log(err);
             console.log(err.response);
         });
     }
 
+    showContent() {
+        return this.showWidget();
+    }
+
+    getWidgetSize() {
+        return (5);
+    }
+
     showWidget = () => {
         if (this.state.articles === undefined)
             return;
-        console.log(this.state.articles.results);
-        const articles = this.state.articles.results.map((article, index) =>
-            <div id={index}>
-                <Typography variant="h6" gutterBottom component="div" fontWeight={"bold"}>{article.title}</Typography>
-                <Typography variant="h6" gutterBottom component="div">{article.abstract}</Typography>
-                <Typography variant="h6" gutterBottom component="div">
-                    Read this article on
-                    <Box style={{display: "inline"}}>
-                        <Link href={article.url} underline="hover">nytimes.com</Link>
-                    </Box>
-                    .
-                </Typography>
-            </div>
-                );
-        //let articles = "";
-        //for (let i = 0; i !== this.state.articles.results.lenght(); i++) {
-            // articles += "<div>"
-            // articles += "<Typography variant=\"h6\" gutterBottom component=\"div\" fontWeight={\"bold\"}>" + this.state.articles.results[i].title + "</Typography>"
-            // articles += "<Typography variant=\"h6\" gutterBottom component=\"div\">" + this.state.articles.results[i].abstract + "</Typography>"
-            // articles += "<Typography variant=\"h6\" gutterBottom component=\"div\">Read this article on <Box style={{display: \"inline\"}}><Link href=" + this.state.articles.results[i].url + + "underline=\"hover\">nytimes.com</Link></Box>.</Typography>"
-            // articles += "<div>"
-        //}
-        return ({articles});
+        return (
+            <Carousel>
+                {
+                    this.state.articles.results.map((article, i) => <this.Item key={i} article={article} />)
+                }
+            </Carousel>
+        );
     }
 
-    render() {
+    Item = (props) => {
         return (
-            <Card sx={{ maxWidth: 1245, mx: 5, minWidth: 800}}>
-                <CardHeader/>
-                <CardContent>
-                    {this.showWidget()}
-                </CardContent>
-                <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites">
-                        <HiHeart />
-                    </IconButton>
-                    <IconButton aria-label="share">
-                        <FaShare />
-                    </IconButton>
-                    <Typography style={{marginLeft: 'auto'}} fontStyle={"italic"}>
-                        {this.state.timer}
-                    </Typography>
-                </CardActions>
-            </Card>
+            <Paper variant="outlined" sx={{ maxHeight: 150, mx: 2}}>
+                <TiNews size={"20"} />
+                <Typography variant="h6" gutterBottom component="div" fontWeight={"bold"}>{props.article.title}</Typography>
+                <Typography variant="p" gutterBottom component="div">{props.article.abstract.substring(0, 70)}...</Typography>
+                <Typography variant="p" gutterBottom component="div">
+                    Read this article on <Box style={{ display: "inline" }}><Link href={props.article.url} underline="hover">nytimes.com</Link></Box>.
+                </Typography>
+            </Paper>
         );
     }
 }

@@ -13,11 +13,11 @@ class LogoutPage extends React.Component {
 
     componentDidMount() {
         app.post('auth/logout').then((response) => {
-            this.setState({
-                redirect: true
-            });
+            console.log("DidMount");
+            this.props.handleLogout();
         }).catch((err) => {
-
+            console.log("DidMount");
+            this.props.handleLogout();
         });
     }
 
