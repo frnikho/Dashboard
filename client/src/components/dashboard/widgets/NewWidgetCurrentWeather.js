@@ -28,6 +28,10 @@ export default class NewWidgetCurrentWeather extends Widget {
         return this.showWidget();
     }
 
+    getWidgetSize() {
+        return (3);
+    }
+
     showWidget = () => {
         if (this.state.weather === undefined)
             return;

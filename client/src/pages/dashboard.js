@@ -19,6 +19,7 @@ export default class DashboardPage extends React.Component {
             config: undefined,
             number: 0
         }
+
         this.onClickAdd = this.onClickAdd.bind(this);
         this.onClickNewWidget = this.onClickNewWidget.bind(this);
 
@@ -33,7 +34,6 @@ export default class DashboardPage extends React.Component {
     }
 
     componentDidMount() {
-        console.log("MOUNT");
         this.loadWidgets();
         this.loadWidgetsConfig();
         this.loadTimers();
