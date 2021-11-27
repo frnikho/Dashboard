@@ -14,7 +14,6 @@ export default class WidgetManager extends React.Component {
     }
 
     setWidgetSize = (size) => {
-        console.log(size);
         this.setState({
             size: size
         });

@@ -2,8 +2,17 @@ import React from "react";
 import Widget from "./Widget";
 import app from "../../../config/axiosConfig";
 import {FaCloud} from "react-icons/all";
+import {CircularProgress} from "@mui/material";
 
 export default class NewWidgetCurrentWeather extends Widget {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: true,
+        }
+    }
+
 
     componentDidMount() {
         super.componentDidMount();
@@ -18,10 +27,15 @@ export default class NewWidgetCurrentWeather extends Widget {
         if (this.props.config === undefined)
             return;
         app.get(`/services/openweather/current/${this.props.config.data.city}`).then((response) => {
-            this.setState({weather: response.data});
+            this.setState({weather: response.data, loading: false});
+            console.log("loaded widget current weather");
         }).catch((err) => {
-
+            console.log("abcd");
         });
+    }
+
+    onCountEnd() {
+        this.loadWidget();
     }
 
     showContent() {
@@ -33,8 +47,8 @@ export default class NewWidgetCurrentWeather extends Widget {
     }
 
     showWidget = () => {
-        if (this.state.weather === undefined)
-            return;
+        if (this.state.loading === true)
+            return <CircularProgress/>;
         return (
             <div>
                 <FaCloud size={"40"}/>

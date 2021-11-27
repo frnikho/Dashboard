@@ -1,11 +1,12 @@
 import Grid from "@mui/material/Grid";
 import NewWidgetComponent from "../components/dashboard/newWidgets/NewWidgetComponent";
-import {Box} from "@mui/material";
+import {Box, CircularProgress} from "@mui/material";
 import React from "react";
 import NewWidgetDialog from "../components/dashboard/newWidgets/NewWidgetDialog";
 import NewWidgetSettingsDialog from "../components/dashboard/newWidgets/NewWidgetSettingsDialog";
 import app from "../config/axiosConfig";
 import WidgetManager from "../components/dashboard/WidgetManager";
+import {ListManager} from "react-beautiful-dnd-grid";
 
 export default class DashboardPage extends React.Component {
 
@@ -28,15 +29,10 @@ export default class DashboardPage extends React.Component {
         this.onNewWidgetCreated = this.onNewWidgetCreated.bind(this);
         this.loadWidgets = this.loadWidgets.bind(this);
         this.showWidgets = this.showWidgets.bind(this);
-
-        this.loadTimers = this.loadTimers.bind(this);
-        this.loadWidgetsConfig = this.loadWidgetsConfig.bind(this);
     }
 
     componentDidMount() {
         this.loadWidgets();
-        this.loadWidgetsConfig();
-        this.loadTimers();
     }
 
     onClickAdd = () => {
@@ -57,7 +53,6 @@ export default class DashboardPage extends React.Component {
 
     onNewWidgetCreated = (widget) => {
         this.setState({openAddDialog: false, openSettingsDialog: false});
-        this.loadWidgetsConfig();
         this.loadWidgets();
     }
 
@@ -78,27 +73,16 @@ export default class DashboardPage extends React.Component {
     }
 
     loadWidgets = () => {
-        app.get('/user/layout').then((response) => {
-            this.setState({layout: response.data.layout, number: response.data.layout.length});
-        }).catch((err) => {
-            console.log(err.response);
-        });
-    }
-
-    loadWidgetsConfig = () => {
         app.get('/widgets/config').then((response) => {
             this.setState({config: response.data.data});
+            app.get('/user/layout').then((response) => {
+                this.setState({layout: response.data.layout, number: response.data.layout.length});
+            }).catch((err) => {
+                console.log(err.response);
+            });
         }).catch((err) => {
            console.log(err.response);
         });
-    }
-
-    loadTimers = () => {
-        app.get('/timers').then((response) => {
-            this.setState({timers: response.data});
-        }).catch((err) => {
-            console.log(err.response);
-        })
     }
 
     getConfigById = (id) => {
@@ -113,8 +97,16 @@ export default class DashboardPage extends React.Component {
     }
 
     showWidgets = () => {
-        if (this.state.layout === undefined)
-            return;
+        if (this.state.layout === undefined || this.state.config === undefined)
+            return <CircularProgress/>;
+
+/*        return (<ListManager
+            items={this.state.layout}
+            direction="horizontal"
+            maxItems={3}
+            render={item => <WidgetManager onDelete={this.onWidgetDeleted} layout={item} config={this.getConfigById(item.id)}/>}
+            onDragEnd={() => {}}/>)*/
+
         return this.state.layout.map((layout, index) => {
             return (
                 <WidgetManager onDelete={this.onWidgetDeleted} key={index} layout={layout} config={this.getConfigById(layout.id)}/>
