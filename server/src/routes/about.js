@@ -76,9 +76,10 @@ let services = [{
                 {
                     name: "days",
                     type: "list",
-                    list: [["1", "1"], ["7", "7"], ["30", "30"]],
+                    list: [["1", "1 day"], ["7", "7 days"], ["30", "30 days"]],
                     listLabel: "Days",
-                    listValue: "day"
+                    listDefaultValue: "1",
+                    listValue: "days"
                 }
             ]
         },
@@ -90,8 +91,9 @@ let services = [{
                 {
                     name: "subject",
                     type: "list",
-                    list: [["Arts", "arts"], ["Automobiles", "automobiles"], ["Books", "books"], ["Business", "business"], ["Fashion", "fashion"], ["Food", "food"], ["Health", "health"], ["Home", "home"], ["Insider", "insider"], ["Magazine", "magazine"], ["Movies", "movies"], ["Obituaries", "obituaries"], ["Opinion", "opinion"], ["Politics", "politics"], ["Realestate", "realestate"], ["Science", "science"], ["Sports", "sports"], ["Sundayreview", "sundayreview"], ["Technology", "technology"], ["Theater", "theater"], ["T-magazine", "t-magazine"], ["Travel", "travel"], ["Upshot", "upshot"], ["US", "us"], ["World", "world"]],
+                    list: [["arts", "Arts"], ["automobiles", "Automobiles"], ["books", "Books"], ["business", "Business"], ["fashion", "Fashion"], ["food", "Food"], ["health", "Health"], ["home", "Home"], ["insider", "Insider"], ["magazine", "Magazine"], ["movies", "Movies"], ["obituaries", "Obituaries"], ["opinion", "Opinion"], ["politics", "Politics"], ["realestate", "Realestate"], ["science", "Science"], ["sports", "Sports"], ["sundayreview", "Sundayreview"], ["technology", "Technology"], ["theater", "Theater"], ["t-magazine", "T-magazine"], ["travel", "Travel"], ["upshot", "Upshot"], ["uS", "US"], ["world", "World"]],
                     listLabel: "Subjects",
+                    listDefaultValue: "arts",
                     listValue: "subjects"
                 }
             ]

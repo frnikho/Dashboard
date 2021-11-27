@@ -8,7 +8,8 @@ import {
     FormControl,
     InputAdornment,
     InputLabel,
-    NativeSelect,
+    MenuItem,
+    Select,
     TextField
 } from "@mui/material";
 import app from "../../../config/axiosConfig";
@@ -40,6 +41,12 @@ export default class NewWidgetSettingsDialog extends React.Component {
         this.props.close();
     }
 
+    handleChange(event, name) {
+        let data = this.state.data;
+        data[name] = event.target.value;
+        this.setState({data: data});
+    }
+
     showParametersFields = () => {
         if (this.props.widget.params === undefined)
             return;
@@ -51,21 +58,20 @@ export default class NewWidgetSettingsDialog extends React.Component {
                     this.setState({data: data});
                 }} id={param.name} label={param.name} key={index} variant="outlined"/>)
             } else if (param.type === 'list') {
-                const menuItems = param.list.map((list) => <option value={list[1]}>{list[0]}</option>)
-                let value = param.listValue;
+                const menuItems = param.list.map((list, index) => <MenuItem key={index} value={list[0]}>{list[1]}</MenuItem>);
                 return (
-                    <Box sx={{ minWidth: 120 }}>
+                    <Box sx={{ minWidth: 120 }} key={index}>
                       <FormControl fullWidth>
-                        <InputLabel variant="standard" htmlFor="uncontrolled-native">{param.listLabel}</InputLabel>
-                        <NativeSelect
-                          defaultValue={30}
-                          inputProps={{
-                            name: {value},
-                            id: 'uncontrolled-native',
-                          }}
+                        <InputLabel id="demo-simple-select-label">{param.listLabel}</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-label"
+                          id="demo-simple-select"
+                          value={this.state.data[param.name] || ''}
+                          label={param.listLabel}
+                          onChange={(event) => this.handleChange(event, param.name)}
                         >
                         {menuItems}
-                        </NativeSelect>
+                        </Select>
                       </FormControl>
                     </Box>
                   );
