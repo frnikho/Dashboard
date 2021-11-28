@@ -4,6 +4,7 @@ import NewWidgetCurrentWeather from "./widgets/NewWidgetCurrentWeather";
 import Grid from "@mui/material/Grid";
 import WidgetRandomMeme from "./widgets/WidgetRandomMeme";
 import WidgetNYTimesMostPopular from "./widgets/WidgetNYTimesMostPopular";
+import WidgetNYTimesTopStories from "./widgets/WidgetNYTimesTopStories";
 
 export default class WidgetManager extends React.Component {
 
@@ -32,6 +33,8 @@ export default class WidgetManager extends React.Component {
             return <WidgetRandomMeme setSize={this.setWidgetSize} onDelete={this.props.onDelete} config={this.props.config}/>
         if (type === 'most_popular_articles')
             return <WidgetNYTimesMostPopular setSize={this.setWidgetSize} onDelete={this.props.onDelete} config={this.props.config}/>
+        if (type === 'top_stories_articles')
+            return <WidgetNYTimesTopStories setSize={this.setWidgetSize} onDelete={this.props.onDelete} config={this.props.config}/>
         if (type === 'holiday_of_year')
             return <div/>
     }

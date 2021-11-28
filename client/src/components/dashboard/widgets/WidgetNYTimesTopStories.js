@@ -5,7 +5,7 @@ import { TiNews } from "react-icons/all";
 import { Box, CircularProgress, Link, Paper, Typography } from "@mui/material";
 import Carousel from "react-material-ui-carousel";
 
-export default class WidgetNYTimesMostPopular extends Widget {
+export default class WidgetNYTimesTopStories extends Widget {
 
     constructor(props) {
         super(props);
@@ -27,7 +27,7 @@ export default class WidgetNYTimesMostPopular extends Widget {
         if (this.props.config === undefined)
             return;
 
-        app.get(`/services/nytimes/mostpopular/${this.props.config.data.days}`).then((response) => {
+        app.get(`/services/nytimes/topstories/${this.props.config.data.subject}`).then((response) => {
             this.setState({ articles: response.data, loading: false});
         }).catch((err) => {
             console.log(err);
@@ -62,7 +62,7 @@ export default class WidgetNYTimesMostPopular extends Widget {
     Item = (props) => {
         return (
             <Paper variant="outlined" sx={{ maxHeight: 150, mx: 2}}>
-                <TiNews size={"20"} />
+                <TiNews size={"20"} /><Typography variant="h6" gutterBottom component="div" style={{ display: "inline" }}> {this.props.config.data.subject.toUpperCase()} </Typography><TiNews size={"20"} />
                 <Typography variant="h6" gutterBottom component="div" fontWeight={"bold"}>{props.article.title}</Typography>
                 <Typography variant="p" gutterBottom component="div">{props.article.abstract.substring(0, 70)}...</Typography>
                 <Typography variant="p" gutterBottom component="div">
