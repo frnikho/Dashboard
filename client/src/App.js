@@ -1,6 +1,6 @@
 import React from "react";
 import TopbarComponent from "./components/topbar/TopbarComponent";
-import {Navigate, Route, Routes} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import DashboardPage from "./pages/dashboard";
 import LoginPage from "./pages/auth/LoginPage";
 import LogoutPage from "./pages/auth/LogoutPage";
