@@ -46,20 +46,7 @@ let services = [{
             name: "is_today_a_holiday",
             displayName: "Is today a holiday ",
             description: "",
-            params: [
-                {
-                    name: "year",
-                    type: "string"
-                },
-                {
-                    name: "month",
-                    type: "string"
-                },
-                {
-                    name: "day",
-                    type: "string"
-                },
-            ]
+            params: []
         }
     ]
 },
