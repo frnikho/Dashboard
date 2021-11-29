@@ -1,42 +1,23 @@
 import React from "react";
 import {AppBar, Box, Button, IconButton, Toolbar, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
-import { instanceOf } from 'prop-types';
-import {Cookies, withCookies} from "react-cookie";
-import app from "../../config/axiosConfig";
 
-class TopbarComponent extends React.Component {
-
-    static propTypes = {
-        cookies: instanceOf(Cookies).isRequired
-    }
+export default class TopbarComponent extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            user: {
-                data: null
-            }
+            user: undefined
         }
     }
 
-    componentDidMount() {
-        const { cookies } = this.props;
-        let username = cookies.get('username');
-
-        if (username !== undefined) {
-           app.get(`user/${username}`).then((response) => {
-               if (response.status === 200) {
-                   this.setState({user: response.data});
-               }
-            });
-        } else {
-            console.log("NOT LOGGED")
-        }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.user !== this.props.user)
+            this.setState({user: this.props.user});
     }
 
     showLoginButton () {
-        if (this.state.user.data === null) {
+        if (this.state.user === undefined) {
             return (<Link to="/auth/login">
                 <Button color="inherit">
                     Login
@@ -81,5 +62,3 @@ class TopbarComponent extends React.Component {
     }
 
 }
-
-export default withCookies(TopbarComponent);

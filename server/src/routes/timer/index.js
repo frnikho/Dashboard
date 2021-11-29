@@ -1,6 +1,6 @@
 const express = require('express');
 const {authorization} = require("../../middleware/AuthMiddleware");
-const {updateTimerSettings, DEFAULT_CURRENT_WEATHER, DEFAULT_NEXT_5_DAYS_FORECAST} = require("../../controllers/ConfigController");
+const {updateTimerSettings, DEFAULT_CURRENT_WEATHER, DEFAULT_NEXT_5_DAYS_FORECAST, getUserTimer} = require("../../controllers/ConfigController");
 const router = express.Router();
 
 /**
@@ -39,6 +39,23 @@ const router = express.Router();
  *            description: User not logged
  *        403:
  *            description: Unauthorized
+ * @openapi
+ * /timers:
+ *  get:
+ *    tags:
+ *      - Config
+ *    description: Get widgets timers
+ *    consumes:
+ *      - application/json
+ *    responses:
+ *        200:
+ *            description: Successful request
+ *        400:
+ *            description: An error occurred
+ *        401:
+ *            description: User not logged
+ *        403:
+ *            description: Unauthorized
  *
  */
 
@@ -48,6 +65,12 @@ const wrongBody = (req, res, message) => {
         links: 'http://localhost:8080/docs/#/Config/patch_timers'
     });
 }
+
+router.get('/', authorization, (req, res) => {
+    getUserTimer(req.user.id, (timer) => {
+        res.status(200).json(timer);
+    })
+});
 
 router.patch('/', authorization, (req, res) => {
     let [currentWeatherTimers, next5DaysForecastTimers] = [req.body['current_weather'], req.body['next_5_days_forecast']];

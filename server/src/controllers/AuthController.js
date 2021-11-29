@@ -2,6 +2,8 @@ const db = require('../services/DBService');
 const {encrypt, compare} = require('../services/EncryptService');
 const uuid = require('uuid');
 const {getUserByUsername, getUserByGoogleId} = require("./UserController");
+const {response} = require("express");
+const {DEFAULT_CURRENT_WEATHER, DEFAULT_NEXT_5_DAYS_FORECAST} = require("./ConfigController");
 
 const googleUserExist = (googleId, callback) => {
     db.getConnection().then((con) => {
@@ -69,9 +71,13 @@ const registerUser = (username, password, callback, error) => {
         encrypt(password).then((hashedPassword) => {
             db.getConnection().then((con) => {
                 con.query(`INSERT INTO users (username, password) values (?, ?) RETURNING id,username,created_date,account_type`, [username, hashedPassword]).then((response) => {
-                    callback(response[0])
-                }).then(async () => {
-                    await con.end();
+                    con.query(`INSERT INTO widgets_config (user_id, data) values (?, ?)`, [response[0].id, "[]"]).then(async () => {
+                        con.query(`INSERT INTO timers (user_id, current_weather, next_5_days_forecast) values (?, ?, ?)`, [response[0].id, DEFAULT_CURRENT_WEATHER, DEFAULT_NEXT_5_DAYS_FORECAST]).then((rows) => {
+                            callback(response[0]);
+                        }).then(async () => {
+                            await con.end();
+                        })
+                    })
                 });
             })
         });

@@ -48,7 +48,7 @@ const options = {
     apis: ["./src/routes/auth/google.js", "./src/routes/register/index.js", "./src/routes/auth/logout.js",
     "./src/routes/user/index.js", "./src/routes/timer/index.js", "./src/routes/services/Calendarific/HolidayOfYear.js", "./src/routes/services/Calendarific/IsTodayAHoliday.js",
     "./src/routes/services/OpenWeather/CurrentWeather.js", "./src/routes/services/OpenWeather/Next5DaysForecast.js", "./src/routes/services/NYTimes/NYTimesMostPopular.js",
-        "./src/routes/services/NYTimes/NYTimesTopStories.js"],
+        "./src/routes/services/NYTimes/NYTimesTopStories.js", "./src/routes/widgets/config/index.js", "./src/routes/widgets/index.js"],
 }
 
 const googleAuthRoute = require('./routes/auth/google.js');
@@ -67,6 +67,13 @@ const nytimesMostPopular = require('./routes/services/NYTimes/NYTimesMostPopular
 
 const calendarIsTodayAHoliday = require('./routes/services/Calendarific/IsTodayAHoliday.js');
 const calendarHolidayOfYear = require('./routes/services/Calendarific/HolidayOfYear.js');
+
+const memeRoute = require('./routes/services/MemeApi');
+
+const widgetsConfigRoute = require('./routes/widgets/config');
+const widgetsRoute = require('./routes/widgets');
+
+const userLayoutRoute = require('./routes/user/layout/index');
 
 const {configurePassport} = require("./services/PassportService");
 const {registerGoogleUser} = require("./controllers/AuthController");
@@ -96,6 +103,7 @@ configurePassport((token, refresh, profile, done) => {
 
 app.use("/auth/google", googleAuthRoute);
 app.use('/auth/register', registerRoute);
+app.use('/user/layout', userLayoutRoute);
 app.use('/user', userRoute);
 app.use('/auth/login', loginRoute);
 app.use('/auth/logout', logoutRoute);
@@ -110,6 +118,13 @@ app.use('/services/nytimes/topstories/', nytimesTopStories);
 app.use('/services/nytimes/mostpopular/', nytimesMostPopular);
 app.use('/services/calendar/istodayaholiday/', calendarIsTodayAHoliday);
 app.use('/services/calendar/holidayofyear/', calendarHolidayOfYear);
+
+app.use('/services/meme/', memeRoute);
+
+app.use('/widgets/', widgetsRoute);
+app.use('/widgets/config', widgetsConfigRoute);
+
+app.use('/public', express.static('public'));
 
 app.use('/', (req, res) => {
     res.redirect('/docs');
