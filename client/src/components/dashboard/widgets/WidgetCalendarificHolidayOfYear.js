@@ -48,7 +48,7 @@ export default class WidgetCalendarificHolidayOfYear extends Widget {
     }
 
     getWidgetSize() {
-        return (5);
+        return (3);
     }
 
     showWidget = () => {

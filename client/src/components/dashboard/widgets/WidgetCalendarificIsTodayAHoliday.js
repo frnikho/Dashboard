@@ -43,7 +43,7 @@ export default class WidgetCalendarificIsTodayAHoliday extends Widget {
     }
 
     getWidgetSize() {
-        return (5);
+        return (3);
     }
 
     showWidget = () => {
