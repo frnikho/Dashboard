@@ -22,7 +22,6 @@ router.post('/', (req, res) => {
             secure: process.env.NODE_ENV === "production"
         }).status(200).json({
             user: user,
-            token: token
         });
     });
 });

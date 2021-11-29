@@ -1,5 +1,6 @@
 .idea
 **/.env
+**/env.js
 **/node_modules
 **/build
 **/package-lock.json
