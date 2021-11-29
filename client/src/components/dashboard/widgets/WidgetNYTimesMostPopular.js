@@ -44,9 +44,7 @@ export default class WidgetNYTimesMostPopular extends Widget {
             return;
         return (
             <Carousel>
-                {
-                    this.state.articles.results.map((article, i) => <this.Item key={i} article={article} />)
-                }
+                {this.state.articles.results.map((article, i) => <this.Item key={i} article={article} />)}
             </Carousel>
         );
     }

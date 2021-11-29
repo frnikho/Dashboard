@@ -16,7 +16,6 @@ export default class NewWidgetCurrentWeather extends Widget {
 
     componentDidMount() {
         super.componentDidMount();
-        this.loadWidget();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

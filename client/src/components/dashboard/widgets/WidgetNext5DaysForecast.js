@@ -7,7 +7,6 @@ export default class WidgetNext5DaysForecast extends Widget {
 
     componentDidMount() {
         super.componentDidMount();
-        this.loadWidget();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

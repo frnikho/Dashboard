@@ -6,7 +6,6 @@ import NewWidgetDialog from "../components/dashboard/newWidgets/NewWidgetDialog"
 import NewWidgetSettingsDialog from "../components/dashboard/newWidgets/NewWidgetSettingsDialog";
 import app from "../config/axiosConfig";
 import WidgetManager from "../components/dashboard/WidgetManager";
-import {ListManager} from "react-beautiful-dnd-grid";
 
 export default class DashboardPage extends React.Component {
 

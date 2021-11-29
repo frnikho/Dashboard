@@ -3,14 +3,13 @@ import Grid from '@mui/material/Grid';
 import {ThemeProvider} from "@emotion/react";
 
 import {
-    Alert,
     Avatar,
     Box,
     Button, Checkbox,
     Container,
     createTheme,
     CssBaseline,
-    FormControlLabel, Snackbar,
+    FormControlLabel,
     TextField,
     Typography
 } from "@mui/material";
@@ -25,8 +24,6 @@ export default class LoginPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            message: '',
-            open: false,
             canBeRedirected: false
         }
     }
@@ -36,10 +33,10 @@ export default class LoginPage extends React.Component {
         const data = new FormData(event.currentTarget);
 
         if (!data.has('username'))
-            return this.setState({message: "Username cannot be empty !", open: true})
+            return this.props.setNotification({message: "Username cannot be empty !", show: true, type: "error"});
 
         if (!data.has('password'))
-            return this.setState({message: "Password cannot be empty !", open: true})
+            return this.props.setNotification({message: "Password cannot be empty !",  show: true, type: "error"});
 
         app.post("auth/login", {username: data.get('username'), password: data.get('password')}).then((response) => {
             if (response.status === 200) {
@@ -47,16 +44,7 @@ export default class LoginPage extends React.Component {
                 this.props.handleLogin(response.data.user);
             }
         }).catch((error) => {
-            this.setState({message: error.response?.data?.error || "An error occurred, please try again later !", open: true})
-        });
-    }
-
-    handleClose = (event, reason) => {
-        if (reason === 'clickaway')
-            return;
-        this.setState({
-            message: "",
-            open: false,
+            this.props.setNotification({message: error.response?.data?.error || "An error occurred, please try again later !", show: true, type: "error"});
         });
     }
 
@@ -139,12 +127,6 @@ export default class LoginPage extends React.Component {
                             </Box>
                         </Box>
                     </Container>
-                    <Snackbar open={this.state.open} autoHideDuration={3000} onClose={this.handleClose}>
-                        <Alert onClose={this.handleClose} severity="error" sx={{ width: '100%' }}>
-                            {this.state.message}
-                        </Alert>
-                    </Snackbar>
-
                 </ThemeProvider>
             </div>);
     }
