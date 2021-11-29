@@ -49,6 +49,7 @@ export default class Widget extends React.Component {
                 timer: this.props.config?.timer || DEFAULT_TIMER,
             })
         }
+        this.loadWidget();
     }
 
     updateTimer() {

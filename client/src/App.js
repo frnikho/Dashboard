@@ -9,6 +9,7 @@ import UserPage from "./pages/user";
 import Services from "./pages/services";
 import {withCookies} from "react-cookie";
 import app from "./config/axiosConfig";
+import NotificationManager from "./components/NotificationManager";
 
 class App extends React.Component {
 
@@ -17,9 +18,11 @@ class App extends React.Component {
         this.state = {
             user: undefined,
             canRedirect: false,
+            notification: undefined
         }
         this.onLogin = this.onLogin.bind(this);
         this.onLogout = this.onLogout.bind(this);
+        this.setNotification = this.setNotification.bind(this);
     }
 
     onLogin(user) {
@@ -49,26 +52,31 @@ class App extends React.Component {
                     this.setState({user: response.data});
                 }
             }).catch((err) => {
-                console.log(err.response);
+                this.setNotification({message: "You're not logged !", type: "info", show: true});
             });
         } else {
             this.setState({canRedirect: true})
         }
     }
 
+    setNotification(notif) {
+        this.setState({notification: notif});
+    }
+
     render() {
         return (<div>
             <TopbarComponent user={this.state.user}/>
             <Routes>
-                <Route path="/" element={<DashboardPage/>}/>
+                <Route path="/" element={<DashboardPage setNotification={this.setNotification}/>}/>
                 <Route path="auth">
-                    <Route path="login" element={<LoginPage handleLogin={this.onLogin}/>}/>
-                    <Route path="logout" element={<LogoutPage handleLogout={this.onLogout}/>}/>
-                    <Route path="register" element={<RegisterPage/>}/>
+                    <Route path="login" element={<LoginPage setNotification={this.setNotification} handleLogin={this.onLogin}/>}/>
+                    <Route path="logout" element={<LogoutPage setNotification={this.setNotification} handleLogout={this.onLogout}/>}/>
+                    <Route path="register" element={<RegisterPage setNotification={this.setNotification}/>}/>
                 </Route>
-                <Route path="/user" element={<UserPage handleLogout={this.onLogout}/>}/>
+                <Route path="/user" element={<UserPage setNotification={this.setNotification} handleLogout={this.onLogout}/>}/>
                 <Route path="/services" element={<Services/>}/>
             </Routes>
+            <NotificationManager notification={this.state.notification}/>
         </div>)
     }
 }
