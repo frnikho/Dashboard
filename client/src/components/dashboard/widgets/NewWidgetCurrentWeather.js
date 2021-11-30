@@ -24,7 +24,7 @@ export default class NewWidgetCurrentWeather extends Widget {
     loadWidget = () => {
         if (this.props.config === undefined)
             return;
-        app.get(`/services/openweather/current/${this.props.config.data.city}`).then((response) => {
+        app.get(`/services/openweather/current/${this.props.config.data.city.toLowerCase()}`).then((response) => {
             this.setState({weather: response.data, loading: false});
         }).catch((err) => {
             console.log(err.response);

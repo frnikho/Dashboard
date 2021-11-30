@@ -25,7 +25,7 @@ const getCurrentWeather = async (city) => {
  * @returns JSON
  */
 const getNext5DaysForecast = async (city) => {
-    const url = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKey;
+    const url = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKey + "&units=metric";
     let data = await axios.get(url);
     return data.data;
 }
