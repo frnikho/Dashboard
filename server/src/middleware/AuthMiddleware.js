@@ -9,7 +9,13 @@ const {getUserById} = require("../controllers/UserController");
  * @returns {*} nothing
  */
 const authorization = (req, res, next) => {
-    const token = req.cookies.access_token;
+    let token = req.headers['authorization'];
+    if (token === undefined) {
+        return res.status(401).json({
+            error: 'You need to be logged !'
+        });
+    }
+    token = token.substring(7, token.length);
     if (!token)
         return res.status(401).json({
             error: 'You need to be logged !'

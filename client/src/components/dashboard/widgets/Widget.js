@@ -2,10 +2,13 @@ import React from "react";
 import {Card, CardActions, CardContent, CircularProgress, IconButton, Typography} from "@mui/material";
 import {FaEdit, FaTrash} from "react-icons/all";
 import app from "../../../config/axiosConfig";
+import {TokenContext} from "../../../context/TokenContext";
 
 const DEFAULT_TIMER = 30;
 
 export default class Widget extends React.Component {
+
+    static contextType = TokenContext;
 
     constructor(props) {
         super(props);
@@ -42,6 +45,7 @@ export default class Widget extends React.Component {
     }
 
     componentDidMount() {
+        this.token = this.context;
         this.props.setSize(this.getWidgetSize());
         if (this.props.config !== undefined) {
             this.setState({
@@ -50,6 +54,10 @@ export default class Widget extends React.Component {
             })
         }
         this.loadWidget();
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.intervalId);
     }
 
     updateTimer() {

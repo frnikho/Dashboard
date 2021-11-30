@@ -25,7 +25,7 @@ export default class WidgetManager extends React.Component {
 
     showWidgets = () => {
         if (this.props.layout === undefined)
-            return null;
+            return;
         let type = this.props.layout.type;
         if (type === 'city_temperature')
             return <NewWidgetCurrentWeather setSize={this.setWidgetSize} onDelete={this.props.onDelete} config={this.props.config} />
@@ -45,9 +45,11 @@ export default class WidgetManager extends React.Component {
 
     render() {
         return (
-            <Grid item xs={this.state.size} sm={this.state.size} md={this.state.size} alignItems="center" justify="center" textAlign={"center"}>
-                {this.showWidgets()}
-            </Grid>
+                this.props.layout !== undefined && <Grid item xs={this.state.size} sm={this.state.size} md={this.state.size} alignItems="center" justify="center" textAlign={"center"}>
+                    {this.showWidgets()}
+                </Grid>
+
+
         );
     }
 

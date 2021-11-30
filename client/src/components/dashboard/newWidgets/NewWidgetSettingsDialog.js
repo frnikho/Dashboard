@@ -12,10 +12,13 @@ import {
     Select,
     TextField
 } from "@mui/material";
-import app from "../../../config/axiosConfig";
+import app, {config} from "../../../config/axiosConfig";
 import {BsClock} from "react-icons/all";
+import {TokenContext} from "../../../context/TokenContext";
 
 export default class NewWidgetSettingsDialog extends React.Component {
+
+    static contextType = TokenContext;
 
     constructor(props) {
         super(props);
@@ -27,6 +30,10 @@ export default class NewWidgetSettingsDialog extends React.Component {
         this.onClose = this.onClose.bind(this);
         this.showParametersFields = this.showParametersFields.bind(this);
         this.onCreateWidget = this.onCreateWidget.bind(this);
+    }
+
+    componentDidMount() {
+        this.token = this.context;
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -82,8 +89,8 @@ export default class NewWidgetSettingsDialog extends React.Component {
 
     onCreateWidget = (event) => {
         event.preventDefault();
-        app.patch('/widgets/config', {widget: this.props.widget.name, data: this.state.data, number: this.props.number, timer: this.state.timer}).then((response) => {
-            app.post('/widgets/', {widget: this.props.widget.name, number: this.props.number}).then((response) => {
+        app.patch('/widgets/config', {widget: this.props.widget.name, data: this.state.data, number: this.props.number, timer: this.state.timer}, config(this.token)).then((response) => {
+            app.post('/widgets/', {widget: this.props.widget.name, number: this.props.number}, config(this.token)).then((response) => {
                 this.props.onNewWidgetCreated(this.props.widget);
             }).catch((err) => {
                 console.log("1. Error occurred", err);

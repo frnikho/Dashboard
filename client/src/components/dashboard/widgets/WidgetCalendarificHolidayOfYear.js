@@ -1,5 +1,5 @@
 import React from "react";
-import app from "../../../config/axiosConfig";
+import app, {config} from "../../../config/axiosConfig";
 import Widget from "./Widget";
 import { GoCalendar } from "react-icons/all";
 import { CircularProgress, Paper, Typography } from "@mui/material";
@@ -31,7 +31,7 @@ export default class WidgetCalendarificHolidayOfYear extends Widget {
         if (this.props.config === undefined)
             return;
 
-        app.get(`services/calendar/holidayofyear`).then((response) => {
+        app.get(`services/calendar/holidayofyear`, config(this.token)).then((response) => {
             this.setState({ response: response.data, loading: false });
         }).catch((err) => {
             console.log(err);

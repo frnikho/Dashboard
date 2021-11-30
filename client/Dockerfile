@@ -4,6 +4,8 @@ COPY package.json client/package.json
 COPY public client/public
 COPY src client/src
 
+EXPOSE 3000
+
 WORKDIR client
 
 RUN npm install

@@ -16,18 +16,23 @@ const googleUserExist = (googleId, callback) => {
 }
 
 const registerGoogleUser = (profile, callback) => {
-    googleUserExist(profile.id, (exists) => {
+    googleUserExist(profile.googleId, (exists) => {
         if (exists) {
-            getUserByGoogleId(profile.id, (user) => {
+            getUserByGoogleId(profile.googleId, (user) => {
                 callback(user);
             });
         } else {
             db.getConnection().then((con) => {
-                let username = uuid.v4();
-                con.query(`INSERT INTO users (username, password, account_type, google_id) values (?, ?, ?, ?) RETURNING id,username,created_date,account_type`, [username, "null", "google", profile.id]).then((response) => {
-                    callback(response)
-                }).then(async () => {
-                    await con.end();
+                let username = profile.email;
+                let passwd = uuid.v4();
+                con.query(`INSERT INTO users (username, password, account_type, google_id) values (?, ?, ?, ?) RETURNING id,username,created_date,account_type`, [username, passwd, "google", profile.googleId]).then((response) => {
+                    con.query(`INSERT INTO widgets_config (user_id, data) values (?, ?)`, [response[0].id, "[]"]).then(async () => {
+                        con.query(`INSERT INTO timers (user_id, current_weather, next_5_days_forecast) values (?, ?, ?)`, [response[0].id, DEFAULT_CURRENT_WEATHER, DEFAULT_NEXT_5_DAYS_FORECAST]).then((rows) => {
+                            callback(response[0]);
+                        }).then(async () => {
+                            await con.end();
+                        })
+                    })
                 });
             });
         }

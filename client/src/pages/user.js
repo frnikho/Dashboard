@@ -1,12 +1,15 @@
 import React from "react";
 import {Avatar, Box, Button, Container, Paper} from "@mui/material";
 import Grid from "@mui/material/Grid";
-import app from "../config/axiosConfig";
+import app, {config} from "../config/axiosConfig";
 import {Navigate} from "react-router-dom";
 import {instanceOf} from "prop-types";
 import {Cookies, withCookies} from "react-cookie";
+import {TokenContext} from "../context/TokenContext";
 
 class UserPage extends React.Component {
+
+    static contextType = TokenContext;
 
     static propTypes = {
         cookies: instanceOf(Cookies).isRequired
@@ -19,21 +22,26 @@ class UserPage extends React.Component {
             createdAt: '',
             firstName: '',
             lastName: '',
-            redirectLogout: false
+            redirect: false,
+            redirectUrl: ''
         }
         this.logout = this.logout.bind(this);
         this.getUserInfo = this.getUserInfo.bind(this);
     }
 
     componentDidMount() {
-        this.getUserInfo();
+        this.token = this.context;
+        if (this.token === undefined)
+            this.setState({redirect: true, redirectUrl: '/auth/login'});
+        else
+            this.getUserInfo();
     }
 
     getUserInfo() {
         const { cookies } = this.props;
         let username = cookies.get('username');
 
-        app.get(`/user/${username}`).then((response) => {
+        app.get(`/user/${username}`, config(this.token)).then((response) => {
             this.setState({
                 username: response.data.username,
                 createdAt: response.data.created_date,
@@ -42,18 +50,20 @@ class UserPage extends React.Component {
     }
 
     logout() {
-        app.post('/auth/logout').then((response) => {
-            this.props.handleLogout();
-            this.setState({redirectLogout: true})
-        }).catch((err) => {
-            this.props.handleLogout();
-            this.setState({redirectLogout: true})
-        })
+        const {cookies} = this.props;
+        try {
+            cookies.remove('access_token', { path: '/' });
+            cookies.remove('userId', { path: '/' });
+            cookies.remove('username', { path: '/' });
+            this.setState({redirect: true, redirectUrl: '/auth/logout'});
+        } catch (ex) {
+            console.log(ex);
+        }
     }
 
     render() {
         return(<div>
-            {this.state.redirectLogout === true && <Navigate to={"/auth/login"}/>}
+            {this.state.redirect === true && <Navigate to={this.state.redirectUrl}/>}
             <Paper elevation={0} />
             <Paper />
             <Container>

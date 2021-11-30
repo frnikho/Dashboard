@@ -1,5 +1,5 @@
 import React from "react";
-import app from "../../../config/axiosConfig";
+import app, {config} from "../../../config/axiosConfig";
 import Widget from "./Widget";
 import { TiNews } from "react-icons/all";
 import { Box, CircularProgress, Link, Paper, Typography } from "@mui/material";
@@ -27,7 +27,7 @@ export default class WidgetNYTimesTopStories extends Widget {
         if (this.props.config === undefined)
             return;
 
-        app.get(`/services/nytimes/topstories/${this.props.config.data.subject}`).then((response) => {
+        app.get(`/services/nytimes/topstories/${this.props.config.data.subject}`, config(this.token)).then((response) => {
             this.setState({ articles: response.data, loading: false});
         }).catch((err) => {
             console.log(err);

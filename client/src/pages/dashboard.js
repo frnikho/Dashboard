@@ -4,14 +4,19 @@ import {Box, CircularProgress} from "@mui/material";
 import React from "react";
 import NewWidgetDialog from "../components/dashboard/newWidgets/NewWidgetDialog";
 import NewWidgetSettingsDialog from "../components/dashboard/newWidgets/NewWidgetSettingsDialog";
-import app from "../config/axiosConfig";
+import app, {config} from "../config/axiosConfig";
 import WidgetManager from "../components/dashboard/WidgetManager";
+import {Navigate} from "react-router-dom";
+import {TokenContext} from "../context/TokenContext";
 
 export default class DashboardPage extends React.Component {
+
+    static contextType = TokenContext;
 
     constructor(props) {
         super(props);
         this.state = {
+            redirectToLogin: false,
             openAddDialog: false,
             openSettingsDialog: false,
             newWidget: {},
@@ -31,7 +36,11 @@ export default class DashboardPage extends React.Component {
     }
 
     componentDidMount() {
-        this.loadWidgets();
+        this.token = this.context;
+        if (this.token === undefined)
+            this.setState({redirectToLogin: true});
+        else
+            this.loadWidgets();
     }
 
     onClickAdd = () => {
@@ -72,15 +81,15 @@ export default class DashboardPage extends React.Component {
     }
 
     loadWidgets = () => {
-        app.get('/widgets/config').then((response) => {
+        app.get('/widgets/config', config(this.token)).then((response) => {
             this.setState({config: response.data.data});
-            app.get('/user/layout').then((response) => {
+            app.get('/user/layout', config(this.token)).then((response) => {
                 this.setState({layout: response.data.layout, number: response.data.layout.length});
             }).catch((err) => {
-                console.log(err.response);
+                this.setState({redirectToLogin: true});
             });
         }).catch((err) => {
-           console.log(err.response);
+            this.setState({redirectToLogin: true});
         });
     }
 
@@ -113,9 +122,15 @@ export default class DashboardPage extends React.Component {
         });
     }
 
+    redirectToLogin() {
+        if (this.state.redirectToLogin === true)
+            return (<Navigate to={"/auth/login"}/>)
+    }
+
     render() {
         return (
             <div>
+                {this.redirectToLogin()}
                 <NewWidgetDialog openNewDialog={this.state.openAddDialog} onNewWidgetSelected={this.onClickNewWidget} close={this.onCloseWidgetDialog}/>
                 <NewWidgetSettingsDialog number={this.state.number} onNewWidgetCreated={this.onNewWidgetCreated} open={this.state.openSettingsDialog} widget={this.state.newWidget} close={this.onCloseSettingsDialog}/>
                 <Box sx={{my: 5}}>

@@ -16,6 +16,7 @@ import {
 import app from "../../config/axiosConfig";
 import {Link, Navigate} from "react-router-dom";
 import {FaGoogle} from "react-icons/all";
+import { GoogleLogin } from 'react-google-login';
 
 const theme = createTheme();
 
@@ -39,17 +40,19 @@ export default class LoginPage extends React.Component {
             return this.props.setNotification({message: "Password cannot be empty !",  show: true, type: "error"});
 
         app.post("auth/login", {username: data.get('username'), password: data.get('password')}).then((response) => {
+            console.log(response);
             if (response.status === 200) {
+                this.props.handleLogin(response.data);
                 this.setState({canBeRedirected: true});
-                this.props.handleLogin(response.data.user);
             }
         }).catch((error) => {
+            console.log(error.response);
             this.props.setNotification({message: error.response?.data?.error || "An error occurred, please try again later !", show: true, type: "error"});
         });
     }
 
     connectWithGoogle = () => {
-        app.get('/auth/google').then((response) => {
+        app.post('/auth/google').then((response) => {
             console.log(response);
         })
     }
@@ -57,6 +60,23 @@ export default class LoginPage extends React.Component {
     redirectLogin() {
         if (this.state.canBeRedirected)
             return (<Navigate to={"/"}/>)
+    }
+
+    responseGoogle = (response) => {
+        if (response.error !== undefined) {
+            console.log(response.error);
+            this.props.setNotification({message: "Cannot login with google", show: true, type: "error"});
+            return;
+        }
+        app.post('/auth/google', response).then((data) => {
+            if (data.status === 200) {
+                this.props.handleLogin(data.data);
+                this.setState({canBeRedirected: true});
+            } else {
+                this.props.setNotification({message: "An error occurred, please try again later", show: true, type: "error"});
+                console.log(data);
+            }
+        })
     }
 
     render() {
@@ -107,6 +127,13 @@ export default class LoginPage extends React.Component {
                                     sx={{ mt: 3, mb: 2 }} >
                                     Sign In
                                 </Button>
+
+                                <GoogleLogin
+                                    clientId={"829633951232-3qk22fesed0pln7b69p792tsrha1ucfb.apps.googleusercontent.com"}
+                                    buttonText={"Login"}
+                                    onSuccess={this.responseGoogle}
+                                    onFailure={this.responseGoogle}
+                                    cookiePolicy={'single_host_origin'}/>
                                 <Button
                                     onClick={this.connectWithGoogle}
                                     fullWidth

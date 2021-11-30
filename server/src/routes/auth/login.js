@@ -17,11 +17,9 @@ router.post('/', (req, res) => {
                 error: 'Invalid user or password !'
             });
         const token = jwt.sign({username: user.username, id: user.id}, process.env.AUTH_SECRET);
-        return res.cookie("access_token", token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production"
-        }).status(200).json({
+        return res.status(200).json({
             user: user,
+            auth: token
         });
     });
 });

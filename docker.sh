@@ -44,6 +44,6 @@ echo -e "\n${BLUE}------------- DOCKER COMPOSE UP -------------${WHITE}\n"
 if [[  "$input" = "yes"  ]] ; then
     docker-compose up
 else
-    docker-compose up -d --build
+    docker-compose up -d
 fi
 echo -e "\n${GREEN}------------- DOCKER COMPOSE DONE -------------${WHITE}\n"

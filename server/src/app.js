@@ -51,6 +51,10 @@ const options = {
         "./src/routes/services/NYTimes/NYTimesTopStories.js", "./src/routes/widgets/config/index.js", "./src/routes/widgets/index.js"],
 }
 
+app.use(cors({
+    origin: '*',
+}));
+
 const googleAuthRoute = require('./routes/auth/google.js');
 const registerRoute = require('./routes/register/index.js');
 const loginRoute = require('./routes/auth/login');
@@ -78,13 +82,6 @@ const userLayoutRoute = require('./routes/user/layout/index');
 const {configurePassport} = require("./services/PassportService");
 const {registerGoogleUser} = require("./controllers/AuthController");
 
-const corsOptions = {
-    origin: 'http://localhost:3000',
-    optionsSuccessStatus: 200,
-    credentials: true
-}
-
-app.use(cors(corsOptions));
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))

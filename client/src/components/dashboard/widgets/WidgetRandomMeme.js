@@ -1,6 +1,6 @@
 import React from "react";
 import Widget from "./Widget";
-import app from "../../../config/axiosConfig";
+import app, {config} from "../../../config/axiosConfig";
 import {CircularProgress} from "@mui/material";
 
 export default class WidgetRandomMeme extends Widget {
@@ -31,7 +31,7 @@ export default class WidgetRandomMeme extends Widget {
 
     loadWidget() {
         console.log("update widget random meme");
-        app.get('/services/meme').then((response) => {
+        app.get('/services/meme', config(this.token)).then((response) => {
             this.setState({url: response.data.url});
         }).catch((err) => {
             this.setState({url: undefined, error: err.response.data.error});
