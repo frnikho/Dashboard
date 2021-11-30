@@ -13,7 +13,10 @@ import {
     TextField
 } from "@mui/material";
 import app from "../../../config/axiosConfig";
-import {BsClock} from "react-icons/all";
+import { BsClock } from "react-icons/all";
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 
 export default class NewWidgetSettingsDialog extends React.Component {
 
@@ -33,7 +36,7 @@ export default class NewWidgetSettingsDialog extends React.Component {
         if (prevProps === this.props)
             return;
         if (this.props.open !== prevState.open) {
-            this.setState({open: this.props.open});
+            this.setState({ open: this.props.open });
         }
     }
 
@@ -41,10 +44,16 @@ export default class NewWidgetSettingsDialog extends React.Component {
         this.props.close();
     }
 
-    handleChange(event, name) {
+    handleChangeList(event, name) {
         let data = this.state.data;
         data[name] = event.target.value;
-        this.setState({data: data});
+        this.setState({ data: data });
+    }
+
+    handleChangeDatePicker(value, name) {
+        let data = this.state.data;
+        data[name] = value;
+        this.setState({ data: data });
     }
 
     showParametersFields = () => {
@@ -55,26 +64,37 @@ export default class NewWidgetSettingsDialog extends React.Component {
                 return (<TextField onChange={(event) => {
                     let data = this.state.data;
                     data[param.name] = event.target.value;
-                    this.setState({data: data});
-                }} id={param.name} label={param.name} key={index} variant="outlined"/>)
+                    this.setState({ data: data });
+                }} id={param.name} label={param.name} key={index} variant="outlined" />)
             } else if (param.type === 'list') {
                 const menuItems = param.list.map((list, index) => <MenuItem key={index} value={list[0]}>{list[1]}</MenuItem>);
                 return (
                     <Box sx={{ minWidth: 120 }} key={index}>
-                      <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">{param.listLabel}</InputLabel>
-                        <Select
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          value={this.state.data[param.name] || ''}
-                          label={param.listLabel}
-                          onChange={(event) => this.handleChange(event, param.name)}
-                        >
-                        {menuItems}
-                        </Select>
-                      </FormControl>
+                        <FormControl fullWidth>
+                            <InputLabel id="demo-simple-select-label">{param.listLabel}</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={this.state.data[param.name] || ''}
+                                label={param.listLabel}
+                                onChange={(value) => this.handleChangeList(value, param.name)}
+                            >
+                                {menuItems}
+                            </Select>
+                        </FormControl>
                     </Box>
-                  );
+                );
+            } else if (param.type === 'datepicker') {
+                return (
+                    <LocalizationProvider key={index} dateAdapter={AdapterDateFns}>
+                        <DesktopDatePicker
+                            label={param.dateLabel}
+                            inputFormat="MM/dd/yyyy"
+                            value={this.state.data[param.name] || ''}
+                            onChange={(event) => this.handleChangeDatePicker(event, param.name)}
+                            renderInput={(params) => <TextField {...params} />}
+                        />
+                    </LocalizationProvider>);
             }
             return (<div></div>);
         });
@@ -82,8 +102,8 @@ export default class NewWidgetSettingsDialog extends React.Component {
 
     onCreateWidget = (event) => {
         event.preventDefault();
-        app.patch('/widgets/config', {widget: this.props.widget.name, data: this.state.data, number: this.props.number, timer: this.state.timer}).then((response) => {
-            app.post('/widgets/', {widget: this.props.widget.name, number: this.props.number}).then((response) => {
+        app.patch('/widgets/config', { widget: this.props.widget.name, data: this.state.data, number: this.props.number, timer: this.state.timer }).then((response) => {
+            app.post('/widgets/', { widget: this.props.widget.name, number: this.props.number }).then((response) => {
                 this.props.onNewWidgetCreated(this.props.widget);
             }).catch((err) => {
                 console.log("1. Error occurred", err);
@@ -106,28 +126,27 @@ export default class NewWidgetSettingsDialog extends React.Component {
                 <br />
                 <Box component="form" onSubmit={this.onCreateWidget} noValidate sx={{ mt: 1 }}>
                     {this.showParametersFields()}
-                    <Box sx={{py: 4}}>
+                    <Box sx={{ py: 4 }}>
                         <TextField
                             id="input-with-icon-textfield"
                             label="Refresh rate"
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
-                                        <BsClock/>
+                                        <BsClock />
                                     </InputAdornment>
                                 ),
                             }}
                             defaultValue={this.state.timer}
                             onChange={(event) => {
-                                console.log(event.target.value);
                                 if (event.target.value < 30)
                                     event.target.value = 30;
                                 if (event.target.value > 3600)
                                     event.target.value = 3600;
-                                this.setState({timer: event.target.value});
+                                this.setState({ timer: event.target.value });
                             }}
                             type="number"
-                            variant="outlined"/>
+                            variant="outlined" />
                     </Box>
                     <Button
                         type="submit"

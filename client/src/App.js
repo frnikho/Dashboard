@@ -63,6 +63,11 @@ class App extends React.Component {
         this.setState({notification: notif});
     }
 
+    showNotification() {
+        if (this.state.notification !== undefined)
+            return (<NotificationManager notification={this.state.notification}/>)
+    }
+
     render() {
         return (<div>
             <TopbarComponent user={this.state.user}/>
@@ -76,7 +81,7 @@ class App extends React.Component {
                 <Route path="/user" element={<UserPage setNotification={this.setNotification} handleLogout={this.onLogout}/>}/>
                 <Route path="/services" element={<Services/>}/>
             </Routes>
-            <NotificationManager notification={this.state.notification}/>
+            {this.showNotification()}
         </div>)
     }
 }
