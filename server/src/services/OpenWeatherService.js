@@ -13,7 +13,6 @@ const axios = require('axios').default;
 const getCurrentWeather = async (city) => {
     const url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey + "&units=metric";
     let data = await axios.get(url);
-    console.log(data);
     return data.data;
 }
 

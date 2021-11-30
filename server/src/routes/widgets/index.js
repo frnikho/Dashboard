@@ -32,7 +32,6 @@ router.delete('/', authorization, (req, res) => {
 });
 
 router.post('/', authorization, (req, res) => {
-    console.log(req.user);
     req.user.layout.push({
         type: req.body.widget,
         id: req.body.number

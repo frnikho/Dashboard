@@ -30,12 +30,10 @@ class App extends React.Component {
         cookies.set('username', user.username);
         cookies.set('userId', user.userId);
         this.setState({user: user});
-        console.log("login");
     }
 
     onLogout() {
         this.setState({user: undefined});
-        console.log("logout");
     }
 
     componentDidMount() {

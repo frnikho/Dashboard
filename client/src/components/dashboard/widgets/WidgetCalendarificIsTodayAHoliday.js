@@ -36,7 +36,6 @@ export default class WidgetCalendarificIsTodayAHoliday extends Widget {
         app.get(`services/calendar/istodayaholiday?year=${year}&month=${month}&day=${day}`).then((response) => {
             this.setState({ response: response.data, loading: false });
         }).catch((err) => {
-            console.log(err);
             console.log(err.response);
         });
     }

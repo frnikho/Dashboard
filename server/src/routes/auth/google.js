@@ -19,7 +19,6 @@ route.get('/', passport.authenticate('google', {scope: ['https://www.googleapis.
 
 route.get('/callback', passport.authenticate('google', {failureRedirect: '/'}), (req, res) => {
     passport.serializeUser( (userObj, done) => {
-        console.log(userObj);
         done(null, userObj)
     })
     res.status(200).json({});

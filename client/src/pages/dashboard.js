@@ -56,8 +56,6 @@ export default class DashboardPage extends React.Component {
     }
 
     onWidgetDeleted = (widget) => {
-        console.log(widget);
-
         this.state.config.forEach((config, index) => {
            if (config.id === widget.id)
                this.state.config.splice(index, 1);

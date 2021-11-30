@@ -30,7 +30,6 @@ export default class WidgetNYTimesTopStories extends Widget {
         app.get(`/services/nytimes/topstories/${this.props.config.data.subject}`).then((response) => {
             this.setState({ articles: response.data, loading: false});
         }).catch((err) => {
-            console.log(err);
             console.log(err.response);
         });
     }
