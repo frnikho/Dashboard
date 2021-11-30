@@ -15,7 +15,6 @@ export default class NotificationManager extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevProps !== this.props) {
-            console.log(this.props);
             this.setState({
                 show: this.props.notification.show,
                 type: this.props.notification.type,

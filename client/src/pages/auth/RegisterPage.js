@@ -42,22 +42,18 @@ class RegisterPage extends React.Component {
         const data = new FormData(event.currentTarget);
 
         if (data.get('firstName') === '') {
-            console.log(this.state);
             return this.setState({open: true, message: "Invalid firstname !"});
         }
 
         if (data.get('lastName') === '') {
-            console.log(this.state);
             return this.setState({open: true, message: "Invalid lastname !"});
         }
 
         if (data.get('username') === '') {
-            console.log(this.state);
             return this.setState({open: true, message: "Invalid username !"});
         }
 
         if (data.get('password') === '') {
-            console.log(this.state);
             return this.setState({open: true, message: "Invalid password !"});
         }
 
@@ -74,19 +70,11 @@ class RegisterPage extends React.Component {
                     message: 'User created, you will be redirect to the login page :O'
                     })
             }
-            console.log(response);
         }).catch((err) => {
             if (err.response.status === 400) {
                 this.setState({open: true, message: err.response.data.error});
             }
         })
-
-        console.log({
-            email: data.get('username'),
-            password: data.get('password'),
-            firstname: data.get('firstName'),
-            lastname: data.get('lastName')
-        });
     };
 
     handleClose(event, reason){

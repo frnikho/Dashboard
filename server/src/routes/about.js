@@ -46,7 +46,13 @@ let services = [{
             name: "is_today_a_holiday",
             displayName: "Is today a holiday ",
             description: "",
-            params: []
+            params: [
+                {
+                    name: "date",
+                    type: "datepicker",
+                    dateLabel: "Date",
+                }
+            ]
         }
     ]
 },
@@ -65,8 +71,6 @@ let services = [{
                     type: "list",
                     list: [["1", "1 day"], ["7", "7 days"], ["30", "30 days"]],
                     listLabel: "Days",
-                    listDefaultValue: "1",
-                    listValue: "days"
                 }
             ]
         },
@@ -80,8 +84,6 @@ let services = [{
                     type: "list",
                     list: [["arts", "Arts"], ["automobiles", "Automobiles"], ["books", "Books"], ["business", "Business"], ["fashion", "Fashion"], ["food", "Food"], ["health", "Health"], ["home", "Home"], ["insider", "Insider"], ["magazine", "Magazine"], ["movies", "Movies"], ["obituaries", "Obituaries"], ["opinion", "Opinion"], ["politics", "Politics"], ["realestate", "Realestate"], ["science", "Science"], ["sports", "Sports"], ["sundayreview", "Sundayreview"], ["technology", "Technology"], ["theater", "Theater"], ["t-magazine", "T-magazine"], ["travel", "Travel"], ["upshot", "Upshot"], ["uS", "US"], ["world", "World"]],
                     listLabel: "Subjects",
-                    listDefaultValue: "arts",
-                    listValue: "subjects"
                 }
             ]
         }

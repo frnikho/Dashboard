@@ -43,7 +43,6 @@ const updateUserLayout = (userId, layout, callback) => {
 
 const deleteUserWidget = (userId, layout, widgetId, callback) => {
     getUserWidgetsConfig(userId, (widgetConfig) => {
-        console.log(widgetConfig);
         widgetConfig.data.forEach((widget, index) => {
             if (widget.id === widgetId)
                 widgetConfig.data.splice(index, 1);
