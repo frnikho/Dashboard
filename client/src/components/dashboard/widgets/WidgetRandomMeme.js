@@ -30,7 +30,6 @@ export default class WidgetRandomMeme extends Widget {
     }
 
     loadWidget() {
-        console.log("update widget random meme");
         app.get('/services/meme', config(this.token)).then((response) => {
             this.setState({url: response.data.url});
         }).catch((err) => {

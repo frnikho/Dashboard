@@ -1,11 +1,11 @@
 import * as React from "react";
 import {
     Box,
-    Button,
+    Button, Checkbox,
     Dialog,
     DialogActions,
     DialogContent,
-    FormControl,
+    FormControl, FormControlLabel,
     InputAdornment,
     InputLabel,
     MenuItem,
@@ -15,6 +15,10 @@ import {
 import app, {config} from "../../../config/axiosConfig";
 import {BsClock} from "react-icons/all";
 import {TokenContext} from "../../../context/TokenContext";
+import SpotifyOauthPopup from "../../services/SpotifyOauthPopup";
+import {DesktopDatePicker, LocalizationProvider} from "@mui/lab";
+
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 
 export default class NewWidgetSettingsDialog extends React.Component {
 
@@ -25,6 +29,7 @@ export default class NewWidgetSettingsDialog extends React.Component {
         this.state = {
             open: this.props.open,
             data: {},
+            isValid: false,
             timer: 30
         }
         this.onClose = this.onClose.bind(this);
@@ -51,19 +56,42 @@ export default class NewWidgetSettingsDialog extends React.Component {
     handleChange(event, name) {
         let data = this.state.data;
         data[name] = event.target.value;
-        this.setState({data: data});
+        if (!event.target.value) {
+            this.setState({data: data, isValid: false});
+        } else {
+            this.setState({data: data, isValid: true});
+        }
     }
+
+    handleChangeDatePicker(value, name) {
+        let data = this.state.data;
+        data[name] = value;
+        if (!value) {
+            this.setState({data: data, isValid: false});
+        } else {
+            this.setState({data: data, isValid: true});
+        }
+    }
+
+    handleSpotifyLogin = (data) => {
+        this.setState({isValid: true});
+    }
+
+    onErrorSpotifyLogin = (error) => {
+        this.setState({isValid: false});
+    }
+
 
     showParametersFields = () => {
         if (this.props.widget.params === undefined)
             return;
+
+        if (this.state.isValid === false && this.props.widget.params.length === 0)
+            this.setState({isValid: true});
+
         return this.props.widget.params.map((param, index) => {
             if (param.type === 'string') {
-                return (<TextField onChange={(event) => {
-                    let data = this.state.data;
-                    data[param.name] = event.target.value;
-                    this.setState({data: data});
-                }} id={param.name} label={param.name} key={index} variant="outlined"/>)
+                return (<TextField onChange={(event) => this.handleChange(event, param.name)} id={param.name} label={param.name} key={index} variant="outlined"/>)
             } else if (param.type === 'list') {
                 const menuItems = param.list.map((list, index) => <MenuItem key={index} value={list[0]}>{list[1]}</MenuItem>);
                 return (
@@ -82,8 +110,33 @@ export default class NewWidgetSettingsDialog extends React.Component {
                       </FormControl>
                     </Box>
                   );
-            }
-            return (<div></div>);
+            } else if (param.type === "oauth2") {
+                if (param.service === 'spotify') {
+                    return (
+                        <Box sx={{ m:2 }} key={index}>
+                            <SpotifyOauthPopup handleLogin={this.handleSpotifyLogin} errorLogin={this.onErrorSpotifyLogin}/>
+                        </Box>
+                    )
+                }
+            } else if (param.type === "checkbox") {
+                return (
+                    <Box sx={{ m:2}} key={index}>
+                        <FormControlLabel control={<Checkbox />} label={param.name} />
+                    </Box>
+                )
+            } else if (param.type === 'datepicker') {
+            return (
+                <LocalizationProvider key={index} dateAdapter={AdapterDateFns}>
+                    <DesktopDatePicker
+                        label={param.dateLabel}
+                        inputFormat="MM/dd/yyyy"
+                        value={this.state.data[param.name] || ''}
+                        onChange={(event) => this.handleChangeDatePicker(event, param.name)}
+                        renderInput={(params) => <TextField {...params} />}
+                    />
+                </LocalizationProvider>);
+        }
+            return (<div key={index}/>);
         });
     };
 
@@ -93,10 +146,9 @@ export default class NewWidgetSettingsDialog extends React.Component {
             app.post('/widgets/', {widget: this.props.widget.name, number: this.props.number}, config(this.token)).then((response) => {
                 this.props.onNewWidgetCreated(this.props.widget);
             }).catch((err) => {
-                console.log("1. Error occurred", err);
+
             });
         }).catch((err) => {
-            console.log("2. Error occurred", err);
         });
     }
 
@@ -126,7 +178,6 @@ export default class NewWidgetSettingsDialog extends React.Component {
                             }}
                             defaultValue={this.state.timer}
                             onChange={(event) => {
-                                console.log(event.target.value);
                                 if (event.target.value < 30)
                                     event.target.value = 30;
                                 if (event.target.value > 3600)
@@ -139,7 +190,7 @@ export default class NewWidgetSettingsDialog extends React.Component {
                     <Button
                         type="submit"
                         variant="contained"
-                        sx={{ mt: 1, mb: 2 }} >
+                        sx={{ mt: 1, mb: 2 }} disabled={!this.state.isValid}>
                         Create
                     </Button>
                 </Box>

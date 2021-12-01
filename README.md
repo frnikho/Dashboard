@@ -68,7 +68,7 @@ $ cd B-DEV-500-NAN-5-1-dashboard-victor.sauvaget
 
 Prerequisites
 
-Fill the 'example.env' in server and client directories.
+Fill the 'example.env' in server and client directories and rename it in '.env'.
 
 Setup your database by using the .sql file in mariadb/sql.
 

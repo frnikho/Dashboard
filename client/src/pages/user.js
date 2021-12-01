@@ -55,9 +55,8 @@ class UserPage extends React.Component {
             cookies.remove('access_token', { path: '/' });
             cookies.remove('userId', { path: '/' });
             cookies.remove('username', { path: '/' });
-            this.setState({redirect: true, redirectUrl: '/auth/logout'});
+            this.setState({redirect: true, redirectUrl: '/auth/login'});
         } catch (ex) {
-            console.log(ex);
         }
     }
 

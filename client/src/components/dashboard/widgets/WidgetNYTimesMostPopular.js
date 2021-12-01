@@ -30,7 +30,7 @@ export default class WidgetNYTimesMostPopular extends Widget {
         app.get(`/services/nytimes/mostpopular/${this.props.config.data.days}`, config(this.token)).then((response) => {
             this.setState({ articles: response.data, loading: false});
         }).catch((err) => {
-            console.log(err.response);
+
         });
     }
 

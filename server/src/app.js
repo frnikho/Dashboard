@@ -79,6 +79,11 @@ const widgetsRoute = require('./routes/widgets');
 
 const userLayoutRoute = require('./routes/user/layout/index');
 
+const spotifyRoute = require('./routes/services/spotify/index');
+const spotifyUserInfoRoute = require('./routes/services/spotify/userinfo');
+const spotifyPlayerRouter = require('./routes/services/spotify/player');
+
+
 const {configurePassport} = require("./services/PassportService");
 const {registerGoogleUser} = require("./controllers/AuthController");
 
@@ -115,6 +120,10 @@ app.use('/services/nytimes/topstories/', nytimesTopStories);
 app.use('/services/nytimes/mostpopular/', nytimesMostPopular);
 app.use('/services/calendar/istodayaholiday/', calendarIsTodayAHoliday);
 app.use('/services/calendar/holidayofyear/', calendarHolidayOfYear);
+
+app.use('/services/spotify', spotifyRoute);
+app.use('/services/spotify/userinfo', spotifyUserInfoRoute);
+app.use('/services/spotify/player', spotifyPlayerRouter);
 
 app.use('/services/meme/', memeRoute);
 

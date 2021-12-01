@@ -31,7 +31,6 @@ export default class WidgetNext5DaysForecast extends Widget {
         app.get(`/services/openweather/next5daysforecast/${this.props.config.data.city.toLowerCase()}`, config(this.token)).then((response) => {
             this.setState({weather: response.data, loading: false});
         }).catch((err) => {
-            console.log(err.response);
         });
     }
 

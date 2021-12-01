@@ -25,7 +25,6 @@ export default class NewWidgetDialog extends React.Component {
         app.get('/about.json').then((response) => {
             this.setState({services: response.data.server.services});
         }).catch((err) => {
-            console.log(err.response);
         })
     }
 
