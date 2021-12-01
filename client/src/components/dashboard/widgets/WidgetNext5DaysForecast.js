@@ -28,7 +28,7 @@ export default class WidgetNext5DaysForecast extends Widget {
     loadWidget = () => {
         if (this.props.config === undefined)
             return;
-        app.get(`/services/openweather/next5daysforecast/${this.props.config.data.city}`, config(this.token)).then((response) => {
+        app.get(`/services/openweather/next5daysforecast/${this.props.config.data.city.toLowerCase()}`, config(this.token)).then((response) => {
             this.setState({weather: response.data, loading: false});
         }).catch((err) => {
             console.log(err.response);
@@ -62,7 +62,7 @@ export default class WidgetNext5DaysForecast extends Widget {
             <Paper variant="outlined" sx={{ maxHeight: 300, mx: 2 }}>
                 <img alt="weather icon" src={"http://openweathermap.org/img/wn/" + props.weather.weather[0].icon + "@2x.png"} />
                 <Typography variant="h6" gutterBottom component="div" fontWeight={"bold"}>{props.city}</Typography>
-                <Typography variant="h6" gutterBottom component="div">{day} {monthNames[month - 1]} {year} {hour}:{(date.getMinutes()<10?'0':'')}{minutes}</Typography>
+                <Typography variant="h6" gutterBottom component="div">{day} {monthNames[month - 1]} {year} {hour}:{(minutes < 10 ? '0' : '')}{minutes}</Typography>
                 <Typography variant="p" gutterBottom component="div">{props.weather.main.temp}°</Typography>
                 <Typography variant="p" gutterBottom component="div">{props.weather.main.temp_min}° / {props.weather.main.temp_max}°</Typography>
             </Paper>
