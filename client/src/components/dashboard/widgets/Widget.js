@@ -102,7 +102,7 @@ export default class Widget extends React.Component {
 
     render() {
         return (
-            <Card>
+            <Card sx={{ maxHeight: 400, mx: 2}} >
                 <CardContent>
                     {this.showContent()}
                 </CardContent>

@@ -1,5 +1,5 @@
 import React from "react";
-import app, {config} from "../../../config/axiosConfig";
+import app, { config } from "../../../config/axiosConfig";
 import Widget from "./Widget";
 import { TiNews } from "react-icons/all";
 import { Box, CircularProgress, Link, Paper, Typography } from "@mui/material";
@@ -16,7 +16,6 @@ export default class WidgetNYTimesTopStories extends Widget {
 
     componentDidMount() {
         super.componentDidMount();
-        this.loadWidget();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -28,7 +27,7 @@ export default class WidgetNYTimesTopStories extends Widget {
             return;
 
         app.get(`/services/nytimes/topstories/${this.props.config.data.subject}`, config(this.token)).then((response) => {
-            this.setState({ articles: response.data, loading: false});
+            this.setState({ articles: response.data, loading: false });
         }).catch((err) => {
         });
     }
@@ -47,26 +46,24 @@ export default class WidgetNYTimesTopStories extends Widget {
 
     showWidget = () => {
         if (this.state.loading === true)
-            return <CircularProgress/>;
+            return <CircularProgress />;
         return (
             <Carousel>
                 {
-                    this.state.articles.results.map((article, i) => <this.Item key={i} article={article} />)
+                    this.state.articles.results.map((article, i) => {
+                        return (
+                            <Paper variant="outlined" sx={{ maxHeight: 150, mx: 2 }}>
+                                <TiNews size={"20"} /><Typography variant="h6" gutterBottom component="div" style={{ display: "inline" }}> {this.props.config.data.subject.toUpperCase()} </Typography><TiNews size={"20"} />
+                                <Typography variant="h6" gutterBottom component="div" fontWeight={"bold"}>{article.title}</Typography>
+                                <Typography variant="p" gutterBottom component="div">{article.abstract.substring(0, 70)}...</Typography>
+                                <Typography variant="p" gutterBottom component="div">
+                                    Read this article on <Box style={{ display: "inline" }}><Link href={article.url} underline="hover">nytimes.com</Link></Box>.
+                                </Typography>
+                            </Paper>
+                        );
+                    })
                 }
             </Carousel>
-        );
-    }
-
-    Item = (props) => {
-        return (
-            <Paper variant="outlined" sx={{ maxHeight: 150, mx: 2}}>
-                <TiNews size={"20"} /><Typography variant="h6" gutterBottom component="div" style={{ display: "inline" }}> {this.props.config.data.subject.toUpperCase()} </Typography><TiNews size={"20"} />
-                <Typography variant="h6" gutterBottom component="div" fontWeight={"bold"}>{props.article.title}</Typography>
-                <Typography variant="p" gutterBottom component="div">{props.article.abstract.substring(0, 70)}...</Typography>
-                <Typography variant="p" gutterBottom component="div">
-                    Read this article on <Box style={{ display: "inline" }}><Link href={props.article.url} underline="hover">nytimes.com</Link></Box>.
-                </Typography>
-            </Paper>
         );
     }
 }

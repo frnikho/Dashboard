@@ -19,7 +19,6 @@ export default class WidgetCalendarificIsTodayAHoliday extends Widget {
 
     componentDidMount() {
         super.componentDidMount();
-        this.loadWidget();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {

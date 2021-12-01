@@ -1,5 +1,5 @@
 import React from "react";
-import app, {config} from "../../../config/axiosConfig";
+import app, { config } from "../../../config/axiosConfig";
 import Widget from "./Widget";
 import { GoCalendar } from "react-icons/all";
 import { CircularProgress, Paper, Typography } from "@mui/material";
@@ -20,7 +20,6 @@ export default class WidgetCalendarificHolidayOfYear extends Widget {
 
     componentDidMount() {
         super.componentDidMount();
-        this.loadWidget();
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -56,19 +55,17 @@ export default class WidgetCalendarificHolidayOfYear extends Widget {
         return (
             <Carousel>
                 {
-                    this.state.response.response.holidays.map((holiday, i) => <this.Item key={i} holiday={holiday} />)
+                    this.state.response.response.holidays.map((holiday, i) => {
+                        return (
+                            <Paper variant="outlined" sx={{ maxHeight: 150, mx: 2 }}>
+                                <GoCalendar size={"40"} />
+                                <Typography variant="h6" gutterBottom component="div">On {holiday.date.datetime.day} {monthNames[holiday.date.datetime.month - 1]} {holiday.date.datetime.year}</Typography>
+                                <Typography variant="h6" gutterBottom component="div" fontWeight={"bold"}>{holiday.name}</Typography>
+                            </Paper>
+                        );
+                    })
                 }
             </Carousel>
-        );
-    }
-
-    Item = (props) => {
-        return (
-            <Paper variant="outlined" sx={{ maxHeight: 150, mx: 2 }}>
-                <GoCalendar size={"40"} />
-                <Typography variant="h6" gutterBottom component="div">On {props.holiday.date.datetime.day} {monthNames[props.holiday.date.datetime.month - 1]} {props.holiday.date.datetime.year}</Typography>
-                <Typography variant="h6" gutterBottom component="div" fontWeight={"bold"}>{props.holiday.name}</Typography>
-            </Paper>
         );
     }
 }
