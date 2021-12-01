@@ -4,8 +4,6 @@ import {FaEdit, FaTrash} from "react-icons/all";
 import app from "../../../config/axiosConfig";
 import {TokenContext} from "../../../context/TokenContext";
 
-const DEFAULT_TIMER = 30;
-
 export default class Widget extends React.Component {
 
     static contextType = TokenContext;
@@ -15,6 +13,7 @@ export default class Widget extends React.Component {
         this.state = {
             config: props.config || undefined,
             timer: this.props.config.timer,
+            defaultTimer: this.props.config.timer,
             maxHeight: 400,
             maxWidth: 400
         }
@@ -27,8 +26,9 @@ export default class Widget extends React.Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevState !== this.state)
             this.updateTimer();
-        if (prevProps.config !== this.props.config)
-            console.log("Props update");
+        if (prevProps.config !== this.props.config) {
+
+        }
     }
 
     loadWidget() {
@@ -40,7 +40,6 @@ export default class Widget extends React.Component {
             clearInterval(this.intervalId);
             this.props.onDelete(this.state.config);
         }).catch((error) => {
-            console.log(error.response);
         });
     }
 
@@ -50,7 +49,8 @@ export default class Widget extends React.Component {
         if (this.props.config !== undefined) {
             this.setState({
                 config: this.props.config,
-                timer: this.props.config?.timer || DEFAULT_TIMER,
+                timer: this.props.config?.timer,
+                defaultTimer: this.props.config?.timer,
             })
         }
         this.loadWidget();
@@ -64,7 +64,7 @@ export default class Widget extends React.Component {
         clearInterval(this.intervalId);
         this.intervalId = setInterval(() => {
             if (this.state.timer === 1) {
-                this.setState({timer: 30});
+                this.setState({timer: this.state.defaultTimer});
                 this.onCountEnd();
             } else {
                 this.setState({timer: this.state.timer - 1});

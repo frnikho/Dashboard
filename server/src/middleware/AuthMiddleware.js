@@ -1,5 +1,16 @@
 const jwt = require("jsonwebtoken");
 const {getUserById} = require("../controllers/UserController");
+const {getUserToken} = require("../controllers/UserTokenControll");
+
+const spotifyAuth = (req, res, next) => {
+    getUserToken(req.user.id, "spotify", (token) => {
+        if (token === undefined) {
+            return res.status(400).json({error: 'Invalid spotify token, you need to be login before using this service !'});
+        }
+        req.spotify = token;
+        next();
+    })
+}
 
 /**
  * Check if the user is logged and get his information
@@ -43,4 +54,4 @@ const authorization = (req, res, next) => {
     }
 }
 
-module.exports = {authorization};
+module.exports = {authorization, spotifyAuth};

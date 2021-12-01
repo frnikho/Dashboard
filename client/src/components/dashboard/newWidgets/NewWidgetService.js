@@ -32,7 +32,7 @@ export default class NewWidgetService extends React.Component {
     render() {
         return (<div>
             <h1>
-                {this.props.service.name} <img src={env.API_URL + this.props.service.imageLink} alt={"icon"} height={32}/>
+                {this.props.service.name} <img src={process.env.REACT_APP_API_URL + this.props.service.imageLink} alt={"icon"} height={32}/>
             </h1>
 
             <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>

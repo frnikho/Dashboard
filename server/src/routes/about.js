@@ -101,6 +101,41 @@ let services = [{
             displayName: "Random"
         }
     ]
+},
+{
+    name: "Spotify",
+    description: "Get spotify music information",
+    imageLink: "public/spotify.png",
+    widgets: [
+        {
+            name: "user_information",
+            displayName: "Get user information",
+            description: "Get user information",
+            params: [
+                {
+                    name: "Login with spotify",
+                    type: "oauth2",
+                    service: "spotify",
+                }
+            ]
+        },
+        {
+            name: "spotify_player_control",
+            displayName: "Control spotify player",
+            description: "Show you a remote control for spotify player",
+            params: [
+                {
+                    name: "Login with spotify",
+                    type: "oauth2",
+                    service: "spotify",
+                },
+                {
+                    name: "advanced_mod",
+                    type: "checkbox"
+                }
+            ]
+        }
+    ]
 }]
 
 router.all('/', (req, res) => {

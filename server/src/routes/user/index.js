@@ -64,7 +64,6 @@ route.get('/:id', authorization, (req, res) => {
 })
 
 route.delete('/:id', authorization, (req, res) => {
-    console.log(req.username, req.userId);
 });
 
 route.patch('/:id', authorization, (req, res) => {

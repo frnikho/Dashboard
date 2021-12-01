@@ -15,7 +15,6 @@ class LogoutPage extends React.Component {
         app.post('auth/logout').then((response) => {
             this.props.handleLogout();
         }).catch((err) => {
-            console.log(err.response);
             this.props.handleLogout();
         });
     }
