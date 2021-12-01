@@ -24,7 +24,6 @@ export default class WidgetSpotifyUserInformation extends Widget {
 
     loadWidget() {
         app('/services/spotify/userinfo', config(this.token)).then((result) => {
-            console.log(result);
             this.setState({user: result.data, loading: false})
         }).catch((err) => {
            console.log(err.response);

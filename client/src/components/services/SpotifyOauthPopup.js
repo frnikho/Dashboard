@@ -47,7 +47,7 @@ export default class SpotifyOauthPopup extends React.Component {
     showComponent = () => {
         if (this.state.logged === false) {
             return (
-                <OauthPopup url={this.getURL()} onClose={this.onClose} onCode={this.onReceiveCode}>
+                <OauthPopup url={this.getURL()} onClose={this.onClose} onCode={this.onReceiveCode} title={"Dashboard - Spotify login"}>
                     <Button>Login with spotify</Button>
                 </OauthPopup>
             )

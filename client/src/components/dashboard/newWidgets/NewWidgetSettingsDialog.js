@@ -16,6 +16,9 @@ import app, {config} from "../../../config/axiosConfig";
 import {BsClock} from "react-icons/all";
 import {TokenContext} from "../../../context/TokenContext";
 import SpotifyOauthPopup from "../../services/SpotifyOauthPopup";
+import {DesktopDatePicker, LocalizationProvider} from "@mui/lab";
+
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 
 export default class NewWidgetSettingsDialog extends React.Component {
 
@@ -60,6 +63,16 @@ export default class NewWidgetSettingsDialog extends React.Component {
         }
     }
 
+    handleChangeDatePicker(value, name) {
+        let data = this.state.data;
+        data[name] = value;
+        if (!value) {
+            this.setState({data: data, isValid: false});
+        } else {
+            this.setState({data: data, isValid: true});
+        }
+    }
+
     handleSpotifyLogin = (data) => {
         this.setState({isValid: true});
     }
@@ -72,6 +85,10 @@ export default class NewWidgetSettingsDialog extends React.Component {
     showParametersFields = () => {
         if (this.props.widget.params === undefined)
             return;
+
+        if (this.state.isValid === false && this.props.widget.params.length === 0)
+            this.setState({isValid: true});
+
         return this.props.widget.params.map((param, index) => {
             if (param.type === 'string') {
                 return (<TextField onChange={(event) => this.handleChange(event, param.name)} id={param.name} label={param.name} key={index} variant="outlined"/>)
@@ -107,7 +124,18 @@ export default class NewWidgetSettingsDialog extends React.Component {
                         <FormControlLabel control={<Checkbox />} label={param.name} />
                     </Box>
                 )
-            }
+            } else if (param.type === 'datepicker') {
+            return (
+                <LocalizationProvider key={index} dateAdapter={AdapterDateFns}>
+                    <DesktopDatePicker
+                        label={param.dateLabel}
+                        inputFormat="MM/dd/yyyy"
+                        value={this.state.data[param.name] || ''}
+                        onChange={(event) => this.handleChangeDatePicker(event, param.name)}
+                        renderInput={(params) => <TextField {...params} />}
+                    />
+                </LocalizationProvider>);
+        }
             return (<div key={index}/>);
         });
     };

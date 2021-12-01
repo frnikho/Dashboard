@@ -13,7 +13,11 @@ let services = [{
             params: [{
                 name: "city",
                 type: "string"
-            }]
+            }],
+            timer: {
+                min: 300,
+                max: 3600*24
+            }
         },
         {
             name: "next_5_days_forecast",
@@ -22,7 +26,11 @@ let services = [{
             params: [{
                 name: "city",
                 type: "string",
-            }]
+            }],
+            timer: {
+                min: 60,
+                max: 300
+            }
         }
     ]
 },
@@ -40,7 +48,11 @@ let services = [{
                     name: "year",
                     type: "string"
                 }
-            ]
+            ],
+            timer: {
+                min: 60,
+                max: 3600
+            }
         },
         {
             name: "is_today_a_holiday",
@@ -52,7 +64,11 @@ let services = [{
                     type: "datepicker",
                     dateLabel: "Date",
                 }
-            ]
+            ],
+            timer: {
+                min: 60,
+                max: 3600
+            }
         }
     ]
 },
@@ -72,7 +88,11 @@ let services = [{
                     list: [["1", "1 day"], ["7", "7 days"], ["30", "30 days"]],
                     listLabel: "Days",
                 }
-            ]
+            ],
+            timer: {
+                min: 60,
+                max: 3600
+            }
         },
         {
             name: "top_stories_articles",
@@ -85,7 +105,11 @@ let services = [{
                     list: [["arts", "Arts"], ["automobiles", "Automobiles"], ["books", "Books"], ["business", "Business"], ["fashion", "Fashion"], ["food", "Food"], ["health", "Health"], ["home", "Home"], ["insider", "Insider"], ["magazine", "Magazine"], ["movies", "Movies"], ["obituaries", "Obituaries"], ["opinion", "Opinion"], ["politics", "Politics"], ["realestate", "Realestate"], ["science", "Science"], ["sports", "Sports"], ["sundayreview", "Sundayreview"], ["technology", "Technology"], ["theater", "Theater"], ["t-magazine", "T-magazine"], ["travel", "Travel"], ["upshot", "Upshot"], ["uS", "US"], ["world", "World"]],
                     listLabel: "Subjects",
                 }
-            ]
+            ],
+            timer: {
+                min: 60,
+                max: 3600
+            }
         }
     ]
 },
@@ -98,7 +122,11 @@ let services = [{
             name: "random_meme",
             description: "Get a random meme",
             params: [],
-            displayName: "Random"
+            displayName: "Random",
+            timer: {
+                min: 5,
+                max: 3600
+            }
         }
     ]
 },
@@ -117,7 +145,11 @@ let services = [{
                     type: "oauth2",
                     service: "spotify",
                 }
-            ]
+            ],
+            timer: {
+                min: 60,
+                max: 3600
+            }
         },
         {
             name: "spotify_player_control",
@@ -133,7 +165,11 @@ let services = [{
                     name: "advanced_mod",
                     type: "checkbox"
                 }
-            ]
+            ],
+            timer: {
+                min: 1,
+                max: 60
+            }
         }
     ]
 }]

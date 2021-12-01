@@ -30,10 +30,14 @@ router.post('/', authorization, spotifyAuth, (req, res) => {
             "Authorization": `Bearer ${req.spotify.access_token}`,
         }
     }
-    if (action === 'next' || action === 'previous')
+    if (action === 'next' || action === 'previous') {
         client = axios.post(`https://api.spotify.com/v1/me/player/${action}`, {}, options);
-    else
+    } else if (action === 'shuffle' || action === 'repeat') {
+        console.log(req.body.state);
+        client = axios.put(`https://api.spotify.com/v1/me/player/${action}?state=${req.body.state}`, {}, options);
+    } else {
         client = axios.put(`https://api.spotify.com/v1/me/player/${action}`, {}, options);
+    }
 
     client.then(() => {
         return res.status(200).json({});

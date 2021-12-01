@@ -1,17 +1,14 @@
 import React from "react";
 import Widget from "../Widget";
 import app, {config} from "../../../../config/axiosConfig";
-import {BiPause, BiPlay, BiSkipNext, BiSkipPrevious} from "react-icons/all";
+import {BiPause, BiPlay, BiRepeat, BiShuffle, BiSkipNext, BiSkipPrevious} from "react-icons/all";
 import {Box, LinearProgress} from "@mui/material";
 
 function sec2time(timeInSeconds) {
     let pad = function(num, size) { return ('000' + num).slice(size * -1); },
         time = parseFloat(timeInSeconds).toFixed(3),
-        hours = Math.floor(time / 60 / 60),
         minutes = Math.floor(time / 60) % 60,
-        seconds = Math.floor(time - minutes * 60),
-        milliseconds = time.slice(-3);
-
+        seconds = Math.floor(time - minutes * 60);
     return pad(minutes, 2) + ':' + pad(seconds, 2);
 }
 
@@ -21,11 +18,15 @@ export default class WidgetSpotifyController extends Widget {
         super(props);
         this.state = {
             playing: true,
+            shuffle: true,
+            repeat: true
         }
         this.pause = this.pause.bind(this);
         this.play = this.play.bind(this);
         this.next = this.next.bind(this);
         this.previous = this.previous.bind(this);
+        this.shuffle = this.shuffle.bind(this);
+        this.repeat = this.repeat.bind(this);
     }
 
     componentDidMount() {
@@ -37,10 +38,8 @@ export default class WidgetSpotifyController extends Widget {
     }
 
     loadWidget() {
-        console.log("update");
         app.get('/services/spotify/player', config(this.token)).then(response => {
-            this.setState({status: response.data, playing: response.data.is_playing});
-            console.log(response.data);
+            this.setState({status: response.data, playing: response.data.is_playing, shuffle: response.data.shuffle_state, repeat: response.data.repeat_state});
         }).catch((err) => {
             console.log(err.response);
         })
@@ -82,6 +81,41 @@ export default class WidgetSpotifyController extends Widget {
         });
     }
 
+    shuffle(state) {
+        app.post('/services/spotify/player', {control: 'shuffle', state}, config(this.token)).then(() => {
+            this.setState({shuffle: !state});
+        }).catch((err) => {
+            console.log(err.response);
+        });
+    }
+
+    repeat(state) {
+        app.post('/services/spotify/player', {control: 'repeat', state}, config(this.token)).then(() => {
+            this.setState({repeat: state !== "off"});
+        }).catch((err) => {
+            console.log(err.response);
+        });
+    }
+
+    showRepeat() {
+        if (this.state.status === undefined)
+            return;
+        return (<BiRepeat color={this.state.repeat !== "off" ? "blue" : "black"} size={30} onClick={() => this.repeat(this.state.repeat ? "off" : "track")}/>);
+    }
+
+    showShuffle() {
+        if (this.state.status === undefined)
+            return;
+        return (<BiShuffle color={this.state.shuffle === true ? "blue" : "black"} size={30} onClick={() => this.shuffle(!this.state.shuffle)}/>)
+    }
+
+    showAdvancedControl() {
+        return (<Box sx={{p: 2}}>
+            {this.showRepeat()}
+            {this.showShuffle()}
+        </Box>)
+    }
+
     showItem() {
         if (this.state.status === undefined || this.state.status.item === undefined)
             return;
@@ -111,11 +145,12 @@ export default class WidgetSpotifyController extends Widget {
                 <div>
                     {this.showItem()}
                 </div>
-                <div>
+                <Box>
                     <BiSkipPrevious onClick={this.previous} size={50}/>
                     {this.state.playing ? <BiPause size={50} onClick={this.pause}/> : <BiPlay size={50} onClick={this.play}/>}
                     <BiSkipNext onClick={this.next} size={50}/>
-                </div>
+                </Box>
+                {this.showAdvancedControl()}
             </div>
         );
     }

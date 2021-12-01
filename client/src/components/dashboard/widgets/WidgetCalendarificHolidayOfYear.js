@@ -34,6 +34,7 @@ export default class WidgetCalendarificHolidayOfYear extends Widget {
         app.get(`services/calendar/holidayofyear`, config(this.token)).then((response) => {
             this.setState({ response: response.data, loading: false });
         }).catch((err) => {
+
         });
     }
 
