@@ -1,7 +1,6 @@
 import React from "react";
 import NewWidgetCard from "./NewWidgetCard";
 import Grid from "@mui/material/Grid";
-import env from "react-dotenv";
 
 export default class NewWidgetService extends React.Component {
 

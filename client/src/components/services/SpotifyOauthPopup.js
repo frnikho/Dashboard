@@ -1,6 +1,5 @@
 import React from "react";
 import OauthPopup from "react-oauth-popup";
-import env from "react-dotenv";
 import {Button} from "@mui/material";
 import app, {config} from "../../config/axiosConfig";
 import {TokenContext} from "../../context/TokenContext";

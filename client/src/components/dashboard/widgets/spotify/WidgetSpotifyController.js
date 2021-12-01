@@ -128,7 +128,7 @@ export default class WidgetSpotifyController extends Widget {
 
         return (
             <div>
-                <img src={album.images[0].url} width={200}/>
+                <img src={album.images[0]?.url} width={200} alt={"album"}/>
                 <h3>{item.name}</h3>
                 <h4>{album.name}</h4>
                 <Box sx={{m: 2}}>
