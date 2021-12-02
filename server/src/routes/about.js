@@ -50,8 +50,8 @@ let services = [{
                 }
             ],
             timer: {
-                min: 60,
-                max: 3600
+                min: 86400, // 24 h
+                max: 31536000 // seconde dans l'année
             }
         },
         {
@@ -66,8 +66,8 @@ let services = [{
                 }
             ],
             timer: {
-                min: 60,
-                max: 3600
+                min: 3600, // 1 h
+                max: 86400 // 24 h
             }
         }
     ]
@@ -90,8 +90,8 @@ let services = [{
                 }
             ],
             timer: {
-                min: 60,
-                max: 3600
+                min: 300, // 5min
+                max: 86400 // 24 h
             }
         },
         {
@@ -107,8 +107,8 @@ let services = [{
                 }
             ],
             timer: {
-                min: 60,
-                max: 3600
+                min: 300, // 5 min
+                max: 86400 // 24 h
             }
         }
     ]
@@ -124,8 +124,8 @@ let services = [{
             params: [],
             displayName: "Random",
             timer: {
-                min: 5,
-                max: 3600
+                min: 5, // 5 second
+                max: 3600 // 1 min
             }
         }
     ]
@@ -147,8 +147,8 @@ let services = [{
                 }
             ],
             timer: {
-                min: 60,
-                max: 3600
+                min: 60, // 60 second
+                max: 3600 // 1 min
             }
         },
         {
@@ -167,8 +167,8 @@ let services = [{
                 }
             ],
             timer: {
-                min: 1,
-                max: 60
+                min: 1, // 1 second
+                max: 60 // 1 min
             }
         },
         {
@@ -176,8 +176,8 @@ let services = [{
             displayName: "New releases",
             description: "Get news releases from spotify artists",
             timer: {
-                min: 60,
-                max: 3600
+                min: 60, // 1 min
+                max: 3600 // 1 h
             },
             params: [
                 {
