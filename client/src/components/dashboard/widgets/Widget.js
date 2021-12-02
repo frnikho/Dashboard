@@ -1,6 +1,6 @@
 import React from "react";
-import {Card, CardActions, CardContent, CircularProgress, IconButton, Paper, Typography} from "@mui/material";
-import {BiInfinite, FaEdit, FaTrash} from "react-icons/all";
+import {CardActions, CardContent, CircularProgress, IconButton, Paper, Typography} from "@mui/material";
+import {BiInfinite, FaTrash} from "react-icons/all";
 import app, {config} from "../../../config/axiosConfig";
 import {TokenContext} from "../../../context/TokenContext";
 

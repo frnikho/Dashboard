@@ -3,7 +3,6 @@ import Grid from '@mui/material/Grid';
 import {ThemeProvider} from "@emotion/react";
 
 import {
-    Avatar,
     Box,
     Button, Checkbox,
     Container,

@@ -2,7 +2,7 @@ import React from "react";
 import Widget from "../Widget";
 import app, {config} from "../../../../config/axiosConfig";
 import {BiPause, BiPlay, BiRepeat, BiShuffle, BiSkipNext, BiSkipPrevious} from "react-icons/all";
-import {Box, Button, createTheme, LinearProgress, ThemeProvider, Typography} from "@mui/material";
+import {Box, Button, LinearProgress, Typography} from "@mui/material";
 import SpotifyOauthPopup from "../../../services/SpotifyOauthPopup";
 import Lottie from "lottie-react";
 import spotify_launch from "../../../../animations/spotify-launch.json";
@@ -14,14 +14,6 @@ function sec2time(timeInSeconds) {
         seconds = Math.floor(time - minutes * 60);
     return pad(minutes, 2) + ':' + pad(seconds, 2);
 }
-
-const theme = createTheme({
-    typography: {
-        fontFamily: [
-            'Roboto',
-            'sans-serif',
-        ].join(','),
-    },});
 
 export default class WidgetSpotifyController extends Widget {
 
@@ -196,9 +188,7 @@ export default class WidgetSpotifyController extends Widget {
         } else {
             return (
                 <div>
-                    <div>
-                        {this.showItem()}
-                    </div>
+                    {this.showItem()}
                 </div>
             );
         }

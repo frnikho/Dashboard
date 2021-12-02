@@ -4,8 +4,16 @@ import app, {config} from "../../../../config/axiosConfig";
 import Lottie from "lottie-react";
 import Carousel from "react-material-ui-carousel";
 import spotify_launch from "../../../../animations/spotify-launch.json"
-import {Box, Button, IconButton, Popover, Typography} from "@mui/material";
+import {Box, Button, createTheme, IconButton, Popover, ThemeProvider, Typography} from "@mui/material";
 import {FaLink} from "react-icons/all";
+
+const theme = createTheme({
+    typography: {
+        fontFamily: [
+            'Roboto',
+            'sans-serif',
+        ].join(','),
+    },});
 
 export default class WidgetSpotifyNewReleases extends Widget {
 
@@ -49,9 +57,19 @@ export default class WidgetSpotifyNewReleases extends Widget {
             return <div/>;
 
         return (
-            <Carousel>
+            <Carousel
+                indicators={false}
+                navButtonsAlwaysVisible={true}
+                onChange={() => this.setState({anchorEl: null})}
+                interval={8000}
+            animation={"slide"}
+            duration={100}>
                 {this.state.albums.map((album, index) => {
-                    return <img onClick={(e) => this.openPopover(e, album)} width={300} key={index} src={album.images[0].url} alt={"album"}/>
+                    return (<div>
+                        <img onClick={(e) => this.openPopover(e, album)} width={300} key={index} src={album.images[0].url} alt={"album"}/>
+                        <h4>{album.name}</h4>
+                        <h4>({album.album_type})</h4>
+                    </div>)
                 })}
             </Carousel>
         )
@@ -94,7 +112,10 @@ export default class WidgetSpotifyNewReleases extends Widget {
         const id = open ? 'simple-popover' : undefined;
 
         return (
-            <div>
+            <ThemeProvider theme={theme}>
+                <Box sx={{pt: 2, pb: 4, px: 4}} textAlign={"start"}>
+                    <Typography variant={"h4"} fontWeight={900}>New Releases</Typography>
+                </Box>
                 {this.showCarousel()}
                 <Popover
                     anchorOrigin={{
@@ -113,7 +134,7 @@ export default class WidgetSpotifyNewReleases extends Widget {
                             {this.showAlbumInfo()}
                         </Box>
                 </Popover>
-            </div>)
+            </ThemeProvider>)
     }
 
 }

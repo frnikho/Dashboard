@@ -2,13 +2,11 @@ import React from "react";
 import {ThemeProvider} from "@emotion/react";
 import {
     Alert,
-    Avatar,
     Box,
     Button,
-    Checkbox,
     Container, createTheme,
     CssBaseline,
-    FormControlLabel, Snackbar,
+    Snackbar,
     TextField,
     Typography
 } from "@mui/material";
