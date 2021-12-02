@@ -24,9 +24,10 @@ const router = express.Router();
  */
 
 router.delete('/', authorization, (req, res) => {
-   if (req.body.widgetIndex === undefined)
+   if (req.body.widgetId === undefined)
        return res.status(400).json({error: 'invalid request body !'});
-    deleteUserWidget(req.user.id, req.user.layout, req.body.widgetIndex, (data) => {
+
+    deleteUserWidget(req.user.id, req.user.layout, req.body.widgetId, (data) => {
         return res.status(200).json({});
     });
 });

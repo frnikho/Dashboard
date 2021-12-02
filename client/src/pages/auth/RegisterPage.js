@@ -15,6 +15,8 @@ import {
 import Grid from "@mui/material/Grid";
 import {Link, Navigate} from "react-router-dom";
 import app from "../../config/axiosConfig";
+import register from "../../animations/register.json";
+import Lottie from "lottie-react";
 
 const theme = createTheme();
 
@@ -102,11 +104,15 @@ class RegisterPage extends React.Component {
                                 flexDirection: 'column',
                                 alignItems: 'center',
                             }}>
-                            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                            </Avatar>
-                            <Typography component="h1" variant="h5">
-                                Sign up
-                            </Typography>
+
+                            <Box sx={{mb: 2}}>
+                                <Typography component="h1" variant="h4">
+                                    Sign up
+                                </Typography>
+                            </Box>
+
+                            <Lottie animationData={register} style={{height: 225}}/>
+
                             <Box component="form" noValidate onSubmit={this.handleSubmit} sx={{ mt: 3 }}>
                                 <Grid container spacing={2}>
                                     <Grid item xs={12} sm={6}>
@@ -151,12 +157,7 @@ class RegisterPage extends React.Component {
                                             autoComplete="new-password"
                                         />
                                     </Grid>
-                                    <Grid item xs={12}>
-                                        <FormControlLabel
-                                            control={<Checkbox value="allowExtraEmails" color="primary" />}
-                                            label="I want to receive inspiration, marketing promotions and updates via email."
-                                        />
-                                    </Grid>
+
                                 </Grid>
                                 <Button
                                     type="submit"

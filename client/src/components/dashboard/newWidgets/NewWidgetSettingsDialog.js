@@ -83,6 +83,7 @@ export default class NewWidgetSettingsDialog extends React.Component {
 
 
     showParametersFields = () => {
+
         if (this.props.widget.params === undefined)
             return;
 
@@ -140,6 +141,42 @@ export default class NewWidgetSettingsDialog extends React.Component {
         });
     };
 
+    showTimer = () => {
+        if (this.props.widget === undefined)
+            return;
+
+        let timer = this.props.widget.timer || {
+            min: 30,
+            max: 3600,
+        };
+
+        return (
+            <Box sx={{py: 4}}>
+                <TextField
+                    id="input-with-icon-textfield"
+                    label="Refresh rate"
+                    InputProps={{
+                        startAdornment: (
+                            <InputAdornment position="start">
+                                <BsClock/>
+                            </InputAdornment>
+                        ),
+                    }}
+                    defaultValue={timer.min}
+                    onChange={(event) => {
+                        if (event.target.value < timer.min)
+                            event.target.value = timer.min;
+                        if (event.target.value > timer.max)
+                            event.target.value = timer.max;
+                        this.setState({timer: parseInt(event.target.value)});
+                    }}
+                    type="number"
+                    variant="outlined"/>
+            </Box>
+        )
+
+    }
+
     onCreateWidget = (event) => {
         event.preventDefault();
         app.patch('/widgets/config', {widget: this.props.widget.name, data: this.state.data, number: this.props.number, timer: this.state.timer}, config(this.token)).then((response) => {
@@ -165,28 +202,7 @@ export default class NewWidgetSettingsDialog extends React.Component {
                 <br />
                 <Box component="form" onSubmit={this.onCreateWidget} noValidate sx={{ mt: 1 }}>
                     {this.showParametersFields()}
-                    <Box sx={{py: 4}}>
-                        <TextField
-                            id="input-with-icon-textfield"
-                            label="Refresh rate"
-                            InputProps={{
-                                startAdornment: (
-                                    <InputAdornment position="start">
-                                        <BsClock/>
-                                    </InputAdornment>
-                                ),
-                            }}
-                            defaultValue={this.state.timer}
-                            onChange={(event) => {
-                                if (event.target.value < 30)
-                                    event.target.value = 30;
-                                if (event.target.value > 3600)
-                                    event.target.value = 3600;
-                                this.setState({timer: event.target.value});
-                            }}
-                            type="number"
-                            variant="outlined"/>
-                    </Box>
+                    {this.showTimer()}
                     <Button
                         type="submit"
                         variant="contained"

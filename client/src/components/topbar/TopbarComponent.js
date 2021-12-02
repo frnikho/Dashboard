@@ -18,17 +18,17 @@ export default class TopbarComponent extends React.Component {
 
     showLoginButton () {
         if (this.state.user === undefined) {
-            return (<Link to="/auth/login">
+            return (<Link to="/auth/login" style={{ textDecoration: 'none'}}>
                 <Button color="inherit">
                     Login
                 </Button>
             </Link>);
         } else {
             return (
-                <Link to={"/user"}>
-                    <p>
+                <Link to={"/user"} style={{ textDecoration: 'none'}}>
+                    <Button style={{color: "black"}}>
                         Welcome {this.state.user.username}
-                    </p>
+                    </Button>
                 </Link>
             )
         }
@@ -38,7 +38,7 @@ export default class TopbarComponent extends React.Component {
         return(
             <div>
                 <Box sx={{ flexGrow: 1 }}>
-                    <AppBar position="static">
+                    <AppBar style={{ background: 'transparent', boxShadow: 'none'}} position="static">
                         <Toolbar>
                             <IconButton
                                 size="large"
@@ -49,7 +49,6 @@ export default class TopbarComponent extends React.Component {
                             </IconButton>
 
                             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} color="common.white">
-                                <Link to={"/"} style={{ textDecoration: 'none' }}>Dashboard</Link>
                             </Typography>
                             {this.showLoginButton()}
                         </Toolbar>

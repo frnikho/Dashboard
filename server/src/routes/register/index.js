@@ -33,7 +33,7 @@ const route = express.Router();
 route.post('/', (req, res) => {
     if (!req.body || !req.body.username || !req.body.password)
         return res.status(400).send({error: "missing username and password fields !"});
-    registerUser(req.body.username, req.body.password, (user) => {
+    registerUser(req.body.username, req.body.password, req.body.firstname, req.body.lastname, (user) => {
         return res.status(200).send(user);
     }, (msg) => {
         return res.status(400).send({error: msg});

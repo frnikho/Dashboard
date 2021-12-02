@@ -9,6 +9,7 @@ import WidgetCalendarificIsTodayAHoliday from "./widgets/WidgetCalendarificIsTod
 import WidgetCalendarificHolidayOfYear from "./widgets/WidgetCalendarificHolidayOfYear";
 import WidgetSpotifyUserInformation from "./widgets/spotify/WidgetSpotifyUserInformation";
 import WidgetSpotifyController from "./widgets/spotify/WidgetSpotifyController";
+import WidgetSpotifyNewReleases from "./widgets/spotify/WidgetSpotifyNewReleases";
 
 export default class WidgetManager extends React.Component {
 
@@ -47,6 +48,8 @@ export default class WidgetManager extends React.Component {
             return <WidgetSpotifyUserInformation setSize={this.setWidgetSize} onDelete={this.props.onDelete} config={this.props.config}/>
         if (type === 'spotify_player_control')
             return <WidgetSpotifyController setSize={this.setWidgetSize} onDelete={this.props.onDelete} config={this.props.config}/>
+        if (type === 'spotify_new_releases')
+            return <WidgetSpotifyNewReleases setSize={this.setWidgetSize} onDelete={this.props.onDelete} config={this.props.config}/>
     }
 
     render() {

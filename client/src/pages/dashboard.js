@@ -1,6 +1,6 @@
 import Grid from "@mui/material/Grid";
 import NewWidgetComponent from "../components/dashboard/newWidgets/NewWidgetComponent";
-import {Box, CircularProgress} from "@mui/material";
+import {Box, CircularProgress, createTheme, ThemeProvider, Typography} from "@mui/material";
 import React from "react";
 import NewWidgetDialog from "../components/dashboard/newWidgets/NewWidgetDialog";
 import NewWidgetSettingsDialog from "../components/dashboard/newWidgets/NewWidgetSettingsDialog";
@@ -8,6 +8,15 @@ import app, {config} from "../config/axiosConfig";
 import WidgetManager from "../components/dashboard/WidgetManager";
 import {Navigate} from "react-router-dom";
 import {TokenContext} from "../context/TokenContext";
+import { v4 as uuidv4 } from 'uuid';
+
+const theme = createTheme({
+    typography: {
+        fontFamily: [
+            'Roboto',
+            'sans-serif',
+        ].join(','),
+    },});
 
 export default class DashboardPage extends React.Component {
 
@@ -22,7 +31,7 @@ export default class DashboardPage extends React.Component {
             newWidget: {},
             layout: undefined,
             config: undefined,
-            number: 0
+            number: uuidv4()
         }
 
         this.onClickAdd = this.onClickAdd.bind(this);
@@ -60,7 +69,7 @@ export default class DashboardPage extends React.Component {
     }
 
     onNewWidgetCreated = (widget) => {
-        this.setState({openAddDialog: false, openSettingsDialog: false});
+        this.setState({openAddDialog: false, openSettingsDialog: false, number: uuidv4()});
         this.loadWidgets();
     }
 
@@ -82,7 +91,7 @@ export default class DashboardPage extends React.Component {
         app.get('/widgets/config', config(this.token)).then((response) => {
             this.setState({config: response.data.data});
             app.get('/user/layout', config(this.token)).then((response) => {
-                this.setState({layout: response.data.layout, number: response.data.layout.length});
+                this.setState({layout: response.data.layout});
             }).catch((err) => {
                 this.setState({redirectToLogin: true});
             });
@@ -127,17 +136,24 @@ export default class DashboardPage extends React.Component {
 
     render() {
         return (
-            <div>
+            <ThemeProvider theme={theme}>
                 {this.redirectToLogin()}
                 <NewWidgetDialog openNewDialog={this.state.openAddDialog} onNewWidgetSelected={this.onClickNewWidget} close={this.onCloseWidgetDialog}/>
                 <NewWidgetSettingsDialog number={this.state.number} onNewWidgetCreated={this.onNewWidgetCreated} open={this.state.openSettingsDialog} widget={this.state.newWidget} close={this.onCloseSettingsDialog}/>
-                <Box sx={{my: 5}}>
+
+                <Box sx={{mx:3}}>
+                    <Typography variant={"h3"} fontWeight={900}>
+                        My Dashboard
+                    </Typography>
+                </Box>
+
+                <Box sx={{m: 5}}>
                     <Grid container spacing={{ xs: 2, md: 5 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                         {this.showWidgets()}
                         <NewWidgetComponent onClickAdd={this.onClickAdd} />
                     </Grid>
                 </Box>
-            </div>
+            </ThemeProvider>
         );
     }
 }

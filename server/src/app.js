@@ -81,7 +81,8 @@ const userLayoutRoute = require('./routes/user/layout/index');
 
 const spotifyRoute = require('./routes/services/spotify/index');
 const spotifyUserInfoRoute = require('./routes/services/spotify/userinfo');
-const spotifyPlayerRouter = require('./routes/services/spotify/player');
+const spotifyPlayerRoute = require('./routes/services/spotify/player');
+const spotifyReleasesRoute = require('./routes/services/spotify/releases');
 
 
 const {configurePassport} = require("./services/PassportService");
@@ -123,7 +124,8 @@ app.use('/services/calendar/holidayofyear/', calendarHolidayOfYear);
 
 app.use('/services/spotify', spotifyRoute);
 app.use('/services/spotify/userinfo', spotifyUserInfoRoute);
-app.use('/services/spotify/player', spotifyPlayerRouter);
+app.use('/services/spotify/player', spotifyPlayerRoute);
+app.use('/services/spotify/releases', spotifyReleasesRoute);
 
 app.use('/services/meme/', memeRoute);
 
