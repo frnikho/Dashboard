@@ -1,7 +1,7 @@
 import React from "react";
-import {Card, CardActions, CardContent, CircularProgress, IconButton, Typography} from "@mui/material";
-import {FaEdit, FaTrash} from "react-icons/all";
-import app from "../../../config/axiosConfig";
+import {Card, CardActions, CardContent, CircularProgress, IconButton, Paper, Typography} from "@mui/material";
+import {BiInfinite, FaEdit, FaTrash} from "react-icons/all";
+import app, {config} from "../../../config/axiosConfig";
 import {TokenContext} from "../../../context/TokenContext";
 
 export default class Widget extends React.Component {
@@ -24,11 +24,11 @@ export default class Widget extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevState !== this.state)
-            this.updateTimer();
-        if (prevProps.config !== this.props.config) {
-
+        if (prevState !== this.state) {
+            if (prevProps.config !== this.props.config) {
+            }
         }
+
     }
 
     loadWidget() {
@@ -36,10 +36,14 @@ export default class Widget extends React.Component {
     }
 
     deleteWidget = () => {
-        app.delete('/widgets',  {data: {widgetIndex: this.state.config.id}}).then((response) => {
+
+        console.log(this.state.config);
+
+       app.delete('/widgets',  {data: {widgetId: this.state.config.id}, headers: config(this.token).headers}).then((response) => {
             clearInterval(this.intervalId);
             this.props.onDelete(this.state.config);
         }).catch((error) => {
+
         });
     }
 
@@ -52,6 +56,7 @@ export default class Widget extends React.Component {
                 timer: this.props.config?.timer,
                 defaultTimer: this.props.config?.timer,
             })
+            this.updateTimer();
         }
         this.loadWidget();
     }
@@ -95,6 +100,10 @@ export default class Widget extends React.Component {
     getTimer() {
         if (this.state.timer === undefined || this.state.timer <= 0)
             return (<CircularProgress/>)
+
+        if (this.state.defaultTimer === 1)
+            return <BiInfinite style={{marginLeft: 'auto'}}/>
+
         return (<Typography style={{marginLeft: 'auto'}} fontStyle={"italic"}>
             {this.state.timer?.toString() || "error"}
         </Typography>)
@@ -102,20 +111,17 @@ export default class Widget extends React.Component {
 
     render() {
         return (
-            <Card sx={{ maxHeight: 400, mx: 2}} >
+            <Paper elevation={3} style={{borderRadius: 10}} sx={{pt: 2}}>
                 <CardContent>
                     {this.showContent()}
                 </CardContent>
                 <CardActions disableSpacing>
-                    <IconButton aria-label="Edit">
-                        <FaEdit size={"16"}/>
-                    </IconButton>
                     <IconButton aria-label="Delete" onClick={() => this.onClickDelete()}>
                         <FaTrash size={"16"}/>
                     </IconButton>
                     {this.getTimer()}
                 </CardActions>
-            </Card>
+            </Paper>
         )
     }
 }

@@ -69,13 +69,13 @@ const checkUsernameValidity = (username, callback) => {
     })
 }
 
-const registerUser = (username, password, callback, error) => {
+const registerUser = (username, password, firstname, lastname, callback, error) => {
     checkUsernameValidity(username, (isValid) => {
         if (!isValid)
             return error('username not available !')
         encrypt(password).then((hashedPassword) => {
             db.getConnection().then((con) => {
-                con.query(`INSERT INTO users (username, password) values (?, ?) RETURNING id,username,created_date,account_type`, [username, hashedPassword]).then((response) => {
+                con.query(`INSERT INTO users (username, password, first_name, last_name) values (?, ?, ?, ?) RETURNING id,username,created_date,account_type, first_name, last_name`, [username, hashedPassword, firstname, lastname]).then((response) => {
                     con.query(`INSERT INTO widgets_config (user_id, data) values (?, ?)`, [response[0].id, "[]"]).then(async () => {
                         con.query(`INSERT INTO timers (user_id, current_weather, next_5_days_forecast) values (?, ?, ?)`, [response[0].id, DEFAULT_CURRENT_WEATHER, DEFAULT_NEXT_5_DAYS_FORECAST]).then((rows) => {
                             callback(response[0]);

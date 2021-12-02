@@ -14,7 +14,7 @@ router.get('/', authorization, spotifyAuth, (req, res) => {
     }).then((response) => {
         return res.status(200).json(response.data);
     }).catch(err => {
-        return res.status(400).json(err.response.data);
+        return res.status(400).json({});
     });
 });
 
@@ -42,7 +42,8 @@ router.post('/', authorization, spotifyAuth, (req, res) => {
     client.then(() => {
         return res.status(200).json({});
     }).catch((err) => {
-        return res.status(400).json(err.response.data);
+        console.log(err.response.data);
+        return res.status(400).json({});
     });
 
 });

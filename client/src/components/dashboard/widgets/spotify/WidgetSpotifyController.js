@@ -2,7 +2,10 @@ import React from "react";
 import Widget from "../Widget";
 import app, {config} from "../../../../config/axiosConfig";
 import {BiPause, BiPlay, BiRepeat, BiShuffle, BiSkipNext, BiSkipPrevious} from "react-icons/all";
-import {Box, LinearProgress} from "@mui/material";
+import {Box, Button, createTheme, LinearProgress, ThemeProvider, Typography} from "@mui/material";
+import SpotifyOauthPopup from "../../../services/SpotifyOauthPopup";
+import Lottie from "lottie-react";
+import spotify_launch from "../../../../animations/spotify-launch.json";
 
 function sec2time(timeInSeconds) {
     let pad = function(num, size) { return ('000' + num).slice(size * -1); },
@@ -12,14 +15,24 @@ function sec2time(timeInSeconds) {
     return pad(minutes, 2) + ':' + pad(seconds, 2);
 }
 
+const theme = createTheme({
+    typography: {
+        fontFamily: [
+            'Roboto',
+            'sans-serif',
+        ].join(','),
+    },});
+
 export default class WidgetSpotifyController extends Widget {
 
     constructor(props) {
         super(props);
         this.state = {
+            loading: true,
             playing: true,
             shuffle: true,
-            repeat: true
+            repeat: true,
+            login: false,
         }
         this.pause = this.pause.bind(this);
         this.play = this.play.bind(this);
@@ -39,8 +52,9 @@ export default class WidgetSpotifyController extends Widget {
 
     loadWidget() {
         app.get('/services/spotify/player', config(this.token)).then(response => {
-            this.setState({status: response.data, playing: response.data.is_playing, shuffle: response.data.shuffle_state, repeat: response.data.repeat_state});
+            this.setState({loading: false, status: response.data, playing: response.data.is_playing, shuffle: response.data.shuffle_state, repeat: response.data.repeat_state});
         }).catch((err) => {
+            this.setState({login: true});
             console.log(err.response);
         })
     }
@@ -110,7 +124,7 @@ export default class WidgetSpotifyController extends Widget {
     }
 
     showAdvancedControl() {
-        return (<Box sx={{p: 2}}>
+        return (<Box sx={{pt: 2}}>
             {this.showRepeat()}
             {this.showShuffle()}
         </Box>)
@@ -118,32 +132,34 @@ export default class WidgetSpotifyController extends Widget {
 
     showItem() {
         if (this.state.status === undefined || this.state.status.item === undefined)
-            return;
+            return this.showIcon();
 
         let item = this.state.status.item;
-        let album = this.state.status.item.album;
+        if (item === undefined || item === null)
+            return;
+
+        let album = item.album;
+        if (album === undefined || album === null)
+            return;
 
         let max = item.duration_ms;
         let current = this.state.status.progress_ms;
 
         return (
             <div>
-                <img src={album.images[0]?.url} width={200} alt={"album"}/>
-                <h3>{item.name}</h3>
-                <h4>{album.name}</h4>
-                <Box sx={{m: 2}}>
-                    <LinearProgress variant="determinate" value={current/max*100}/>
-                    <p>{sec2time(Math.floor(current/1000))}</p>
-                </Box>
-            </div>
-        )
-    }
-
-    showContent() {
-        return (
-            <div>
                 <div>
-                    {this.showItem()}
+                    {album.images.length !== 0 ? <img src={album.images[0]?.url} width={250} alt={"album"}/> : ""}
+                    <h3>{item.name}</h3>
+                    <Typography color={"gray"}>
+                        {item.artists[0].name}
+                    </Typography>
+                    <Button onClick={() => window.open(album.external_urls.spotify)}>
+                        {album.name}
+                    </Button>
+                    <Box sx={{m: 2}}>
+                        <LinearProgress variant="determinate" value={current/max*100}/>
+                        <p>{sec2time(Math.floor(current/1000))}</p>
+                    </Box>
                 </div>
                 <Box>
                     <BiSkipPrevious onClick={this.previous} size={50}/>
@@ -152,7 +168,40 @@ export default class WidgetSpotifyController extends Widget {
                 </Box>
                 {this.showAdvancedControl()}
             </div>
-        );
+        )
+    }
+
+    handleLogin = (response) => {
+        this.loadWidget();
+    }
+
+    errorLogin = () => {
+
+    }
+
+    showIcon() {
+        return (<Box>
+            <Lottie animationData={spotify_launch} style={{height: 125}}/>
+            <Typography variant={"p"} fontWeight={900}>
+                Waiting for player to be online...
+            </Typography>
+        </Box>)
+    }
+
+    showContent() {
+        if (this.state.loading === true) {
+            return this.showIcon();
+        } else if (this.state.login === true) {
+            return <SpotifyOauthPopup handleLogin={this.handleLogin} errorLogin={this.errorLogin}/>
+        } else {
+            return (
+                <div>
+                    <div>
+                        {this.showItem()}
+                    </div>
+                </div>
+            );
+        }
     }
 
 }

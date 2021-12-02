@@ -170,6 +170,23 @@ let services = [{
                 min: 1,
                 max: 60
             }
+        },
+        {
+            name: "spotify_new_releases",
+            displayName: "New releases",
+            description: "Get news releases from spotify artists",
+            timer: {
+                min: 60,
+                max: 3600
+            },
+            params: [
+                {
+                    name: "country",
+                    type: "list",
+                    list: [["FR", "France"], ["US", "USA"], ["BE", "Belgium"]],
+                    listLabel: "Countries",
+                }
+            ]
         }
     ]
 }]

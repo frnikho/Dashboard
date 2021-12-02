@@ -46,6 +46,7 @@ class App extends React.Component {
     }
 
     onLogout() {
+        console.log("logout");
         this.setState({user: undefined});
     }
 

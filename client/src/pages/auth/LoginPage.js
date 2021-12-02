@@ -17,6 +17,8 @@ import app from "../../config/axiosConfig";
 import {Link, Navigate} from "react-router-dom";
 import {FaGoogle} from "react-icons/all";
 import { GoogleLogin } from 'react-google-login';
+import Lottie from "lottie-react";
+import login from "../../animations/login.json";
 
 const theme = createTheme();
 
@@ -82,18 +84,14 @@ export default class LoginPage extends React.Component {
                 <ThemeProvider theme={theme}>
                     <Container component="main" maxWidth="xs">
                         <CssBaseline />
-                        <Box
-                            sx={{
-                                marginTop: 8,
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                            }}>
-                            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                            </Avatar>
-                            <Typography component="h1" variant="h5">
-                                Sign in
-                            </Typography>
+                        <Box sx={{marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                            <Box sx={{mb: 2}}>
+                                <Typography component="h1" variant="h4">
+                                    Sign in
+                                </Typography>
+                            </Box>
+                            <Lottie animationData={login} style={{height: 200}}/>
+
                             <Box component="form" onSubmit={this.handleSubmit} noValidate sx={{ mt: 1 }}>
                                 <TextField
                                     margin="normal"
@@ -125,19 +123,24 @@ export default class LoginPage extends React.Component {
                                 </Button>
 
                                 <GoogleLogin
+                                    render={renderProps => (
+                                        <Button
+                                            onClick={renderProps.onClick}
+                                            disabled={renderProps.disabled}
+                                            fullWidth
+                                            color={"error"}
+                                            variant="contained"
+                                            sx={{ mt: 0, mb: 2, py: 1.5}}>
+                                            <FaGoogle/>
+                                        </Button>
+                                    )}
                                     clientId={"829633951232-3qk22fesed0pln7b69p792tsrha1ucfb.apps.googleusercontent.com"}
                                     buttonText={"Login"}
                                     onSuccess={this.responseGoogle}
                                     onFailure={this.responseGoogle}
                                     cookiePolicy={'single_host_origin'}/>
-                                <Button
-                                    onClick={this.connectWithGoogle}
-                                    fullWidth
-                                    color={"error"}
-                                    variant="contained"
-                                    sx={{ mt: 0, mb: 2, py: 1.5}} >
-                                    <FaGoogle/>
-                                </Button>
+
+
                                 <Grid container>
                                     <Grid item xs>
                                     </Grid>

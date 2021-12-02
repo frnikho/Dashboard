@@ -27,6 +27,7 @@ class UserPage extends React.Component {
         }
         this.logout = this.logout.bind(this);
         this.getUserInfo = this.getUserInfo.bind(this);
+        this.goToDashboard = this.goToDashboard.bind(this);
     }
 
     componentDidMount() {
@@ -44,6 +45,8 @@ class UserPage extends React.Component {
         app.get(`/user/${username}`, config(this.token)).then((response) => {
             this.setState({
                 username: response.data.username,
+                firstName: response.data.first_name,
+                lastName: response.data.last_name,
                 createdAt: response.data.created_date,
             })
         })
@@ -55,9 +58,22 @@ class UserPage extends React.Component {
             cookies.remove('access_token', { path: '/' });
             cookies.remove('userId', { path: '/' });
             cookies.remove('username', { path: '/' });
+            this.props.handleLogout();
             this.setState({redirect: true, redirectUrl: '/auth/login'});
         } catch (ex) {
         }
+    }
+
+    goToDashboard() {
+        this.setState({redirect: true, redirectUrl: '/'});
+    }
+
+    getCreatedDateFormat () {
+        let date = Date.parse(this.state.createdAt)
+        let d = new Date(0);
+        d.setUTCSeconds(date/1000);
+
+        return "User created on " + d.toLocaleDateString() + " at " +  d.toLocaleTimeString();
     }
 
     render() {
@@ -76,12 +92,17 @@ class UserPage extends React.Component {
                         <Box sx={{my: 3}}>
                             <Paper elevation={4}>
                                 <Box sx={{p: 1}}>
-                                    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                                    <Avatar sx={{ mx: 'auto', bgcolor: 'secondary.main' }}>
                                     </Avatar>
                                     <h1>{this.state.username}</h1>
+                                    <h2>{this.state.firstName} {this.state.lastName}</h2>
+                                    {this.getCreatedDateFormat()}
                                 </Box>
-                                <Box sx={{pb: 5, my: 5}}>
+                                <Box sx={{p: 2}}>
                                     <Button onClick={this.logout} variant="contained" color={"secondary"}>Logout</Button>
+                                </Box>
+                                <Box sx={{pb: 5}}>
+                                    <Button onClick={this.goToDashboard} variant={"contained"} color={"primary"}>Go to dashboard</Button>
                                 </Box>
                             </Paper>
                         </Box>
