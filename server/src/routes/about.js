@@ -141,7 +141,7 @@ let services = [{
             description: "Get user information",
             params: [
                 {
-                    name: "Login with spotify",
+                    name: "Login with Spotify",
                     type: "oauth2",
                     service: "spotify",
                 }
@@ -153,8 +153,8 @@ let services = [{
         },
         {
             name: "spotify_player_control",
-            displayName: "Control spotify player",
-            description: "Show you a remote control for spotify player",
+            displayName: "Control Spotify player",
+            description: "Show you a remote control for Spotify player",
             params: [
                 {
                     name: "Login with spotify",
@@ -174,7 +174,7 @@ let services = [{
         {
             name: "spotify_new_releases",
             displayName: "New releases",
-            description: "Get news releases from spotify artists",
+            description: "Get new releases from Spotify artists",
             timer: {
                 min: 60, // 1 min
                 max: 3600 // 1 h
