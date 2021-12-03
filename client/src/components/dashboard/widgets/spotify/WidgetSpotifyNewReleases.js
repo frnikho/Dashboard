@@ -65,7 +65,7 @@ export default class WidgetSpotifyNewReleases extends Widget {
             animation={"slide"}
             duration={100}>
                 {this.state.albums.map((album, index) => {
-                    return (<div>
+                    return (<div key={index}>
                         <img onClick={(e) => this.openPopover(e, album)} width={300} key={index} src={album.images[0].url} alt={"album"}/>
                         <h4>{album.name}</h4>
                         <h4>({album.album_type})</h4>

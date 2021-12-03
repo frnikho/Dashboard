@@ -73,6 +73,22 @@ export default class DashboardPage extends React.Component {
         this.loadWidgets();
     }
 
+    onWidgetChangePosition = (widget, position) => {
+
+        this.state.layout.forEach((item, index) => {
+            if (item.id === widget.id) {
+                if (index === 0 && position === -1)
+                    return
+                if (index === this.state.layout.length && position === 1)
+                    return;
+                let layout = this.state.layout;
+                layout.splice(index, 1);
+                layout.splice(index + position, 0, {type: widget.type, id: widget.id});
+                this.setState({layout: layout});
+            }
+        })
+    }
+
     onWidgetDeleted = (widget) => {
         this.state.config.forEach((config, index) => {
            if (config.id === widget.id)
@@ -124,7 +140,7 @@ export default class DashboardPage extends React.Component {
 
         return this.state.layout.map((layout, index) => {
             return (
-                <WidgetManager onDelete={this.onWidgetDeleted} key={index} layout={layout} config={this.getConfigById(layout.id)}/>
+                <WidgetManager onChangePosition={this.onWidgetChangePosition} onDelete={this.onWidgetDeleted} key={index} layout={layout} config={this.getConfigById(layout.id)}/>
             )
         });
     }

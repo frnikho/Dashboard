@@ -42,7 +42,7 @@ export default class WidgetRandomMeme extends Widget {
             return <h4>{this.state.error}</h4>
         if (this.state.url === undefined)
             return <CircularProgress />
-        return (<img src={this.state.url} height={250} alt={""}/>)
+        return (<img src={this.state.url} width={250} alt={""}/>)
     }
 
 }

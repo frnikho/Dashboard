@@ -44,7 +44,7 @@ export default class WidgetSpotifyController extends Widget {
 
     loadWidget() {
         app.get('/services/spotify/player', config(this.token)).then(response => {
-            this.setState({loading: false, status: response.data, playing: response.data.is_playing, shuffle: response.data.shuffle_state, repeat: response.data.repeat_state});
+            this.setState({loading: false, login: false, status: response.data, playing: response.data.is_playing, shuffle: response.data.shuffle_state, repeat: response.data.repeat_state});
         }).catch((err) => {
             this.setState({login: true});
             console.log(err.response);
@@ -106,13 +106,13 @@ export default class WidgetSpotifyController extends Widget {
     showRepeat() {
         if (this.state.status === undefined)
             return;
-        return (<BiRepeat color={this.state.repeat !== "off" ? "blue" : "black"} size={30} onClick={() => this.repeat(this.state.repeat ? "off" : "track")}/>);
+        return (<BiRepeat color={this.state.repeat !== "off" ? "#0288d1" : "black"} size={30} onClick={() => this.repeat(this.state.repeat ? "off" : "track")}/>);
     }
 
     showShuffle() {
         if (this.state.status === undefined)
             return;
-        return (<BiShuffle color={this.state.shuffle === true ? "blue" : "black"} size={30} onClick={() => this.shuffle(!this.state.shuffle)}/>)
+        return (<BiShuffle color={this.state.shuffle === true ? "#0288d1" : "black"} size={30} onClick={() => this.shuffle(!this.state.shuffle)}/>)
     }
 
     showAdvancedControl() {

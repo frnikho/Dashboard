@@ -1,10 +1,10 @@
 import React from "react";
-import Widget from "./Widget";
-import app, {config} from "../../../config/axiosConfig";
+import Widget from "../Widget";
+import app, {config} from "../../../../config/axiosConfig";
 import {FaCloud} from "react-icons/all";
 import {CircularProgress} from "@mui/material";
 
-export default class NewWidgetCurrentWeather extends Widget {
+export default class WidgetCurrentWeather extends Widget {
 
     constructor(props) {
         super(props);
@@ -40,7 +40,7 @@ export default class NewWidgetCurrentWeather extends Widget {
     }
 
     getWidgetSize() {
-        return (3);
+        return (2);
     }
 
     showWidget = () => {

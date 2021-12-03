@@ -1,6 +1,6 @@
 import React from "react";
 import {CardActions, CardContent, CircularProgress, IconButton, Paper, Typography} from "@mui/material";
-import {BiInfinite, FaTrash} from "react-icons/all";
+import {BiInfinite, FaArrowLeft, FaArrowRight, FaTrash} from "react-icons/all";
 import app, {config} from "../../../config/axiosConfig";
 import {TokenContext} from "../../../context/TokenContext";
 
@@ -36,9 +36,6 @@ export default class Widget extends React.Component {
     }
 
     deleteWidget = () => {
-
-        console.log(this.state.config);
-
        app.delete('/widgets',  {data: {widgetId: this.state.config.id}, headers: config(this.token).headers}).then((response) => {
             clearInterval(this.intervalId);
             this.props.onDelete(this.state.config);
@@ -93,6 +90,10 @@ export default class Widget extends React.Component {
         this.deleteWidget();
     }
 
+    moveWidget = (position) => {
+        this.props.onChangePosition(this.state.config, position);
+    }
+
     getWidgetSize() {
         return 3;
     }
@@ -118,6 +119,12 @@ export default class Widget extends React.Component {
                 <CardActions disableSpacing>
                     <IconButton aria-label="Delete" onClick={() => this.onClickDelete()}>
                         <FaTrash size={"16"}/>
+                    </IconButton>
+                    <IconButton aria-label="Prev" onClick={() => this.moveWidget(-1)}>
+                        <FaArrowLeft size={"16"}/>
+                    </IconButton>
+                    <IconButton aria-label="Prev" onClick={() => this.moveWidget(0)}>
+                        <FaArrowRight size={"16"}/>
                     </IconButton>
                     {this.getTimer()}
                 </CardActions>

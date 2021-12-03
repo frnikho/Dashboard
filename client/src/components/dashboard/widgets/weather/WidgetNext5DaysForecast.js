@@ -1,8 +1,8 @@
 import React from "react";
-import Widget from "./Widget";
+import Widget from "../Widget";
 import { CircularProgress, Paper, Typography } from "@mui/material";
 import Carousel from "react-material-ui-carousel";
-import app, {config} from "../../../config/axiosConfig";
+import app, {config} from "../../../../config/axiosConfig";
 
 const monthNames = ["January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"

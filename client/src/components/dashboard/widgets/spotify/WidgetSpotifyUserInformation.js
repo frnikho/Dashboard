@@ -30,6 +30,10 @@ export default class WidgetSpotifyUserInformation extends Widget {
         });
     }
 
+    getWidgetSize() {
+        return (2);
+    }
+
     showContent() {
         if (this.state.loading === true)
             return <CircularProgress/>
