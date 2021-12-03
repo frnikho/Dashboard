@@ -13,6 +13,7 @@ The objective of the project is to create an dashboard application. Dashboard is
 - Calendarific
 - NY Times
 - OpenWeather
+- Spotify
 
 ## Widgets
 
@@ -27,6 +28,14 @@ NY Times
 OpenWeather
 - Next 5 days forecast
 - Current weather
+
+Spotify
+- User information
+- Remote spotify music player
+- Get new realeases from spotify artistes
+
+Meme
+- Get random meme
 
 ## Language used and tools
 
@@ -68,7 +77,7 @@ $ cd B-DEV-500-NAN-5-1-dashboard-victor.sauvaget
 
 Prerequisites
 
-Fill the 'example.env' in server and client directories and rename it in '.env'.
+Fill the 'example.env' in server and client directories and rename then in '.env'.
 
 Setup your database by using the .sql file in mariadb/sql.
 
