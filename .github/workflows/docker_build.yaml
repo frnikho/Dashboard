@@ -16,8 +16,8 @@ jobs:
       - name: create .env file
         run: |
           touch .env
-          echo REACT_APP_API_URL ="${{ secrets.REACT_APP_API_URL }}" >> .env
-          echo REACT_APP_SPOTIFY_CLIENT_ID ="${{ secrets.REACT_APP_SPOTIFY_CLIENT_ID }}" >> .env
+          echo REACT_APP_API_URL =${{ secrets.REACT_APP_API_URL }}" >> .env
+          echo REACT_APP_SPOTIFY_CLIENT_ID =${{ secrets.REACT_APP_SPOTIFY_CLIENT_ID }}" >> .env
         working-directory: "client"
       - name: create docker file
         run: docker build -t dashboard-client:0.1 client
@@ -30,21 +30,21 @@ jobs:
       - name: create .env file
         run: |
           touch .env
-          echo GOOGLE_SECRET ="${{ secrets.GOOGLE_SECRET }}"" >> .env
-          echo GOOGLE_CLIENT ="${{ secrets.GOOGLE_CLIENT }}" >> .env
-          echo GOOGLE_CALLBACK ="${{ secrets.GOOGLE_CALLBACK }}" >> .env
-          echo DB_HOST ="${{ secrets.DB_HOST }}" >> .env
-          echo DB_USER ="${{ secrets.DB_USER }}" >> .env
-          echo DB_PASSWORD ="${{ secrets.DB_PASSWORD }}" >> .env
-          echo DB_DBNAME ="${{ secrets.DB_DBNAME }}" >> .env
-          echo SERVER_PORT ="${{ secrets.SERVER_PORT }}" >> .env
-          echo AUTH_SECRET ="${{ secrets.AUTH_SECRET }}" >> .env
-          echo OPENWEATHER_API_KEY ="${{ secrets.OPENWEATHER_API_KEY }}" >> .env
-          echo NYTIMES_API_KEY ="${{ secrets.NYTIMES_API_KEY }}" >> .env
-          echo CALENDARIFIC_API_KEY ="${{ secrets.CALENDARIFIC_API_KEY }}" >> .env
-          echo SPOTIFY_CLIENT_ID ="${{ secrets.SPOTIFY_CLIENT_ID }}" >> .env
-          echo SPOTIFY_SECRET ="${{ secrets.SPOTIFY_SECRET }}" >> .env
-          echo SPOTIFY_REDIRECT_URI ="${{ secrets.SPOTIFY_REDIRECT_URI }}" >> .env
+          echo "GOOGLE_SECRET =${{ secrets.GOOGLE_SECRET }}" >> .env
+          echo "GOOGLE_CLIENT =${{ secrets.GOOGLE_CLIENT }}" >> .env
+          echo "GOOGLE_CALLBACK =${{ secrets.GOOGLE_CALLBACK }}" >> .env
+          echo "DB_HOST =${{ secrets.DB_HOST }}" >> .env
+          echo "DB_USER =${{ secrets.DB_USER }}" >> .env
+          echo "DB_PASSWORD =${{ secrets.DB_PASSWORD }}" >> .env
+          echo "DB_DBNAME =${{ secrets.DB_DBNAME }}" >> .env
+          echo "SERVER_PORT =${{ secrets.SERVER_PORT }}" >> .env
+          echo "AUTH_SECRET =${{ secrets.AUTH_SECRET }}" >> .env
+          echo "OPENWEATHER_API_KEY =${{ secrets.OPENWEATHER_API_KEY }} " >> .env
+          echo "NYTIMES_API_KEY =${{ secrets.NYTIMES_API_KEY }}" >> .env
+          echo "CALENDARIFIC_API_KEY =${{ secrets.CALENDARIFIC_API_KEY }}" >> .env
+          echo "SPOTIFY_CLIENT_ID =${{ secrets.SPOTIFY_CLIENT_ID }}" >> .env
+          echo "SPOTIFY_SECRET =${{ secrets.SPOTIFY_SECRET }}" >> .env
+          echo "SPOTIFY_REDIRECT_URI =${{ secrets.SPOTIFY_REDIRECT_URI }}" >> .env
         working-directory: "server"
       - name: create docker file
         run: docker build -t dashboard-client:0.1 server
