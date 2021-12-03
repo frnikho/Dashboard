@@ -37,7 +37,7 @@ jobs:
           echo DB_USER =${{ secrets.DB_USER }} >> .env
           echo DB_PASSWORD =${{ secrets.DB_PASSWORD }} >> .env
           echo DB_DBNAME =${{ secrets.DB_DBNAME }} >> .env
-          echo PORT =${{ secrets.PORT }} >> .env
+          echo DB_PORT =${{ secrets.DB_PORT }} >> .env
           echo AUTH_SECRET =${{ secrets.AUTH_SECRET }} >> .env
           echo OPENWEATHER_API_KEY =${{ secrets.OPENWEATHER_API_KEY }} >> .env
           echo NYTIMES_API_KEY =${{ secrets.NYTIMES_API_KEY }} >> .env
