@@ -13,6 +13,12 @@ jobs:
     container: docker
     steps:
       - uses: actions/checkout@v2
+      - name: create .env file
+        run: |
+          touch .env
+          echo DB_HOST =${{ secrets.REACT_APP_API_URL }} >> .env
+          echo DB_USER =${{ secrets.REACT_APP_SPOTIFY_CLIENT_ID }} >> .env
+        working-directory: "client"
       - name: create docker file
         run: docker build -t dashboard-client:0.1 client
   build-server:
@@ -21,5 +27,24 @@ jobs:
     container: docker
     steps:
       - uses: actions/checkout@v2
+      - name: create .env file
+        run: |
+          touch .env
+          echo DB_HOST =${{ secrets.GOOGLE_SECRET }} >> .env
+          echo DB_USER =${{ secrets.GOOGLE_CLIENT }} >> .env
+          echo DB_USER =${{ secrets.GOOGLE_CALLBACK }} >> .env
+          echo DB_USER =${{ secrets.DB_HOST }} >> .env
+          echo DB_USER =${{ secrets.DB_USER }} >> .env
+          echo DB_USER =${{ secrets.DB_PASSWORD }} >> .env
+          echo DB_USER =${{ secrets.DB_DBNAME }} >> .env
+          echo DB_USER =${{ secrets.PORT }} >> .env
+          echo DB_USER =${{ secrets.AUTH_SECRET }} >> .env
+          echo DB_USER =${{ secrets.OPENWEATHER_API_KEY }} >> .env
+          echo DB_USER =${{ secrets.NYTIMES_API_KEY }} >> .env
+          echo DB_USER =${{ secrets.CALENDARIFIC_API_KEY }} >> .env
+          echo DB_USER =${{ secrets.SPOTIFY_CLIENT_ID }} >> .env
+          echo DB_USER =${{ secrets.SPOTIFY_SECRET }} >> .env
+          echo DB_USER =${{ secrets.SPOTIFY_REDIRECT_URI }} >> .env
+        working-directory: "server"
       - name: create docker file
         run: docker build -t dashboard-client:0.1 server
