@@ -14,12 +14,12 @@ services:
     build: server/
     image: server
     container_name: server_dashboard
-    hostname: dashboard
     ports:
       - "8080:8080"
-      - "3306:3306"
     networks:
       - dashboard
+    depends_on:
+      - mariadb
     restart: always
 
   mariadb:
@@ -27,21 +27,17 @@ services:
     container_name: mariadb
     ports:
       - "3306:3306"
+    networks:
+      - dashboard
     command: --init-file /docker-entrypoint-initdb.d/backup-file.sql --default-authentication-plugin=mysql_native_password
     volumes:
       - ./mariadb/sql/backup-file.sql:/docker-entrypoint-initdb.d/backup-file.sql
       - mariadb:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: dashboard
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: admin
       MARIADB_USER: admin
       MARIADB_PASSWORD: admin
       MARIADB_DATABASE: dashboard
       MARIADB_ROOT_PASSWORD: rootpassword
-    networks:
-      - dashboard
     restart: always
 
 networks:
