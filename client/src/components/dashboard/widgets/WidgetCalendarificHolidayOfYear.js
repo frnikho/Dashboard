@@ -57,7 +57,7 @@ export default class WidgetCalendarificHolidayOfYear extends Widget {
                 {
                     this.state.response.response.holidays.map((holiday, i) => {
                         return (
-                            <Paper variant="outlined" sx={{ maxHeight: 150, mx: 2 }}>
+                            <Paper key={i} elevation={0} sx={{ maxHeight: 150, mx: 2 }}>
                                 <GoCalendar size={"40"} />
                                 <Typography variant="h6" gutterBottom component="div">On {holiday.date.datetime.day} {monthNames[holiday.date.datetime.month - 1]} {holiday.date.datetime.year}</Typography>
                                 <Typography variant="h6" gutterBottom component="div" fontWeight={"bold"}>{holiday.name}</Typography>

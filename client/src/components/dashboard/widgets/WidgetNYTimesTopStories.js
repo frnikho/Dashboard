@@ -52,7 +52,7 @@ export default class WidgetNYTimesTopStories extends Widget {
                 {
                     this.state.articles.results.map((article, i) => {
                         return (
-                            <Paper variant="outlined" sx={{ maxHeight: 150, mx: 2 }}>
+                            <Paper key={i} elevation={0} sx={{ maxHeight: 150, mx: 2 }}>
                                 <TiNews size={"20"} /><Typography variant="h6" gutterBottom component="div" style={{ display: "inline" }}> {this.props.config.data.subject.toUpperCase()} </Typography><TiNews size={"20"} />
                                 <Typography variant="h6" gutterBottom component="div" fontWeight={"bold"}>{article.title}</Typography>
                                 <Typography variant="p" gutterBottom component="div">{article.abstract.substring(0, 70)}...</Typography>
