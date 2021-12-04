@@ -53,7 +53,7 @@ export default class WidgetNext5DaysForecast extends Widget {
                         let hour = date.getHours();
                         let minutes = date.getMinutes();
                         return (
-                            <Paper variant="outlined" sx={{ maxHeight: 400, mx: 2 }}>
+                            <Paper key={i} elevation={0} sx={{ maxHeight: 400, mx: 2 }}>
                                 <img alt="weather icon" src={"http://openweathermap.org/img/wn/" + weather.weather[0].icon + "@2x.png"} />
                                 <Typography variant="h6" gutterBottom component="div" fontWeight={"bold"}>{this.state.weather.city.name}</Typography>
                                 <Typography variant="h6" gutterBottom component="div">{day} {monthNames[month - 1]} {year} {hour}:{(minutes < 10 ? '0' : '')}{minutes}</Typography>

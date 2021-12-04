@@ -112,7 +112,7 @@ export default class Widget extends React.Component {
 
     render() {
         return (
-            <Paper elevation={3} style={{borderRadius: 10}} sx={{pt: 2}}>
+            <Paper elevation={3} style={{borderRadius: 10}} sx={{pt: 2, maxHeight: 800, mx: 2}}>
                 <CardContent>
                     {this.showContent()}
                 </CardContent>
