@@ -110,7 +110,7 @@ DROP TABLE IF EXISTS `widgets_config`;
 CREATE TABLE `widgets_config` (
   `id` varchar(255) DEFAULT uuid(),
   `user_id` varchar(255) DEFAULT NULL,
-  `data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '{}' CHECK (json_valid(`data`)),
+  `data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '[]' CHECK (json_valid(`data`)),
   UNIQUE KEY `widgets_config_user_id_uindex` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -133,4 +133,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-12-02 13:48:58
+-- Dump completed on 2021-12-04 14:11:39
