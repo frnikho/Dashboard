@@ -14,6 +14,7 @@ The objective of the project is to create an dashboard application. Dashboard is
 - NY Times
 - OpenWeather
 - Spotify
+- Meme
 
 ## Widgets
 
@@ -77,7 +78,7 @@ $ cd B-DEV-500-NAN-5-1-dashboard-victor.sauvaget
 
 Prerequisites
 
-Fill the 'example.env' in server and client directories and rename then in '.env'.
+Fill the 'example.env' in server and client directories and rename them in '.env'.
 
 Setup your database by using the .sql file in mariadb/sql.
 
