@@ -14,6 +14,7 @@ The objective of the project is to create an dashboard application. Dashboard is
 - NY Times
 - OpenWeather
 - Spotify
+- Meme
 
 ## Widgets
 
