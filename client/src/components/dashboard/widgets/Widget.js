@@ -1,6 +1,6 @@
 import React from "react";
 import {CardActions, CardContent, CircularProgress, IconButton, Paper, Typography} from "@mui/material";
-import {BiInfinite, FaArrowLeft, FaArrowRight, FaTrash} from "react-icons/all";
+import {BiInfinite, FaArrowLeft, FaTrash} from "react-icons/all";
 import app, {config} from "../../../config/axiosConfig";
 import {TokenContext} from "../../../context/TokenContext";
 
@@ -122,9 +122,6 @@ export default class Widget extends React.Component {
                     </IconButton>
                     <IconButton aria-label="Prev" onClick={() => this.moveWidget(-1)}>
                         <FaArrowLeft size={"16"}/>
-                    </IconButton>
-                    <IconButton aria-label="Prev" onClick={() => this.moveWidget(0)}>
-                        <FaArrowRight size={"16"}/>
                     </IconButton>
                     {this.getTimer()}
                 </CardActions>

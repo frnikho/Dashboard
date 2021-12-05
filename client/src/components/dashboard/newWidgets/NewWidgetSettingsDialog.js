@@ -30,7 +30,7 @@ export default class NewWidgetSettingsDialog extends React.Component {
             open: this.props.open,
             data: {},
             isValid: false,
-            timer: 30
+            timer: undefined
         }
         this.onClose = this.onClose.bind(this);
         this.showParametersFields = this.showParametersFields.bind(this);
@@ -83,10 +83,8 @@ export default class NewWidgetSettingsDialog extends React.Component {
 
 
     showParametersFields = () => {
-
         if (this.props.widget.params === undefined)
             return;
-
         if (this.state.isValid === false && this.props.widget.params.length === 0)
             this.setState({isValid: true});
 
@@ -145,6 +143,12 @@ export default class NewWidgetSettingsDialog extends React.Component {
         if (this.props.widget === undefined)
             return;
 
+        console.log(this.props.widget.timer);
+
+        if (this.state.widget !== undefined)
+            console.log(this.state.widget.timer);
+
+
         let timer = this.props.widget.timer || {
             min: 30,
             max: 3600,
@@ -179,7 +183,13 @@ export default class NewWidgetSettingsDialog extends React.Component {
 
     onCreateWidget = (event) => {
         event.preventDefault();
-        app.patch('/widgets/config', {widget: this.props.widget.name, data: this.state.data, number: this.props.number, timer: this.state.timer}, config(this.token)).then((response) => {
+
+        let timer = 0;
+        if (this.state.timer === undefined)
+            timer = this.props.widget.timer.min;
+        else
+            timer = this.state.timer;
+        app.patch('/widgets/config', {widget: this.props.widget.name, data: this.state.data, number: this.props.number, timer}, config(this.token)).then((response) => {
             app.post('/widgets/', {widget: this.props.widget.name, number: this.props.number}, config(this.token)).then((response) => {
                 this.props.onNewWidgetCreated(this.props.widget);
             }).catch((err) => {
@@ -218,5 +228,4 @@ export default class NewWidgetSettingsDialog extends React.Component {
             </DialogActions>
         </Dialog>)
     }
-
 }
