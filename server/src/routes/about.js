@@ -191,6 +191,17 @@ let services = [{
     ]
 }]
 
+/**
+ *  @openapi
+ *  /about.json:
+ *   get:
+ *     tags:
+ *       - Info
+ *     description: Server info, Services & Widgets info
+ *     responses:
+ *       200:
+ *         description: Successful
+ */
 router.all('/', (req, res) => {
     let clientHost = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 

@@ -17,6 +17,19 @@ const {authorization} = require("../../../middleware/AuthMiddleware");
  *         description: Cannot got holidays
  *       401:
  *         description: User not logged !
+ * @openapi
+ * /services/calendar/istodayaholiday?year={year}&month={month}&day={day}:
+ *   get:
+ *     tags:
+ *       - Services
+ *     description: Check if the current day is a holidays day or not
+ *     responses:
+ *       200:
+ *         description: Successful response
+ *       400:
+ *         description: Cannot got holidays
+ *       401:
+ *         description: User not logged !
  */
 
 /**

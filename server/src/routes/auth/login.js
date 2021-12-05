@@ -4,6 +4,21 @@ const cors = require('cors');
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 
+/**
+ *  @openapi
+ *  /auth/login:
+ *   post:
+ *     tags:
+ *       - Auth
+ *     description: Login user
+ *     responses:
+ *       200:
+ *         description: Successful
+ *       400:
+ *         description: Required fields password and username !
+ *       401:
+ *         description: Invalid user or password !
+ */
 router.post('/', (req, res) => {
 
     if (!req.body.password || !req.body.username)

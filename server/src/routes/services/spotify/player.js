@@ -4,6 +4,19 @@ const axios = require("axios");
 const {response} = require("express");
 const router = express.Router();
 
+/**
+ *  @openapi
+ *  /services/spotify/player:
+ *   get:
+ *     tags:
+ *       - Services
+ *     description: Spotify player
+ *     responses:
+ *       200:
+ *         description: Successful
+ *       400:
+ *         description: Error
+ */
 router.get('/', authorization, spotifyAuth, (req, res) => {
     axios.get('https://api.spotify.com/v1/me/player', {
         headers: {
@@ -18,6 +31,19 @@ router.get('/', authorization, spotifyAuth, (req, res) => {
     });
 });
 
+/**
+ *  @openapi
+ *  /services/spotify/player:
+ *   post:
+ *     tags:
+ *       - Services
+ *     description: Spotify music player controller
+ *     responses:
+ *       200:
+ *         description: Successful
+ *       400:
+ *         description: Error
+ */
 router.post('/', authorization, spotifyAuth, (req, res) => {
     if (req.body.control === undefined)
         return res.status(400).json({error: 'invalid control !'});

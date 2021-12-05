@@ -14,6 +14,19 @@ const config = {
     }
 }
 
+/**
+ *  @openapi
+ *  /services/spotify:
+ *   post:
+ *     tags:
+ *       - Services
+ *     description: Spotify route
+ *     responses:
+ *       200:
+ *         description: Successful
+ *       501:
+ *         description: "cannot get access_token ! check your credentials" or "cannot login to spotify !"
+ */
 router.post('/', authorization, (req, res) => {
     if (req.body.code === undefined || req.body.clientId)
         return res.status(400).json({error: "Invalid body code !"});

@@ -4,6 +4,17 @@ const axios = require("axios");
 const {response} = require("express");
 const router = express.Router();
 
+/**
+ *  @openapi
+ *  /services/spotify/userinfo:
+ *   get:
+ *     tags:
+ *       - Services
+ *     description: Spotify user info
+ *     responses:
+ *       200:
+ *         description: Successful
+ */
 router.get('/', authorization, spotifyAuth, (req, res) => {
     axios.get('https://api.spotify.com/v1/me', {
         headers: {

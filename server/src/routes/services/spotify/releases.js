@@ -3,6 +3,19 @@ const {authorization, spotifyAuth} = require("../../../middleware/AuthMiddleware
 const axios = require("axios");
 const router = express.Router();
 
+/**
+ *  @openapi
+ *  /services/spotify/releases:
+ *   get:
+ *     tags:
+ *       - Services
+ *     description: Spotify releases
+ *     responses:
+ *       200:
+ *         description: Successful
+ *       400:
+ *         description: Error
+ */
 router.get('/', authorization, spotifyAuth, (req, res) => {
 
     let url = "https://api.spotify.com/v1/browse/new-releases";
