@@ -4,6 +4,10 @@
     Author : Nicolas SANS, Victor SAUVAGET - EPITECH Promo 2024
 </div>
 
+[![Client Build](https://github.com/VicSAU/B-DEV-500-NAN-5-1-dashboard-victor.sauvaget/actions/workflows/client_build.yaml/badge.svg)](https://github.com/VicSAU/B-DEV-500-NAN-5-1-dashboard-victor.sauvaget/actions/workflows/client_build.yaml)
+
+[![Server Build](https://github.com/VicSAU/B-DEV-500-NAN-5-1-dashboard-victor.sauvaget/actions/workflows/server_build.yaml/badge.svg)](https://github.com/VicSAU/B-DEV-500-NAN-5-1-dashboard-victor.sauvaget/actions/workflows/server_build.yaml)
+
 ## Aims of the project
 
 The objective of the project is to create an dashboard application. Dashboard is a web application that allows you to drag and drop, configure, set up widgets from services.
